@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class SHExceptionHandler {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      * 处理自定义异常
      */
