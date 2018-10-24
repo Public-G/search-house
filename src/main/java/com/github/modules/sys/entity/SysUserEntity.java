@@ -23,6 +23,10 @@ public class SysUserEntity implements Serializable {
 
     private String password;
 
+    private String email;
+
+    private String mobile;
+
     /**
      * 状态  0：正常   1：禁用
      */
@@ -32,18 +36,22 @@ public class SysUserEntity implements Serializable {
     private Long createUserId;
 
     @Column(name = "create_time")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
     @Column(name = "last_login_time")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginTime;
 
     public SysUserEntity() {
     }
 
-    public SysUserEntity(Long userId, String username, String password, Integer status, Long createUserId, Date createTime, Date lastLoginTime) {
+    public SysUserEntity(Long userId, String username, String password, String email, String mobile, Integer status, Long createUserId, Date createTime, Date lastLoginTime) {
         this.userId = userId;
         this.username = username;
         this.password = password;
+        this.email = email;
+        this.mobile = mobile;
         this.status = status;
         this.createUserId = createUserId;
         this.createTime = createTime;
@@ -104,5 +112,21 @@ public class SysUserEntity implements Serializable {
 
     public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

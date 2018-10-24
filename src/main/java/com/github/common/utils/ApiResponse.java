@@ -1,6 +1,6 @@
 package com.github.common.utils;
 
-import com.github.common.constant.ApiReasonPhrase;
+import com.github.common.constant.ApiReasonConstant;
 
 import java.util.HashMap;
 
@@ -53,13 +53,13 @@ public class ApiResponse extends HashMap<String, Object> {
 
 
     public enum ResponseStatus{
-        SUCCESS(0, ApiReasonPhrase.SUCCESS_MSG),
-        UNAUTHORIZED(401, ApiReasonPhrase.UNAUTHORIZED_MSG),
-        BAD_REQUEST(400, ApiReasonPhrase.BAD_REQUEST_MSG),
-        FORBIDDEN(403, ApiReasonPhrase.FORBIDDEN_MSG),
-        NOT_FOUND(404, ApiReasonPhrase.NOT_FOUND_MSG),
-        INTERNAL_SERVER_ERROR(500, ApiReasonPhrase.INTERNAL_SERVER_ERROR_MSG),
-        NOT_VALID_PARAM(40005, ApiReasonPhrase.NOT_VALID_PARAM_MSG);
+        SUCCESS(0, ApiReasonConstant.SUCCESS_MSG),
+        UNAUTHORIZED(401, ApiReasonConstant.UNAUTHORIZED_MSG),
+        BAD_REQUEST(400, ApiReasonConstant.BAD_REQUEST_MSG),
+        FORBIDDEN(403, ApiReasonConstant.FORBIDDEN_MSG),
+        NOT_FOUND(404, ApiReasonConstant.NOT_FOUND_MSG),
+        INTERNAL_SERVER_ERROR(500, ApiReasonConstant.INTERNAL_SERVER_ERROR_MSG),
+        NOT_VALID_PARAM(40005, ApiReasonConstant.NOT_VALID_PARAM_MSG);
 
         private int code;
         private String standardMessage;
@@ -69,7 +69,7 @@ public class ApiResponse extends HashMap<String, Object> {
             this.standardMessage = standardMessage;
         }
 
-        public static String ofApiReasonPhrase(Integer status) {
+        public static String ofApiReason(Integer status) {
             for (ResponseStatus responseStatus : ResponseStatus.values()) {
                 if (responseStatus.getCode() == status) {
                     return responseStatus.getStandardMessage();

@@ -32,7 +32,7 @@ public class SysUserController {
     /**
      * 用户信息
      */
-    @GetMapping("/info/{userId}")
+    @GetMapping("/info/{userId:\\d+}")
     public ApiResponse info(@PathVariable("userId") Long userId){
 
         SysUserEntity user = sysUserService.selectUserById(userId);

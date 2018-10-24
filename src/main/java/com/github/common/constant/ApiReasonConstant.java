@@ -1,6 +1,12 @@
 package com.github.common.constant;
 
-public class ApiReasonPhrase {
+/**
+ * 返回数据中 code 对应的 standardMessage常量
+ *
+ * @author ZEALER
+ * @date 2018-10-24
+ */
+public class ApiReasonConstant {
 
     public static final String SUCCESS_MSG = "操作成功";
 
