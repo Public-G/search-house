@@ -1,0 +1,35 @@
+{
+  "menu_list":[
+    {
+      "menu_id": 1,
+      "parent_id" : 0,
+      "request_url": "",
+      "name": "系统管理",
+      "type": 0,
+      "icon": "dd",
+      "order_num": 1,
+      "child":[
+        {
+          "menu_id": 2,
+          "parent_id" : 1,
+          "request_url": "/user/forward",
+          "name": "系统管理的子菜单",
+          "type": 1,
+          "icon": "ee",
+          "order_num": 1
+          "child":[
+            {
+              "menu_id": 3,
+              "parent_id" : 2,
+              "request_url": "/user/forward",
+              "name": "系统管理的子子菜单",
+              "type": 2,
+              "icon": "ff",
+              "order_num": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

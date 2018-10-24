@@ -14,7 +14,6 @@ public class SHException extends RuntimeException {
 
     private int code = 500;
     private String msg;
-    private ApiStrategy apiStrategy = ApiStrategy.FORWARD;
 
 
     public SHException(String msg) {
@@ -30,13 +29,6 @@ public class SHException extends RuntimeException {
         super(msg);
         this.msg = msg;
         this.code = code;
-    }
-
-    public SHException(int code, String msg, ApiStrategy apiStrategy) {
-        super(msg);
-        this.msg = msg;
-        this.code = code;
-        this.apiStrategy = apiStrategy;
     }
 
     public SHException(int code, String msg, Throwable cause) {
@@ -59,13 +51,5 @@ public class SHException extends RuntimeException {
 
     public void setCode(int code) {
         this.code = code;
-    }
-
-    public ApiStrategy getApiStrategy() {
-        return apiStrategy;
-    }
-
-    public void setApiStrategy(ApiStrategy apiStrategy) {
-        this.apiStrategy = apiStrategy;
     }
 }

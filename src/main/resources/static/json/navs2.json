@@ -1,0 +1,56 @@
+{
+	"menu_list": [
+		{
+			"menu_id": 1,
+			"parent_id" : 0,
+			"request_url": "",
+			"name": "系统管理",
+			"type": 0,
+			"icon": "snowflake-o",
+			"order_num": 1,
+			"children": [
+				{
+					"menu_id": 2,
+					"parent_id" : 1,
+					"request_url": "page/news/newsList.html",
+					"name": "系统管理的子菜单1",
+					"type": 1,
+					"icon": "snowflake-o",
+					"order_num": 2
+				},
+				{
+					"menu_id": 3,
+					"parent_id" : 1,
+					"request_url": "",
+					"name": "系统管理的子菜单2",
+					"type": 1,
+					"icon": "snowflake-o",
+					"order_num": 10,
+					"children": [
+						{
+							"menu_id": 4,
+							"parent_id" : 2,
+							"request_url": "page/news/newsList.html",
+							"name": "系统管理的子菜单22",
+							"type": 2,
+							"icon": "snowflake-o",
+							"order_num": 3
+						},
+						{
+							"menu_id": 5,
+							"parent_id" : 2,
+							"request_url": "page/news/newsList.html",
+							"name": "系统管理的子菜单23",
+							"type": 2,
+							"icon": "snowflake-o",
+							"order_num": 5
+						}
+					]
+				}
+			]
+		}
+	]
+
+}
+
+
