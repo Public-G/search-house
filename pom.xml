@@ -22,14 +22,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-
+		<!--apache工具包-->
+		<commons-lang.version>2.6</commons-lang.version>
 		<druid.version>1.1.8</druid.version>
 		<mysql.version>8.0.11</mysql.version>
-
 		<!-- 布局功能的支持程序  thymeleaf3主程序对应layout2以上版本 -->
 		<!-- thymeleaf2   layout1-->
 		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
+		<spring.social.version>1.1.4.RELEASE</spring.social.version>
 	</properties>
 
 	<dependencies>
@@ -43,6 +44,12 @@
 				<!--</exclusion>-->
 			<!--</exclusions>-->
 		</dependency>
+
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-configuration-processor</artifactId>-->
+			<!--<optional>true</optional>-->
+		<!--</dependency>-->
 
 		<!-- jpa相关依赖 -->
 		<dependency>
@@ -97,6 +104,22 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!--Spring Social 相关-->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-web</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+
+		<!-- Apache工具包  -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons-lang.version}</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

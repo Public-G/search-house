@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="loginHtml">
+<html class="loginHtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
 	<title>登录--layui后台管理模板 2.0</title>
@@ -9,13 +9,13 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="icon" href="../../favicon.ico">
-	<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
-	<link rel="stylesheet" href="../../css/public.css" media="all" />
+	<link rel="icon" th:href="@{/images/common/favicon.ico}">
+	<link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all" />
+	<link rel="stylesheet" th:href="@{/css/public.css}" media="all" />
 </head>
 <body class="loginBody">
 	<form class="layui-form">
-		<div class="login_face"><img src="../../images/face.jpg" class="userAvatar"></div>
+		<div class="login_face"><img th:src="@{/images/face.jpg}" class="userAvatar"></div>
 		<div class="layui-form-item input-item">
 			<label for="userName">用户名</label>
 			<input type="text" placeholder="请输入用户名" autocomplete="off" id="userName" class="layui-input" lay-verify="required">
@@ -27,7 +27,7 @@
 		<div class="layui-form-item input-item" id="imgCode">
 			<label for="code">验证码</label>
 			<input type="text" placeholder="请输入验证码" autocomplete="off" id="code" class="layui-input">
-			<img src="../../images/code.jpg">
+			<img th:src="@{/images/code.jpg}">
 		</div>
 		<div class="layui-form-item">
 			<button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
@@ -38,8 +38,8 @@
 			<a href="javascript:;" class="seraph icon-sina layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
 		</div>
 	</form>
-	<script type="text/javascript" src="../../layui/layui.js"></script>
-	<script type="text/javascript" src="login.js"></script>
-	<script type="text/javascript" src="../../js/cache.js"></script>
+	<script type="text/javascript" th:src="@{/lib/layui/layui.js}"></script>
+	<script type="text/javascript" th:src="@{/js/login/login.js}"></script>
+	<script type="text/javascript" th:src="@{/js/cache.js}"></script>
 </body>
 </html>

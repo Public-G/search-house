@@ -26,8 +26,8 @@ public class SysUserRepositoryTest extends SearchHouseApplicationTests{
 
     @Test
     public void testSaveOne() {
-        SysUserEntity userEntity = new SysUserEntity(2L, "李四", "123", 0,
-                1L, new Date(), new Date());
+        SysUserEntity userEntity = new SysUserEntity(2L, "李四", "123",
+                "", "", 0, 1L, new Date(), new Date());
         SysUserEntity sysUserEntity = sysUserService.saveUser(userEntity);
         Assert.assertEquals(sysUserEntity.getUserId(), userEntity.getUserId());
     }
