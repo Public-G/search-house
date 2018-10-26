@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 定义需引入的head start -->
+<div th:fragment="head">
+    <!-- 网站编码 -->
+    <meta charset="UTF-8">
+    <!-- 网站关键字 -->
+    <meta name="keywords" content="search house"/>
+    <!-- 网站描述 -->
+    <meta name="description" content="search house"/>
+    <!-- 网站应用技术 -->
+    <meta name="generator" content="SpringBoot"/>
+    <!-- 忽略页面中的数字识别为电话号码,邮箱格式识别为邮箱 -->
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <!-- 优先使用 IE 最新版本和 Chrome -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <!-- 删除默认的苹果工具栏和菜单栏，开启全屏显示 -->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- 在苹果web app应用下状态条(屏幕顶部条)的颜色 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <!--网页宽度及初始、最大缩放比例-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <!-- 网站icon -->
+    <link rel="shortcut icon" th:href="@{/images/common/favicon.ico}" type="image/x-icon"/>
+    <!-- css样式 -->
+    <link rel="stylesheet" type="text/css" th:href="@{'/lib/layui/css/layui.css?v='+1}" media="all"/>
+    <link rel="stylesheet" type="text/css" th:href="@{'/lib/font/css/font-awesome.min.css?v='+1}" media="all"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" media="all"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/public.css}" media="all"/>
+</div>
+<!-- 定义需引入的head end -->
+
+<!-- 定义需引入的footer start -->
+<div th:fragment="script">
+    <script type="text/javascript" th:src="@{'/lib/layui/layui.js?v='+1}"></script>
+    <script type="text/javascript" th:src="@{'/js/plugin/jquery-3.3.1.min.js?v='+1}"></script>
+    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+    <script type="text/javascript">
+        /**
+         * 延迟加载时间
+         * @type {number}
+         */
+        var loadingTime = 100;
+        /**
+         * 成功返回码
+         * @type {number}
+         */
+        var code_success = 0;
+        /**
+         * 失败返回码
+         * @type {number}
+         */
+        var code_fail = 1;
+    </script>
+</div>
+<!-- 定义需引入的footer end -->
+</html>

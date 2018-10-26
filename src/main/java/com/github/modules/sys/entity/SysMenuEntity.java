@@ -29,6 +29,11 @@ public class SysMenuEntity implements Serializable {
     private String requestUrl;
 
     /**
+     * 授权(多个用逗号分隔，如：user:list,user:create)
+     */
+    private String perms;
+
+    /**
      * 类型   0：顶级目录  1：目录  2：菜单  3：按钮
      */
     private Integer type;
@@ -50,16 +55,15 @@ public class SysMenuEntity implements Serializable {
     public SysMenuEntity() {
     }
 
-    public SysMenuEntity(Long menuId, Long parentId, String menuName, String requestUrl, Integer type, String icon, Integer orderNum, String parentName, List<SysMenuEntity> child) {
+    public SysMenuEntity(Long menuId, Long parentId, String menuName, String requestUrl, String perms, Integer type, String icon, Integer orderNum) {
         this.menuId = menuId;
         this.parentId = parentId;
         this.menuName = menuName;
         this.requestUrl = requestUrl;
+        this.perms = perms;
         this.type = type;
         this.icon = icon;
         this.orderNum = orderNum;
-        this.parentName = parentName;
-        this.child = child;
     }
 
     public Long getMenuId() {
@@ -92,6 +96,14 @@ public class SysMenuEntity implements Serializable {
 
     public void setRequestUrl(String requestUrl) {
         this.requestUrl = requestUrl;
+    }
+
+    public String getPerms() {
+        return perms;
+    }
+
+    public void setPerms(String perms) {
+        this.perms = perms;
     }
 
     public Integer getType() {

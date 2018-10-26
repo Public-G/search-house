@@ -1,5 +1,6 @@
 package com.github.common.security.captcha.support;
 
+import com.github.common.exception.SHException;
 import com.github.common.security.exception.ValidateCaptchaException;
 import com.github.common.security.captcha.CaptchaGenerator;
 import com.github.common.security.captcha.CaptchaProcessor;
@@ -43,7 +44,7 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
      * @throws ValidationException
      */
     @Override
-    public void createCaptcha(ServletWebRequest servletWebRequest) throws ValidationException {
+    public void createCaptcha(ServletWebRequest servletWebRequest) throws SHException {
         C captcha = generateCaptcha(servletWebRequest);
         saveCaptcha(servletWebRequest, captcha);
         sendCaptcha(servletWebRequest, captcha);
@@ -72,7 +73,7 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
         String generatorName = type + CaptchaGenerator.class.getSimpleName();
         CaptchaGenerator captchaGenerator = captchaGenerators.get(generatorName);
         if (captchaGenerator == null) {
-            throw new ValidateCaptchaException("验证码生成器" + generatorName + "不存在");
+            throw new SHException("验证码生成器" + generatorName + "不存在");
         }
         return (C) captchaGenerator.generateCaptcha(request);
     }
@@ -119,7 +120,7 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
      * @param request
      */
     public void validateCaptcha(ServletWebRequest request){
-        CaptchaType processorType = getCaptchaType(request);
+        CaptchaType captchaType = getCaptchaType(request);
 
         //从session中获取验证码类型的key：SESSION_KEY_FOR_CODE__SMS
         String sessionKey = getSessionKey(request);
@@ -131,26 +132,26 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
         try {
             //从请求中获取 http请求中默认的携带 图片/短信 验证码信息的参数的名称
             captchaInRequest = ServletRequestUtils.getStringParameter(request.getRequest(),
-                    processorType.getParamNameOnValidate());
+                    captchaType.getParamNameOnValidate());
         } catch (ServletRequestBindingException e) {
             throw new ValidateCaptchaException("获取验证码的值失败");
         }
 
         if (StringUtils.isBlank(captchaInRequest)) {
-            throw new ValidateCaptchaException(processorType + "验证码的值不能为空");
+            throw new ValidateCaptchaException("验证码的值不能为空");
         }
 
         if (captchaInSession == null) {
-            throw new ValidateCaptchaException(processorType + "验证码不存在");
+            throw new ValidateCaptchaException("验证码不存在");
         }
 
         if (captchaInSession.isExpried()) {
             sessionStrategy.removeAttribute(request, sessionKey);
-            throw new ValidateCaptchaException(processorType + "验证码已过期");
+            throw new ValidateCaptchaException("验证码已过期");
         }
 
         if (!StringUtils.equals(captchaInSession.getCaptcha(), captchaInRequest)) {
-            throw new ValidateCaptchaException(processorType + "验证码不匹配");
+            throw new ValidateCaptchaException("验证码错误");
         }
 
         sessionStrategy.removeAttribute(request, sessionKey);

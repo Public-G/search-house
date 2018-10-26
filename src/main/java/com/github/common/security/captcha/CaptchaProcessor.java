@@ -24,7 +24,7 @@ public interface CaptchaProcessor {
      * @param servletWebRequest：用于包装 HttpServletRequest 和 HttpServletResponse
      * @throws SHException
      */
-    void createCaptcha(ServletWebRequest servletWebRequest) throws ValidationException;
+    void createCaptcha(ServletWebRequest servletWebRequest) throws SHException;
 
     /**
      * 校验验证码

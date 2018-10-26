@@ -15,8 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class SysUserServiceImpl implements SysUserService {
+
     @Autowired
     private SysUserRepository sysUserRepository;
+
+    @Override
+    public SysUserEntity findByUsername(String username) {
+        return sysUserRepository.findByUsername(username);
+    }
 
     @Override
     public SysUserEntity selectUserById(Long userId) {

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
+    <link rel="shortcut icon" th:href="@{/images/common/favicon.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" th:href="@{'/lib/layui/css/layui.css?v='+11}" media="all"/>
+    <link rel="stylesheet" th:href="@{'/css/admin.css?v='+11}" media="all"/>
+    <link rel="stylesheet" th:href="@{'/css/login.css?v='+11}" media="all"/>
+    <title>登录</title>
+</head>
+<body>
+<form class="layui-form" action="#">
+    <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login">
+
+        <div class="layadmin-user-login-main">
+            <div class="layadmin-user-login-box layadmin-user-login-header">
+                <h2>SearchHouse</h2>
+                <p>based on layui implementation</p>
+            </div>
+            <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+                <div class="layui-form-item">
+                    <label class="layadmin-user-login-icon layui-icon layui-icon-username"
+                           for="LAY-user-login-username"></label>
+                    <input type="text" name="username" id="LAY-user-login-username" lay-verify="required|username"
+                           placeholder="用户名" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="layadmin-user-login-icon layui-icon layui-icon-password"
+                           for="LAY-user-login-password"></label>
+                    <input type="password" name="password" id="LAY-user-login-password" lay-verify="required|password"
+                           placeholder="密码" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-row">
+                        <div class="layui-col-xs7">
+                            <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"
+                                   for="LAY-user-login-vercode"></label>
+                            <input type="text" name="imageCaptcha" id="LAY-user-login-vercode"
+                                   lay-verify="required|captcha" placeholder="图形验证码" class="layui-input">
+                        </div>
+                        <div class="layui-col-xs5">
+                            <div style="margin-left: 10px;">
+                                <img th:src="@{/captcha/image}" class="layadmin-user-login-codeimg"
+                                     id="login_captcha_img" th:onclick="${'initCaptcha()'}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom: 20px;">
+                    <input type="checkbox" name="remember" lay-skin="primary" title="记住我">
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="sys-login">登 入</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-trans layadmin-user-login-footer">
+            <p>© 2018 <a href="https://github.com/Public-G/search-house" target="_blank">SearchHouse</a></p>
+        </div>
+    </div>
+</form>
+<div th:replace="~{admin/common/common :: script}"></div>
+<script type="text/javascript">
+    function initCaptcha() {
+        $("#login_captcha_img").attr('src', '/captcha/image?' + new Date().getTime());
+    }
+
+    layui.use('form', function () {
+        var form = layui.form;
+
+        form.verify({
+            username: function (value) {
+                if (value.length == 0) {
+                    return '账号不能为空';
+                }
+            }
+            , password: function (value) {
+                if (value.length == 0) {
+                    return '密码不能为空';
+                }
+            }
+            , captcha: function (value) {
+                if (value.length == 0) {
+                    return '验证码不能为空';
+                }
+            }
+        });
+
+        form.on('submit(sys-login)', function (data) {
+            var loading = layer.load(2, {
+                shade: [0.2, '#000']
+            });
+            var param = data.field;
+            var username = param.username;
+            var password = param.password;
+            var imageCaptcha = param.imageCaptcha;
+            $.post("/sys/login", {
+                username: username,
+                password: password,
+                imageCaptcha: imageCaptcha
+            }, function (data) {
+                if (data.code === code_success) {
+                    layer.close(loading);
+                    layer.msg(data.msg, {icon: 1, offset: '500px', time: 300}, function () {
+                        location.href = '/sys/frame';
+                    });
+                } else {
+                    layer.close(loading);
+                    layer.msg(data.msg, {icon: 2, anim: 6, offset: '500px', time: 1000});
+                    initCaptcha();
+                }
+            });
+            return false; //阻止表单跳转
+        });
+    });
+
+</script>
+</body>
+</html>

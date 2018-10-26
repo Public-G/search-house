@@ -1,7 +1,11 @@
 package com.github.modules.sys.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -12,7 +16,7 @@ import java.util.Date;
  */
 @Table(name = "sys_user")
 @Entity
-public class SysUserEntity implements Serializable {
+public class SysUserEntity implements UserDetails, Serializable {
     private static final long serialVersionUID = 1432534534L;
 
     @Id
@@ -43,6 +47,9 @@ public class SysUserEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginTime;
 
+    @Transient
+    private Collection<? extends GrantedAuthority>  authorities;
+
     public SysUserEntity() {
     }
 
@@ -56,6 +63,51 @@ public class SysUserEntity implements Serializable {
         this.createUserId = createUserId;
         this.createTime = createTime;
         this.lastLoginTime = lastLoginTime;
+    }
+
+    /**
+     * 账户没有过期
+     */
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    /**
+     * 账户没有被锁定
+     */
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    /**
+     * 证书(密码)没有过期
+     */
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    /**
+     * 账号可用
+     */
+    @Override
+    public boolean isEnabled() {
+        // 0：可用
+        return this.status == 0;
+    }
+
+    /**
+     * 权限集合
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.authorities;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 
     public Long getUserId() {

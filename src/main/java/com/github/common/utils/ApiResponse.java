@@ -59,7 +59,8 @@ public class ApiResponse extends HashMap<String, Object> {
         FORBIDDEN(403, ApiReasonConstant.FORBIDDEN_MSG),
         NOT_FOUND(404, ApiReasonConstant.NOT_FOUND_MSG),
         INTERNAL_SERVER_ERROR(500, ApiReasonConstant.INTERNAL_SERVER_ERROR_MSG),
-        NOT_VALID_PARAM(40005, ApiReasonConstant.NOT_VALID_PARAM_MSG);
+        NOT_VALID_PARAM(40000, ApiReasonConstant.NOT_VALID_PARAM_MSG),
+        AUTHENTICATION_FAILED(40003, ApiReasonConstant.AUTHENTICATION_FAILED_MSG);
 
         private int code;
         private String standardMessage;

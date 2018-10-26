@@ -22,4 +22,6 @@ public class ApiReasonConstant {
 
     public static final String NOT_VALID_PARAM_MSG = "无效的参数";
 
+    public static final String AUTHENTICATION_FAILED_MSG = "校验失败, 请检查请求参数";
+
 }

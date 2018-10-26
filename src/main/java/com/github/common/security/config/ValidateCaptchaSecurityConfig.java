@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.stereotype.Component;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 import javax.servlet.Filter;
 
@@ -25,4 +26,6 @@ public class ValidateCaptchaSecurityConfig extends SecurityConfigurerAdapter<Def
     public void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(validateCaptchaFilter, AbstractPreAuthenticatedProcessingFilter.class);
     }
+
+
 }

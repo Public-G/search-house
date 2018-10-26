@@ -24,6 +24,7 @@
 		<java.version>1.8</java.version>
 		<!--apache工具包-->
 		<commons-lang.version>2.6</commons-lang.version>
+		<commons-io.version>2.5</commons-io.version>
 		<druid.version>1.1.8</druid.version>
 		<mysql.version>8.0.11</mysql.version>
 		<!-- 布局功能的支持程序  thymeleaf3主程序对应layout2以上版本 -->
@@ -118,7 +119,11 @@
 			<artifactId>commons-lang</artifactId>
 			<version>${commons-lang.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
 
 	</dependencies>
 

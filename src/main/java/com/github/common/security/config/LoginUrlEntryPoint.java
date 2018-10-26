@@ -1,4 +1,4 @@
-package com.github.common.security.authentication;
+package com.github.common.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;

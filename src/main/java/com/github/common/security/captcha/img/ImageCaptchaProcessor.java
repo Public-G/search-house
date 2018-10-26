@@ -1,13 +1,16 @@
 package com.github.common.security.captcha.img;
 
+import com.github.common.exception.SHException;
 import com.github.common.security.captcha.support.AbstractCaptchaProcessor;
 import com.github.common.security.exception.ValidateCaptchaException;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.xml.bind.ValidationException;
 import java.io.IOException;
 
@@ -21,8 +24,7 @@ import java.io.IOException;
 @Component
 public class ImageCaptchaProcessor extends AbstractCaptchaProcessor<ImageCaptcha> {
 
-    Logger logger = LoggerFactory.getLogger(getClass());
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 发送图形验证码，将其写到响应中
@@ -32,11 +34,15 @@ public class ImageCaptchaProcessor extends AbstractCaptchaProcessor<ImageCaptcha
      */
     @Override
     protected void sendCaptcha(ServletWebRequest request, ImageCaptcha imageCaptcha) {
+        ServletOutputStream outputStream = null;
         try {
-            ImageIO.write(imageCaptcha.getImage(), "JPEG", request.getResponse().getOutputStream());
+            outputStream = request.getResponse().getOutputStream();
+            ImageIO.write(imageCaptcha.getImage(), "JPEG", outputStream);
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
-            throw new ValidateCaptchaException("发送验证码失败");
+            throw new SHException("发送验证码失败");
+        } finally {
+            IOUtils.closeQuietly(outputStream);
         }
     }
 }

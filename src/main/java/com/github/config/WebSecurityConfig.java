@@ -1,14 +1,20 @@
 package com.github.config;
 
-import com.github.common.security.authentication.LoginUrlEntryPoint;
+import com.github.common.security.authentication.MyAuthenticationFailureHandler;
+import com.github.common.security.config.LoginUrlEntryPoint;
+import com.github.common.security.config.ValidateCaptchaSecurityConfig;
 import com.github.common.security.properties.SecurityProperties;
+import com.github.modules.sys.service.impl.MyUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * SpringSecurity 配置
@@ -21,8 +27,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private MyUserDetailsService userDetailsService;
+
+    @Autowired
+    private ValidateCaptchaSecurityConfig validateCaptchaSecurityConfig;
+
+    @Autowired
+    private MyAuthenticationFailureHandler authenticationFailureHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        http.apply(validateCaptchaSecurityConfig);
 
         http.authorizeRequests()
 //                .antMatchers("/static/**").permitAll() // 静态资源
@@ -35,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/sys/login") // 发起登录的URI
+                .failureHandler(authenticationFailureHandler)
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(urlEntryPoint());
@@ -43,9 +61,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().sameOrigin(); // 开启同源策略
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // 添加 UserDetailsService 使用的密码加密解密类
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
     @Bean
     public LoginUrlEntryPoint urlEntryPoint() {
         // 默认为普通用户登录
         return new LoginUrlEntryPoint("/user/login");
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
 }

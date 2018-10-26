@@ -87,7 +87,7 @@ public class ValidateCaptchaFilter extends OncePerRequestFilter implements Initi
     }
 
     /**
-     * 将手动配置的验证码url添加到Map中
+     * 将系统中配置的需要校验验证码的URL根据校验的类型放入map
      *
      * @param urlString    手动配置的 url
      * @param type         验证码类型
@@ -108,13 +108,13 @@ public class ValidateCaptchaFilter extends OncePerRequestFilter implements Initi
         CaptchaType captchaType = getCaptchaType(request);
 
         if (captchaType != null) {
-            logger.info("校验请求(" + request.getRequestURI() + ")中的验证码,验证码类型" + captchaType);
             try {
                 // 校验验证码
                 validateCaptchaProcessorHolder.findCaptchaProcessor(captchaType)
                         .validateCaptcha(new ServletWebRequest(request, response));
                 logger.info("验证码校验通过");
             } catch (ValidateCaptchaException e) {
+                logger.info("校验请求(" + request.getRequestURI() + ")中的验证码,验证码类型" + captchaType + "失败：" + e.getMessage());
                 // 调用失败处理器
                 authenticationFailureHandler.onAuthenticationFailure(request, response, e);
                 return;

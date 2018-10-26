@@ -1,5 +1,6 @@
 package com.github.common.security.captcha.support;
 
+import com.github.common.exception.SHException;
 import com.github.common.security.captcha.CaptchaProcessor;
 import com.github.common.security.captcha.CaptchaType;
 import com.github.common.security.exception.ValidateCaptchaException;
@@ -15,7 +16,7 @@ import java.util.Map;
  * @author ZEALER
  * @date 2018-10-25
  */
-@Component
+@Component("captchaProcessorHolder")
 public class ValidateCaptchaProcessorHolder {
 
     @Autowired
@@ -35,7 +36,7 @@ public class ValidateCaptchaProcessorHolder {
         String processorName = captchaType.toLowerCase() + CaptchaProcessor.class.getSimpleName();
         CaptchaProcessor captchaProcessor = captchaProcessors.get(processorName);
         if (captchaProcessor == null) {
-            throw new ValidateCaptchaException("验证码处理器" + processorName + "不存在");
+            throw new SHException("验证码处理器" + processorName + "不存在");
         }
         return captchaProcessor;
     }

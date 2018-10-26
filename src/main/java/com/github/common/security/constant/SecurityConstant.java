@@ -6,7 +6,7 @@ package com.github.common.security.constant;
  * @author ZEALER
  * @date 2018-10-25
  */
-public class SecurityConstant {
+public interface SecurityConstant {
 
     /**
      * 验证短信验证码时，http请求中默认的携带短信验证码信息的参数的名称
@@ -21,10 +21,10 @@ public class SecurityConstant {
     /**
      * 默认的用户名密码登录请求处理url
      */
-    public static final String DEFAULT_LOGIN_PROCESSING_URL_FORM = "/authentication/form";
+    public static final String DEFAULT_LOGIN_PROCESSING_URL_FORM = "/sys/login";
 
     /**
      * 默认的手机验证码登录请求处理url
      */
-    public static final String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/authentication/mobile";
+    public static final String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/mobile/login";
 }
