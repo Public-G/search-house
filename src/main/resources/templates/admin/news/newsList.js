@@ -28,7 +28,8 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             }},
             {field: 'newsTime', title: '发布时间', align:'center', minWidth:110, templet:function(d){
                 return d.newsTime.substring(0,10);
-            }},
+            }
+            },
             {title: '操作', width:170, templet:'#newsListBar',fixed:"right",align:"center"}
         ]]
     });

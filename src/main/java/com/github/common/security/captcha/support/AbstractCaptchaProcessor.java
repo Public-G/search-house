@@ -29,7 +29,8 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
     /**
      * 操作session的工具类
      */
-    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
+    @Autowired
+    private SessionStrategy sessionStrategy;
 
     /**
      * 收集系统中所有的 {@link CaptchaGenerator} 接口的实现

@@ -1,5 +1,8 @@
 package com.github.modules.sys.entity;
 
+import com.github.common.validator.group.AddGroup;
+import com.github.common.validator.group.UpdateGroup;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,24 +23,25 @@ public class SysUserEntity implements UserDetails, Serializable {
     private static final long serialVersionUID = 1432534534L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
 
+    @NotBlank(message="用户名不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String username;
 
     private String password;
 
+    @NotBlank(message="邮箱不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String email;
 
+    @NotBlank(message="手机号码不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String mobile;
 
     /**
      * 状态  0：正常   1：禁用
      */
     private Integer status;
-
-    @Column(name = "create_user_id")
-    private Long createUserId;
 
     @Column(name = "create_time")
     @Temporal(TemporalType.TIMESTAMP)
@@ -53,14 +57,13 @@ public class SysUserEntity implements UserDetails, Serializable {
     public SysUserEntity() {
     }
 
-    public SysUserEntity(Long userId, String username, String password, String email, String mobile, Integer status, Long createUserId, Date createTime, Date lastLoginTime) {
+    public SysUserEntity(Long userId, String username, String password, String email, String mobile, Integer status, Date createTime, Date lastLoginTime) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
         this.mobile = mobile;
         this.status = status;
-        this.createUserId = createUserId;
         this.createTime = createTime;
         this.lastLoginTime = lastLoginTime;
     }
@@ -140,14 +143,6 @@ public class SysUserEntity implements UserDetails, Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Long getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Long createUserId) {
-        this.createUserId = createUserId;
     }
 
     public Date getCreateTime() {

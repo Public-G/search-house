@@ -1,8 +1,7 @@
-package com.github.common.security.captcha.img;
+package com.github.common.security.captcha.image;
 
 import com.github.common.exception.SHException;
 import com.github.common.security.captcha.support.AbstractCaptchaProcessor;
-import com.github.common.security.exception.ValidateCaptchaException;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

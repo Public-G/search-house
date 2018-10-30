@@ -1,4 +1,4 @@
-package com.github.common.security.config;
+package com.github.common.security.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
@@ -33,6 +33,7 @@ public class LoginUrlEntryPoint extends LoginUrlAuthenticationEntryPoint {
         authEntryPointMap.put("/user/**", "/user/login");
         // 管理员登录入口映射
         authEntryPointMap.put("/admin/**", "/admin/login");
+        authEntryPointMap.put("/sys/**", "/admin/login");
     }
 
     /**

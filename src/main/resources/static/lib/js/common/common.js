@@ -1,4 +1,20 @@
 /**
+ * 延迟加载时间
+ * @type {number}
+ */
+var loadingTime = 500;
+/**
+ * 成功返回码
+ * @type {number}
+ */
+var code_success = 0;
+/**
+ * 失败返回码
+ * @type {number}
+ */
+var code_fail = 1;
+
+/**
  * 弹窗最大化
  * @param layer
  * @param title
@@ -6,15 +22,31 @@
  */
 function alertByFull(layer, title, url) {
     layer.open({
-        title: title,
-        type: 2,
-        shift: 0,
-        area: ['100%', '100%'],
-        content: url,
-        success: function (layero, index) {
-            layer.full(index);
+        title : title,
+        type : 2,
+        maxmin: true, //开启最大化最小化按钮
+        area: ['893px', '600px'],
+        content : url,
+        success : function(layero, index) {
+            setTimeout(function() {
+                layui.layer.tips('点击这里返回',
+                    '.layui-layer-setwin .layui-layer-close', {
+                        tips : [3, '#3595CC'],
+                        time: 800
+                    });
+            }, loadingTime)
         }
     });
+    // layer.open({
+    //     title: title,
+    //     type: 2,
+    //     shift: 0,
+    //     area: ['100%', '100%'],
+    //     content: url,
+    //     success: function (layero, index) {
+    //         layer.full(index);
+    //     }
+    // });
 }
 
 /**
@@ -32,22 +64,32 @@ function checkIsNotNull(data) {
  * @param url
  * @param fun
  */
-function doDelete(layer, deleteCheck, url, fun) {
+function doDelete(layer, deleteCheck, url, tableIns) {
     if (deleteCheck.length == 0) {
         layer.msg("请选择删除项");
     } else {
         $.ajax({
             url: url,
-            type: "post",
+            type: "POST",
             traditional: true,
             data: {
+                _method: "DELETE",
                 deleteCheck: deleteCheck
             },
             dataType: "json",
             success: function (data) {
-                layer.msg(data.msg);
-                if (data.code == code_success) {
-                    fun;
+                if (data.code === code_success) {
+                    layer.msg(data.msg, {
+                        icon : 1,
+                        time: loadingTime
+                    }, function () {
+                        tableIns.reload();
+                    });
+                } else {
+                    layer.msg(data.msg, {
+                        icon : 2,
+                        time: loadingTime
+                    });
                 }
             }
         });

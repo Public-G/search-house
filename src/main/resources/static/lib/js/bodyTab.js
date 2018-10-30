@@ -6,7 +6,7 @@ layui.define(["element","jquery"],function(exports){
         layId,
         Tab = function(){
             this.tabConfig = {
-                openTabNum : undefined,  //最大可打开窗口数量
+                openTabNum : undefined, //最大可打开窗口数量
                 tabFilter : "bodyTab",  //添加窗口的filter
                 url : undefined  //获取菜单json地址
             }
@@ -20,47 +20,39 @@ layui.define(["element","jquery"],function(exports){
         }else{
             data = strData;
         }
-        function orderNumSortRule(a, b) {
-			if (a.order_num > b.order_num) {
-				return -1; //降序排列
-            } else if (a.order_num < b.order_num) {
-				return 1;
-            } else {
-				return 0;
-            }
-        }
 
         var ulHtml = '';
-        for(var i=0; i<data.length; i++){
-            ulHtml += '<li class="layui-nav-item">'; //展开菜单 class加上"layui-nav-itemed"
-
-            if(data[i].children !== undefined && data[i].children.length > 0){
-                ulHtml += '<a>';
-                if(data[i].icon !== undefined && data[i].icon !== ''){
-                    ulHtml += '<i class="fa fa-'+data[i].icon+'" data-icon="'+data[i].icon+'"></i>';
-                }
-                ulHtml += '<cite>'+data[i].name+'</cite>';
-                ulHtml += '<span class="layui-nav-more"></span>';
-                ulHtml += '</a>';
-                ulHtml += '<dl class="layui-nav-child">';
-
-                for(var j=0; j<data[i].children.length; j++){
-                    ulHtml += '<dd><a data-url="'+data[i].children[j].request_url+'">';
-                    if(data[i].children[j].icon !== undefined && data[i].children[j].icon !== ''){
-                        ulHtml += '<i class="fa fa-'+data[i].children[j].icon+'" data-icon="'+data[i].children[j].icon+'"></i>';
+        if (data !== undefined && data !== null) {
+            for(var i=0; i<data.length; i++){
+                ulHtml += '<li class="layui-nav-item">'; //展开菜单 class加上"layui-nav-itemed"
+                if(data[i].child !== undefined && data[i].child !== null){
+                    ulHtml += '<a>';
+                    if(data[i].icon !== undefined && data[i].icon !== ''){
+                        ulHtml += '<i class="fa fa-'+data[i].icon+'" data-icon="'+data[i].icon+'"></i>';
                     }
-                    ulHtml += '<cite>'+data[i].children[j].name+'</cite></a></dd>';
-                }
-                ulHtml += "</dl>";
+                    ulHtml += '<cite>'+data[i].menuName+'</cite>';
+                    ulHtml += '<span class="layui-nav-more"></span>';
+                    ulHtml += '</a>';
+                    ulHtml += '<dl class="layui-nav-child">';
 
-            }else{
-                ulHtml += '<a data-url="'+data[i].request_url+'">';
-                if(data[i].icon !== undefined && data[i].icon !== ''){
-                    ulHtml += '<i class="fa fa-'+data[i].icon+'" data-icon="'+data[i].icon+'"></i>';
+                    for(var j=0; j<data[i].child.length; j++){
+                        ulHtml += '<dd><a data-url="'+data[i].children[j].request_url+'">';
+                        if(data[i].child[j].icon !== undefined && data[i].child[j].icon !== ''){
+                            ulHtml += '<i class="fa fa-'+data[i].child[j].icon+'" data-icon="'+data[i].child[j].icon+'"></i>';
+                        }
+                        ulHtml += '<cite>'+data[i].child[j].menuName+'</cite></a></dd>';
+                    }
+                    ulHtml += "</dl>";
+
+                }else{
+                    ulHtml += '<a data-url="'+data[i].requestUrl+'">';
+                    if(data[i].icon !== undefined && data[i].icon !== ''){
+                        ulHtml += '<i class="fa fa-'+data[i].icon+'" data-icon="'+data[i].icon+'"></i>';
+                    }
+                    ulHtml += '<cite>'+data[i].menuName+'</cite></a>';
                 }
-                ulHtml += '<cite>'+data[i].name+'</cite></a>';
+                ulHtml += '</li>';
             }
-            ulHtml += '</li>';
         }
         return ulHtml;
     }

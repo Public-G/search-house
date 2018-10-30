@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;" id="userUpdate" th:object="${user}">
+    <input name="userId" type="hidden" th:value="*{userId}">
+    <input name="_method" type="hidden" th:value="PUT">
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input id="username" th:value="*{username}" type="text" class="layui-input" name="username" lay-verify="required" placeholder="请输入用户名">
+        </div>
+        <div class="layui-form-mid layui-word-aux" id="tip"></div>
+    </div>
+    <div class="layui-row">
+        <div class="magb15 layui-col-md4 layui-col-xs4">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-block">
+                <input type="text" th:value="*{email}" class="layui-input" name="email" lay-verify="email" placeholder="请输入邮箱">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md4 layui-col-xs4">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-input-block">
+                <input type="text" th:value="*{mobile}" class="layui-input" name="mobile" lay-verify="phone" placeholder="请输入手机号">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="radio" name="status" value="0" title="正常" th:field="*{status}">
+            <input type="radio" name="status" value="1" title="禁用" th:field="*{status}">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="user_submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<div th:replace="~{admin/common/common :: script}"></div>
+<script type="text/javascript">
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form
+            , layer = layui.layer;
+
+        form.on('submit(user_submit)', function (data) {
+            var submitBtn = $(this);
+            if (!submitBtn.hasClass("layui-btn-disabled")) {
+                submitBtn.addClass("layui-btn-disabled");
+                var index = parent.layer.getFrameIndex(window.name);
+                $.post("/sys/user/update", data.field, function (data) {
+                    if (data.code === code_success) {
+                        layer.msg(data.msg);
+                        setTimeout(function() {
+                            parent.layer.close(index); //关闭
+                            parent.location.reload(); //刷新父页面
+                        }, loadingTime);
+                    } else {
+                        layer.msg(data.msg, function () {
+                            //关闭后的操作
+                            submitBtn.removeClass("layui-btn-disabled");
+                        });
+                    }
+                }, "json");
+            }
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

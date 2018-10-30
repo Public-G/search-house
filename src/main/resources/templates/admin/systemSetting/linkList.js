@@ -19,7 +19,7 @@ layui.use(['form','layer','laydate','table','upload'],function(){
         cols : [[
             {type: "checkbox", fixed:"left", width:50},
             {field: 'logo', title: 'LOGO', width:180, align:"center",templet:function(d){
-                return '<a href="'+d.websiteUrl+'" target="_blank"><img src="'+d.logo+'" height="26" /></a>';
+                return '<a href="'+d.websiteUrl+'" target="_blank"><image src="'+d.logo+'" height="26" /></a>';
             }},
             {field: 'websiteName', title: '网站名称', minWidth:240},
             {field: 'websiteUrl', title: '网站地址',width:300,templet:function(d){

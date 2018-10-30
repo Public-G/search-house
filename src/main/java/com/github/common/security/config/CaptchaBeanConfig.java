@@ -1,7 +1,7 @@
 package com.github.common.security.config;
 
 import com.github.common.security.captcha.CaptchaGenerator;
-import com.github.common.security.captcha.img.ImageCaptchaGenerator;
+import com.github.common.security.captcha.image.ImageCaptchaGenerator;
 import com.github.common.security.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

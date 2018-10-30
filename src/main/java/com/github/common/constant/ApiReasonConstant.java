@@ -10,6 +10,12 @@ public class ApiReasonConstant {
 
     public static final String SUCCESS_MSG = "操作成功";
 
+    public static final String FAIL_MSG = "操作失败，请稍后重试";
+
+    public static final String LOGIN_SUCCESS_MSG = "登陆成功";
+
+    public static final String LOGOUT_SUCCESS_MSG = "退出成功";
+
     public static final String UNAUTHORIZED_MSG = "请先登录";
 
     public static final String BAD_REQUEST_MSG = "请求无效";

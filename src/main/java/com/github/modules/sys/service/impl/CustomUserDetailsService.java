@@ -1,7 +1,6 @@
 package com.github.modules.sys.service.impl;
 
 import com.github.common.constant.SysConstant;
-import com.github.common.security.exception.ValidateCaptchaException;
 import com.github.modules.sys.entity.SysMenuEntity;
 import com.github.modules.sys.entity.SysUserEntity;
 import com.github.modules.sys.repository.SysMenuRepository;
@@ -10,13 +9,11 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -28,7 +25,7 @@ import java.util.*;
  * @date 2018-10-26
  */
 @Service("userDetailsService")
-public class MyUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -45,7 +42,8 @@ public class MyUserDetailsService implements UserDetailsService {
         // 根据用户名查找用户信息
         SysUserEntity sysUserEntity = sysUserRepository.findByUsername(username);
         if (sysUserEntity == null) {
-            throw new UsernameNotFoundException("用户名或密码错误");
+            // catch异常处默认隐藏UsernameNotFoundException, 最终以BadCredentialsException抛出
+            throw new UsernameNotFoundException("");
         }
 
         // 设置用户权限

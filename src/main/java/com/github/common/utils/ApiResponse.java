@@ -1,6 +1,7 @@
 package com.github.common.utils;
 
 import com.github.common.constant.ApiReasonConstant;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
 
@@ -25,6 +26,18 @@ public class ApiResponse extends HashMap<String, Object> {
     public ApiResponse put(String key, Object value) {
         super.put(key, value);
         return this;
+    }
+
+    public static ApiResponse ofFail(String ... message) {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.put("code", ResponseStatus.FAIL.getCode());
+        if (StringUtils.isBlank(message[0])) {
+            apiResponse.put("msg", ResponseStatus.FAIL.getStandardMessage());
+        } else {
+            apiResponse.put("msg", message[0]);
+        }
+
+        return apiResponse;
     }
 
     public static ApiResponse ofError() {
@@ -54,6 +67,7 @@ public class ApiResponse extends HashMap<String, Object> {
 
     public enum ResponseStatus{
         SUCCESS(0, ApiReasonConstant.SUCCESS_MSG),
+        FAIL(1, ApiReasonConstant.AUTHENTICATION_FAILED_MSG),
         UNAUTHORIZED(401, ApiReasonConstant.UNAUTHORIZED_MSG),
         BAD_REQUEST(400, ApiReasonConstant.BAD_REQUEST_MSG),
         FORBIDDEN(403, ApiReasonConstant.FORBIDDEN_MSG),

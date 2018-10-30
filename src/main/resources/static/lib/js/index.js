@@ -1,69 +1,47 @@
 var $,tab,dataStr,layer;
 layui.config({
-	base : "js/" //设定扩展的Layui模块的所在目录，一般用于外部模块扩展
+    base : "/lib/js/" //设定扩展的Layui模块的所在目录，一般用于外部模块扩展
 }).extend({
-	"bodyTab" : "bodyTab" //拓展一个模块别名
-})
+    "bodyTab" : "bodyTab" //拓展一个模块别名
+});
 layui.use(['bodyTab','form','element','layer','jquery'],function(){
 	var form = layui.form,
 		element = layui.element;
 		$ = layui.$;
     	layer = parent.layer === undefined ? layui.layer : top.layer;
 		tab = layui.bodyTab({
-			openTabNum : "50",  //最大可打开窗口数量
-			url : "json/navs2.json" //获取菜单json地址
+			openTabNum : "50"  //最大可打开窗口数量
+			// url : "/json/navs2.json" //获取菜单json地址
 		});
 
-	//通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
-	function getData(json){
-		$.getJSON(tab.tabConfig.url,function(data){
-			/*for(i = 0; i < data.menu_list.length; i++) {
-				if (data.menu_list[i].type === 0) {
-					alert(data.menu_list[i].name);
-                    alert(data.menu_list[i].order_num);
-                }
-            }*/
-            dataStr = data.menu_list[0].children
-            //重新渲染左侧菜单
-            tab.render();
+    //通过顶部菜单获取左侧二三级菜单
+    function getData(menuId){
+        $.each(userMenuList, function (index, value) {
+           if (value.menuId == menuId) {
+               dataStr = value.child;
+               //重新渲染左侧菜单
+               tab.render();
+               return false; //break
+           }
+        });
+    }
 
-            // if(json == "contentManagement"){
-				// dataStr = data.contentManagement;
-				// //重新渲染左侧菜单
-				// tab.render();
-            // }else if(json == "memberCenter"){
-				// dataStr = data.memberCenter;
-				// //重新渲染左侧菜单
-				// tab.render();
-            // }else if(json == "systemeSttings"){
-				// dataStr = data.systemeSttings;
-				// //重新渲染左侧菜单
-				// tab.render();
-            // }else if(json == "seraphApi"){
-            //     dataStr = data.seraphApi;
-            //     //重新渲染左侧菜单
-            //     tab.render();
-            // }
-		})
-	}
+    getData($(".topLevelMenus > li.layui-nav-item.layui-this").data("menu"));
 
-    //通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
-    getData("contentManagement");
-
-	//页面加载时判断左侧菜单是否显示
-	//通过顶部菜单获取左侧菜单
-	$(".topLevelMenus li,.mobileTopLevelMenus dd").click(function(){
-		if($(this).parents(".mobileTopLevelMenus").length != "0"){
-			$(".topLevelMenus li").eq($(this).index()).addClass("layui-this").siblings().removeClass("layui-this");
-		}else{
-			$(".mobileTopLevelMenus dd").eq($(this).index()).addClass("layui-this").siblings().removeClass("layui-this");
-		}
-		$(".layui-layout-admin").removeClass("showMenu");
-		$("body").addClass("site-mobile");
-		getData($(this).data("menu"));
-		//渲染顶部窗口
-		tab.tabMove();
-	})
+    //页面加载时判断左侧菜单是否显示
+    //通过顶部菜单获取左侧菜单
+    $(".topLevelMenus li,.mobileTopLevelMenus dd").click(function(){
+        if($(this).parents(".mobileTopLevelMenus").length != "0"){
+            $(".topLevelMenus li").eq($(this).index()).addClass("layui-this").siblings().removeClass("layui-this");
+        }else{
+            $(".mobileTopLevelMenus dd").eq($(this).index()).addClass("layui-this").siblings().removeClass("layui-this");
+        }
+        $(".layui-layout-admin").removeClass("showMenu");
+        $("body").addClass("site-mobile");
+        getData($(this).data("menu"));
+        //渲染顶部窗口
+        tab.tabMove();
+    });
 
 
 	//隐藏左侧导航
@@ -160,17 +138,17 @@ function donation(){
 		area : ['260px', '367px'],
 		tab : [{
 			title : "微信",
-			content : "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img src='images/wechat.jpg'></div>"
+			content : "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><image src='images/wechat.jpg'></div>"
 		},{
 			title : "支付宝",
-			content : "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img src='images/alipay.jpg'></div>"
+			content : "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><image src='images/alipay.jpg'></div>"
 		}]
 	})
 }
 
 //图片管理弹窗
 function showImg(){
-    $.getJSON('json/images.json', function(json){
+    $.getJSON('/lib/json/images.json', function(json){
         var res = json;
         layer.photos({
             photos: res,

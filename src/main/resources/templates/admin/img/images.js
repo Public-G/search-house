@@ -18,7 +18,7 @@ layui.config({
                 var maxPage = imgNums*page < data.length ? imgNums*page : data.length;
                 setTimeout(function(){
                     for(var i=imgNums*(page-1); i<maxPage; i++){
-                        imgList.push('<li><img layer-src="../../'+ data[i].src +'" src="../../'+ data[i].thumb +'" alt="'+data[i].alt+'"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="'+data[i].alt+'"></div><i class="layui-icon img_del">&#xe640;</i></div></li>');
+                        imgList.push('<li><image layer-src="../../'+ data[i].src +'" src="../../'+ data[i].thumb +'" alt="'+data[i].alt+'"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="'+data[i].alt+'"></div><i class="layui-icon img_del">&#xe640;</i></div></li>');
                     }
                     next(imgList.join(''), page < (data.length/imgNums));
                     form.render();
@@ -29,7 +29,7 @@ layui.config({
 
     //设置图片的高度
     $(window).resize(function(){
-        $("#Images li img").height($("#Images li img").width());
+        $("#Images li image").height($("#Images li image").width());
     })
 
     //多图片上传
@@ -40,9 +40,9 @@ layui.config({
         before: function(obj){
             //预读本地文件示例，不支持ie8
             obj.preview(function(index, file, result){
-                $('#Images').prepend('<li><img layer-src="'+ result +'" src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="'+file.name+'"></div><i class="layui-icon img_del">&#xe640;</i></div></li>')
+                $('#Images').prepend('<li><image layer-src="'+ result +'" src="'+ result +'" alt="'+ file.name +'" class="layui-upload-image"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="'+file.name+'"></div><i class="layui-icon img_del">&#xe640;</i></div></li>')
                 //设置图片的高度
-                $("#Images li img").height($("#Images li img").width());
+                $("#Images li image").height($("#Images li image").width());
                 form.render("checkbox");
             });
         },
@@ -52,7 +52,7 @@ layui.config({
     });
 
     //弹出层
-    $("body").on("click","#Images img",function(){
+    $("body").on("click","#Images image",function(){
         parent.showImg();
     })
 

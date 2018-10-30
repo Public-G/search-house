@@ -25,12 +25,14 @@
 		<!--apache工具包-->
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-io.version>2.5</commons-io.version>
+		<modelmapper.version>2.3.0</modelmapper.version>
 		<druid.version>1.1.8</druid.version>
 		<mysql.version>8.0.11</mysql.version>
 		<!-- 布局功能的支持程序  thymeleaf3主程序对应layout2以上版本 -->
 		<!-- thymeleaf2   layout1-->
 		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
+		<thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
 		<spring.social.version>1.1.4.RELEASE</spring.social.version>
 	</properties>
 
@@ -87,6 +89,12 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
+		<!-- thymeleaf 整合 SpringSecurity4-->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		</dependency>
+
 		<!-- SpringBoot自带热加载开发工具 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -124,6 +132,13 @@
 			<artifactId>commons-io</artifactId>
 			<version>${commons-io.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>${modelmapper.version}</version>
+		</dependency>
+
 
 	</dependencies>
 

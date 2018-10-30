@@ -55,6 +55,15 @@ public class SysMenuEntity implements Serializable {
     public SysMenuEntity() {
     }
 
+    public SysMenuEntity(Long menuId, Long parentId, String menuName, String requestUrl, Integer type, String icon) {
+        this.menuId = menuId;
+        this.parentId = parentId;
+        this.menuName = menuName;
+        this.requestUrl = requestUrl;
+        this.type = type;
+        this.icon = icon;
+    }
+
     public SysMenuEntity(Long menuId, Long parentId, String menuName, String requestUrl, String perms, Integer type, String icon, Integer orderNum) {
         this.menuId = menuId;
         this.parentId = parentId;

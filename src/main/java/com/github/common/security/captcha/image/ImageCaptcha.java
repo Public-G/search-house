@@ -1,4 +1,4 @@
-package com.github.common.security.captcha.img;
+package com.github.common.security.captcha.image;
 
 import com.github.common.security.captcha.bean.Captcha;
 

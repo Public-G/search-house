@@ -1,5 +1,7 @@
 package com.github.common.constant;
 
+import org.springframework.security.access.method.P;
+
 /**
  * 系统常量
  *
@@ -9,7 +11,13 @@ package com.github.common.constant;
 public class SysConstant {
 
     /** 超级管理员ID */
-    public static final int SUPER_ADMIN = 1;
+    public static final Long SUPER_ADMIN = 1L;
+
+    /** session中用户菜单的KEY */
+    public static final String SESSION_KEY_USER_MENU = "userMenu";
+
+    /** 分页对象参数名 */
+    public static final String PAGE_BEAN_PARAM = "pageBean";
 
     /**
      * 菜单类型

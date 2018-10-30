@@ -1,0 +1,25 @@
+{
+  "code":0,
+  "msg":"",
+  "count":100,
+  "data": [
+    {
+      "userId": 1,
+      "username": "admin",
+      "email": null,
+      "mobile": null,
+      "status": 0,
+      "createTime": 1540196551000,
+      "lastLoginTime": 1540110154000
+    },
+    {
+      "userId": 2,
+      "username": "张三",
+      "email": null,
+      "mobile": null,
+      "status": 0,
+      "createTime": 1540292090000,
+      "lastLoginTime": 1540724095000
+    }
+  ]
+}
