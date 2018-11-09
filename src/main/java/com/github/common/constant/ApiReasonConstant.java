@@ -22,7 +22,7 @@ public class ApiReasonConstant {
 
     public static final String FORBIDDEN_MSG = "没有权限，请联系管理员授权";
 
-    public static final String NOT_FOUND_MSG = "路径不存在，请检查路径是否正确";
+    public static final String NOT_FOUND_MSG = "没有找到该资源，请检查";
 
     public static final String INTERNAL_SERVER_ERROR_MSG = "服务器遇到了一个未曾预料的状况";
 

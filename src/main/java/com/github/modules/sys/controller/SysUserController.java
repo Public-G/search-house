@@ -3,7 +3,6 @@ package com.github.modules.sys.controller;
 import com.github.common.constant.SysConstant;
 import com.github.common.exception.SHException;
 import com.github.common.utils.ApiResponse;
-import com.github.common.utils.ApiStrategy;
 import com.github.common.utils.PageUtils;
 import com.github.common.validator.ValidatorUtils;
 import com.github.common.validator.group.AddGroup;
@@ -11,21 +10,12 @@ import com.github.common.validator.group.UpdateGroup;
 import com.github.modules.sys.entity.SysUserEntity;
 import com.github.modules.sys.service.SysUserService;
 import org.apache.commons.lang.ArrayUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.WebUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -48,7 +38,7 @@ public class SysUserController {
      * @param forwardType 跳转类型
      */
     @GetMapping("/forward/{forwardType:\\bList\\b|\\bAdd\\b}")
-    @PreAuthorize("hasPermission(null, 'sys:user:forward:user'+#forwardType)")
+//    @PreAuthorize("hasPermission(null, 'sys:user:forward:user'+#forwardType)")
     public String forward(@PathVariable String forwardType) {
         return "admin/sys/user/user" + forwardType;
     }
@@ -86,7 +76,7 @@ public class SysUserController {
     public ApiResponse save(SysUserEntity userEntity) {
         ValidatorUtils.validateEntity(userEntity, AddGroup.class);
 
-        sysUserService.userSaveOrUpdate(userEntity);
+        sysUserService.saveOrUpdate(userEntity);
 
         return ApiResponse.ofSuccess();
     }
@@ -106,9 +96,9 @@ public class SysUserController {
     @PutMapping("/update")
     @ResponseBody
     public ApiResponse update(@ModelAttribute("user") SysUserEntity sysUserEntity){
-        // @ModelAttribute 一定会拿到值, 如果UserId为null, 请求无效
+        // @ModelAttribute 拿不到值可能该条记录已经被删除, 请求无效
         if (sysUserEntity.getUserId() == null) {
-            return ApiResponse.ofStatus(ApiResponse.ResponseStatus.BAD_REQUEST);
+            return ApiResponse.ofStatus(ApiResponse.ResponseStatus.NOT_FOUND);
         }
 
         if (Objects.equals(sysUserEntity.getUserId(), SysConstant.SUPER_ADMIN)) {
@@ -117,10 +107,9 @@ public class SysUserController {
             }
         }
 
-
         ValidatorUtils.validateEntity(sysUserEntity, UpdateGroup.class);
 
-        sysUserService.userSaveOrUpdate(sysUserEntity);
+        sysUserService.saveOrUpdate(sysUserEntity);
 
         return ApiResponse.ofSuccess();
     }

@@ -35,7 +35,7 @@
 						<a href="javascript:;"><i class="seraph icon-lock"></i><cite>锁屏</cite></a>
 					</li>
 					<li class="layui-nav-item" id="userInfo">
-						<a href="javascript:;"><img th:src="@{/lib/images/face.jpg}" class="layui-nav-img userAvatar" width="35" height="35">
+						<a href="javascript:;"><img th:src="@{/lib/images/admin/face.jpg}" class="layui-nav-img userAvatar" width="35" height="35">
 							<cite class="adminName" sec:authentication="principal.username"></cite>
 						</a>
 						<dl class="layui-nav-child">
@@ -53,7 +53,7 @@
 		<!-- 左侧导航 -->
 		<div class="layui-side layui-bg-black">
 			<div class="user-photo">
-				<a class="img" title="我的头像" ><img th:src="@{/lib/images/face.jpg}" class="userAvatar"></a>
+				<a class="img" title="我的头像" ><img th:src="@{/lib/images/admin/face.jpg}" class="userAvatar"></a>
 				<p>你好！<span class="userName" sec:authentication="principal.username"></span>，欢迎登录</p>
 			</div>
 			<!-- 搜索 -->
@@ -107,8 +107,8 @@
 	<div class="site-mobile-shade"></div>
 
 	<div th:replace="~{admin/common/common :: script}"></div>
-	<script type="text/javascript" th:src="@{/lib/js/index.js}"></script>
-	<script type="text/javascript" th:src="@{/lib/js/cache.js}"></script>
+	<script type="text/javascript" th:src="@{/lib/js/admin/index.js}"></script>
+	<script type="text/javascript" th:src="@{/lib/js/admin/cache.js}"></script>
 	<script type="text/javascript" th:inline="javascript">
         var userMenuList;
         $(function () {

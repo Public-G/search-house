@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{front/common/common :: head}"></div>
+<body>
+
+    <div th:replace="~{front/common/common :: bodyStyle}"></div>
+    <div th:replace="~{front/common/common :: adminNav}"></div>
+    <div th:replace="~{front/common/common :: navwrap}"></div>
+    <div th:replace="~{front/common/common :: navScript}"></div>
+    <div th:replace="~{front/common/common :: signLogin}"></div>
+    <div th:replace="~{front/common/common :: header}"></div>
+
+    <div id="contentContainer">
+        <div th:replace="~{front/common/common :: contentContainerCommon}"></div>
+
+        <div id="content" class="fixedWithContainer">
+            <!-- 前两个地区纬度拼音公用区域 -->
+
+            <link type="text/css" th:href="@{/lib/css/front/pageable.css}" rel="stylesheet" media="all"/>
+            <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/house-list-flat.css}">
+
+            <div id="main" role="house-search-page">
+                <div class="searchHouse">
+                    <li class="searchInput"><input class="searchBox" type="text" name="" value=""><span class="searchButton"></span></li>
+                    <ul class="chooseType">
+                        <a class="allResults" href="javascript:void(0)"><span class="leftIcon"></span><span>地图找房</span></a>
+                    </ul>
+                </div>
+                <div class="citySubway">
+                    <a href="javascript:void(0)" class="city" style="color:#fff;background:#00ac97;font-weight:bold;">热门区域</a>
+                    <!--<a href="/z3_a1_1" class="subway">地铁找房</a>-->
+                    <p class="words">房源爬虫，汇总海量优质房源!</p>
+                </div>
+                <div class="polymerizationPage">
+                    <!-- 区域条件筛选if判断为搜索地址带的参数判断 -->
+                    <div class="areas">
+                        <ul class="area">
+                            <strong href="javascript:void(0)" class="areaBold" style="font-weight:bold;">区域 </strong>
+                            <a href="javascript:void(0);" data-bind="*">不限</a>
+                            <a href="javascript:void(0);" th:each="region,iterStat:${regions}" th:if="${regions[iterStat.index] != null}" th:data-bind="${regions[iterStat.index]}">[[${regions[iterStat.index]}]]</a>
+                        </ul>
+                    </div>
+
+                    <!--<div class="allAreas" style="display:none">-->
+                    <!--<a href="/z2_a1_1" style="color:#00ac97;font-weight:bold;"><h2-->
+                    <!--style="color:#00ac97;font-weight:bold;">不限</h2></a>-->
+                    <!--</div>-->
+
+                    <!-- flat和district，district的中间循环节点 -->
+                    <div class="monthCost">
+                        <strong href="javascript:void(0)" style="font-weight:bold;" class="areaBold">月租</strong>
+                        <a href="javascript:void(0);" data-bind="*">不限</a>
+                        <a href="javascript:void(0);" data-bind="*-1000">1000以下</a>
+                        <a href="javascript:void(0);" data-bind="1000-2000">1000-2000</a>
+                        <a href="javascript:void(0);" data-bind="2000-3000">2000-3000</a>
+                        <a href="javascript:void(0);" data-bind="3000-4000">3000-4000</a>
+                        <a href="javascript:void(0);" data-bind="4000-5000">4000-5000</a>
+                        <a href="javascript:void(0);" data-bind="5000-8000">5000-8000</a>
+                        <a href="javascript:void(0);" data-bind="8000-*">8000以上</a>
+                        <input type="text" class="priceStart" name="" value="">
+                        <span>-</span>
+                        <input type="text" class="priceEnd" name="" value="">
+                        <span class="priceTrue">确定</span>
+                    </div>
+
+                    <div class="houseMeasure">
+                        <strong href="javascript:void(0)" style="font-weight:bold;" class="areaBold">面积</strong>
+                        <a href="javascript:void(0);" data-bind="*" >不限</a>
+                        <a href="javascript:void(0);" data-bind="*-30">30m<sup>2</sup>以下</a>
+                        <a href="javascript:void(0);" data-bind="30-50">30m<sup>2</sup><span>-</span>50m<sup>2</sup></a>
+                        <a href="javascript:void(0);" data-bind="50-100">50m<sup>2</sup><span>-</span>100m<sup>2</sup></a>
+                        <a href="javascript:void(0);" data-bind="100-*">100m<sup>2</sup>以上</a>
+                        <input type="text" class="measureStart" name="" >
+                        <span>-</span>
+                        <input type="text" class="measureEnd" name="">
+                        <span class="areaTrue">确定</span>
+                    </div>
+                    <div class="houseType">
+                        <strong href="javascript:void(0)" style="font-weight:bold;" class="areaBold">户型</strong>
+                        <a href="/z2_a1_1" style="color:#00ac97;font-weight:bold;">不限</a>
+                        <a href="/z2_a1-e1_1">1室</a>
+                        <a href="/z2_a1-e2_1">2室</a>
+                        <a href="/z2_a1-e3_1">3室</a>
+                        <a href="/z2_a1-e4_1">4室及以上</a>
+                    </div>
+                </div>
+                <div class="demandSelect">
+                    <li class="findOne" style="font-weight:bold;">筛选</li>
+
+                    <div class="selectMale">
+                        <li class="selectEle">
+                            <span>房源来源</span>
+                            <span class="select_icon one_select_icon">
+                    <svg width="13" height="13" viewBox="0 0 200 200">
+                        <g class="transform-group">
+                            <g transform="scale(0.1953125, 0.1953125)">
+                                <path d="M818.393225 300.939003c12.824073-14.09502 34.658358-15.126512 48.752354-2.303462 14.09502 12.843516 15.126512 34.678824 2.302439 48.752354l-332.676845 364.835266c-12.844539 14.114462-34.659381 15.127536-48.753377 2.302439-0.815575-0.733711-1.588171-1.486864-2.302439-2.302439l-0.080841-0.078795-0.13917-0.13917L153.018046 347.388918c-12.824073-14.074553-11.791557-35.909861 2.302439-48.752354 14.09502-12.824073 35.930327-11.792581 48.753377 2.303462l307.168891 336.845795 307.149449-336.845795L818.393225 300.939003 818.393225 300.939003z"
+                                      fill="#272636">
+                                </path>
+                            </g>
+                        </g>
+                    </svg>
+                </span>
+                        </li>
+                        <ul>
+                            <a href="/z2_a1_1" style="background:#f1f1f1;">不限</a>
+                            <a href="/z2_a1-g1_1">107间</a>
+                            <a href="/z2_a1-g2_1">链家</a>
+                            <a href="/z2_a1-g3_1">房天下</a>
+                        </ul>
+                    </div>
+
+                    <div class="selectMale">
+                        <li class="selectEle">
+                            <span>出租方式</span>
+                            <span class="select_icon one_select_icon">
+                    <svg width="13" height="13" viewBox="0 0 200 200">
+                        <g class="transform-group">
+                            <g transform="scale(0.1953125, 0.1953125)">
+                                <path d="M818.393225 300.939003c12.824073-14.09502 34.658358-15.126512 48.752354-2.303462 14.09502 12.843516 15.126512 34.678824 2.302439 48.752354l-332.676845 364.835266c-12.844539 14.114462-34.659381 15.127536-48.753377 2.302439-0.815575-0.733711-1.588171-1.486864-2.302439-2.302439l-0.080841-0.078795-0.13917-0.13917L153.018046 347.388918c-12.824073-14.074553-11.791557-35.909861 2.302439-48.752354 14.09502-12.824073 35.930327-11.792581 48.753377 2.303462l307.168891 336.845795 307.149449-336.845795L818.393225 300.939003 818.393225 300.939003z"
+                                      fill="#272636">
+                                </path>
+                            </g>
+                        </g>
+                    </svg>
+                </span>
+                        </li>
+                        <ul>
+                            <a href="/z2_a1_1" style="background:#f1f1f1;">不限</a>
+                            <a href="/z2_a1-f1_1">分租</a>
+                            <a href="/z2_a1-f2_1">整租</a>
+                        </ul>
+                    </div>
+
+                </div>
+                <!-- 下方用户已选择条件通过上方声明的select变量实现 -->
+                <!--<div class="allCondition">-->
+                    <!--&lt;!&ndash;<p style="font-weight:bold;">条件</p>&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash; 一级地区纬度 &ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash; 二级地区纬度 &ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash; 月租纬度 &ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash; 户型纬度 &ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash; 出租纬度 &ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash; 性别纬度 &ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a class="delAll" style="display:none" th:href="@{/rent}"><span class="garbage"></span><span&ndash;&gt;-->
+                            <!--&lt;!&ndash;class="clearAll">清空所有条件</span></a>&ndash;&gt;-->
+                <!--</div>-->
+                <!-- 条件排序 -->
+                <div class="bodyHouseMap">
+                    <div class="allHouseSearch">
+                        <div class="sortHouse">
+                            <a href="/z2_a1_1" style="font-weight: bold;color:#00ac97">智能排序</a>
+                            <a href="/z2_a1-h1_1">月租价格</a>
+                            <a href="/z2_a1-h2_1">发布时间</a>
+                            <li class="allHouseNum" style="padding-right:16px;text-align:right;"><span>
+                                    [[${houses.count}]]
+                                </span>个符合条件的房子
+                            </li>
+                        </div>
+                        <div class="houseResult">
+                            <th:block th:each="item:${houses.data}">
+                                <div class="oneHouse setStyle">
+                                    <a th:href="'/search/'+${item.id}" target="_blank">
+                                        <ul class="leftTop">
+                                            <li class="overflowimg">
+                                                <img class="backgroundImg lazy"
+                                                     th:src="@{/lib/images/front/icon/house-search/defaultFrog.png}"
+                                                     th:data-original="${item.img_href}"
+                                                     th:alt="${item.community}">
+                                                <!--<img class="backgroundImg lazy"-->
+                                                <!--th:src="@{/lib/images/front/icon/house-search/defaultFrog.png}"-->
+                                                <!--th:data-original="'http:'+${item.img_href}+'?imageView/1/w/210/h/210'"-->
+                                                <!--th:alt="${item.community}">-->
+                                            </li>
+                                            <li class="price">¥<span>[[${item.price}]]</span></li>
+                                        </ul>
+                                    </a>
+                                    <ul class="leftMiddle">
+                                        <li class="sexReq">
+                                            <a th:href="'/search/'+${item.id}" class="houseReq"
+                                               target="_blank"><span>[[${item.region_cn_name}]]</span><span>[[${item.house_type}]]</span></a>
+                                        </li>
+                                        <li style="text-align:right;width:200px;" class="locationLi">
+                                            <a th:href="'/search/'+${item.id}" class="locationname" target="_blank">[[${item.community}]] </a>
+                                        </li>
+                                        <li class="desLi">
+                                            <a th:href="'/search/'+${item.id}" class="houseDescibtion" target="_blank">[[${item.description}]]</a>
+                                        </li>
+                                        <!--<a href="/r1313051" class="dateTime" target="_blank"> 11月03日 19:00</a>-->
+                                    </ul>
+                                </div>
+                            </th:block>
+                        </div>
+                        <!-- 收藏成功弹出框 -->
+                        <!--<div class="favorPrompt">-->
+                        <!--<span class="xclose">X</span>-->
+                        <!--<p class="holdsign">该房间已加入"待签约"</p>-->
+                        <!--<p>可随时查看该房间签约流程</p>-->
+                        <!--</div>-->
+                        <div>
+                            <!--         <label style="color:red">不限</label>
+                                        <label>1000以下</label>
+                                        <label>1000-2000</label>
+                                        <label>2000-3000</label>
+                                        <label>3000-4000</label>
+                                        <label>4000-5000</label>
+                                        <label>5000-8000</label>
+                                        <label>8000以上</label>
+                                 -->
+                            <!-- <div class="egg">
+                                                        <span>性别限制</span>
+                                                                                                                </div> -->
+
+                        </div>
+                        <!-- 分页 -->
+                        <div id="pageable" style="clear:both"></div>
+
+                    </div>
+                </div>
+
+                <!-- 地图显示 -->
+                <div class="mapwrap">
+                    <div id="allmap"></div>
+                    <img class="big" th:src="@{/lib/images/front/map/zoomin.png}">
+                    <img class="small" th:src="@{/lib/images/front/map/zoomout.png}">
+                    <!--<a href="/chufangbao" target='_block'>-->
+                        <!--<img class="mapBottomImg" src="static/image/mbad.png">-->
+                    <!--</a>-->
+                    <!--<img class="mapBottomImg" src="static/image/verify.png">-->
+                    <!--<img class="mapBottomImg"-->
+                    <!--src="http://s107.107room.com/static/image/activity/activity-flat/advertise.png">-->
+                </div>
+
+            </div>
+
+            <!-- 下方为当前flat的meta描述和kewords的动态显示需求 -->
+
+
+            <img class="backTop" th:src="@{/lib/images/front/back-to-top.png}"/>
+            <script src="http://api.map.baidu.com/api?v=2.0&ak=FsL0TGj6V2tmG6juhiU6ugdz"></script>
+            <script th:src="@{/lib/js/plugin/jquery.lazyload.min.js}"></script>
+            <script type="text/javascript" th:src="@{/lib/js/front/house-list-flat.js}"></script>
+        </div>
+    </div>
+
+    <div th:replace="~{front/common/common :: footer}"></div>
+    <script type="text/javascript" th:inline="javascript">
+
+        var count = [[${houses.count}]];
+        var curr = [[${searchBody.curr}]];
+        var limit = [[${searchBody.limit}]];
+
+
+        var data = {
+
+            priceBlock : [[${searchBody.priceBlock}]],
+            areaBlock : [[${searchBody.areaBlock}]],
+            regionCnName : [[${searchBody.regionCnName}]],
+        };
+
+        var currentKeyword = [[${searchBody.keyword}]];
+        searchBox.val(currentKeyword);
+
+        $('.monthCost a[data-bind="' + data.priceBlock + '"]').addClass("on");
+        if (!$('.monthCost > a').hasClass("on")) {
+            priceStart.val(data.priceBlock.substring(0, 1));
+            priceEnd.val(data.priceBlock.substring(2));
+        }
+        $('.houseMeasure a[data-bind="' + data.areaBlock + '"]').addClass("on");
+        if (!$('.houseMeasure > a').hasClass("on")) {
+            measureStart.val(data.areaBlock.substring(0, 1));
+            measureEnd.val(data.areaBlock.substring(2));
+        }
+        $('.areas a[data-bind="' + data.regionCnName + '"]').addClass("on");
+
+
+        layui.use('laypage', function() {
+            var laypage = layui.laypage;
+
+            laypage.render({
+                elem: 'pageable'
+                ,theme: '#00ac97'
+                ,count: count
+                ,limit: 12
+                ,curr: curr / limit + 1
+                ,jump: function(obj, first){
+                    //首次不执行
+                    if(!first){
+                        window.location.href = locate_url((obj.curr - 1) * obj.limit);
+                    }
+                }
+            });
+        });
+
+        monthCost.delegate('a','click',function () {
+            data.priceBlock = $(this).data("bind");
+            searchButton.click();
+        });
+
+        houseMeasure.delegate('a','click',function () {
+            data.areaBlock = $(this).data("bind");
+            searchButton.click();
+        });
+
+        regions.delegate('a','click',function () {
+            data.regionCnName = $(this).data("bind");
+            searchButton.click();
+        });
+
+        searchButton.on('click',function(){
+            var keyword = searchBox.val();
+            if (typeof(keyword) !== 'undefined' && keyword !== null && keyword.trim() !== '') {
+                data.keyword = keyword;
+            }
+            window.location.href = locate_url(0, 12);
+        });
+
+        // 价格输入后确认提交
+        priceAdd.on('click',function(){
+            // var query = searchBox.val();
+            var price1 = priceStart.val();
+            var price2 = priceEnd.val();
+            data.priceBlock = price1 + '-' + price2;
+            searchButton.click();
+        });
+
+        // 面积输入后确认提交
+        areaAdd.on('click',function(){
+            var area1 = measureStart.val();
+            var area2 = measureEnd.val();
+            data.areaBlock = area1 + '-' + area2;
+            searchButton.click();
+        });
+
+        function locate_url(curr) {
+            var target = '/search?cityCnName=' + [[${searchBody.cityCnName}]] + '&';
+            $.each(data, function (key, value) {
+                target += (key + '=' + value + '&');
+            });
+            target += 'curr=' + curr;
+            return target;
+        }
+
+        function searchHouse(curr) {
+            $.ajax({
+                url: "/search",
+                type: "GET",
+                traditional: true,
+//                data: {
+//                    _method: "DELETE",
+//                    deleteCheck: deleteCheck
+//                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.code === 0) {
+                        $(".houseResult").html(data.data);
+                       setTimeout(function () {
+                           // 房源列表图片懒加载
+                           $(".lazy").lazyload({effect: "fadeIn", threshold : 200});  //lazyload初始化函数
+                       }, 1000);
+                    }
+                }
+            });
+        }
+
+
+        function parsePrice(price) {
+            var priceHtml = '';
+            $.each(price, function (key, val) {
+                if (val.min < 0) {
+                    priceHtml += '<a href="javascript:void(0);" data-price-key='+key+'>'+val.max+'以下</a>'
+                } else if (val.max < 0) {
+                    priceHtml += '<a href="javascript:void(0);" data-price-key='+key+'>'+val.min+'以上</a>'
+                } else {
+                    priceHtml += '<a href="javascript:void(0);" data-price-key='+key+'>'+val.min+'-'+val.max+'</a>'
+                }
+            });
+            return priceHtml;
+        }
+
+        function parseArea(area) {
+            var areaHtml = '';
+            $.each(area, function (key, val) {
+               if (val.min < 0) {
+                   areaHtml += '<a href="javascript:void(0);" data-bind='+key+'>'+val.max+'m<sup>2</sup><span>以下</span></a>';
+               } else if (val.max < 0) {
+                   areaHtml += '<a href="javascript:void(0);" data-bind='+key+'>'+val.min+'m<sup>2</sup><span>以下</span></a>';
+               } else {
+                   areaHtml += '<a href="javascript:void(0);" data-bind='+key+'>'+val.min+' <span>m</span><sup>2</sup><span>-</span>'+val.max+'<span>m</span><sup>2</sup></a>';
+               }
+            });
+            return areaHtml;
+        }
+    </script>
+</body>
+</html>

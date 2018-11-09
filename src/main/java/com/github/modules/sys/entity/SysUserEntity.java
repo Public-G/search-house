@@ -2,11 +2,13 @@ package com.github.modules.sys.entity;
 
 import com.github.common.validator.group.AddGroup;
 import com.github.common.validator.group.UpdateGroup;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -33,9 +35,11 @@ public class SysUserEntity implements UserDetails, Serializable {
     private String password;
 
     @NotBlank(message="邮箱不能为空", groups = {AddGroup.class, UpdateGroup.class})
+    @Email(message="邮箱格式不正确", groups = {AddGroup.class, UpdateGroup.class})
     private String email;
 
     @NotBlank(message="手机号码不能为空", groups = {AddGroup.class, UpdateGroup.class})
+    @Pattern(message="手机号码格式不正确", regexp = "1[3|4|5|7|8][0-9]{9}", groups = {AddGroup.class, UpdateGroup.class})
     private String mobile;
 
     /**

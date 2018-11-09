@@ -18,8 +18,8 @@ public interface SysMenuRepository extends JpaRepository<SysMenuEntity, Long> {
             "WHERE ur.user_id = ?1", nativeQuery = true)
     List<String> findPermsByUserId(Long userId);
 
-    @Query("SELECT new SysMenuEntity(se.menuId, se.parentId, se.menuName, se.requestUrl, se.type, se.icon) " +
-            "FROM SysMenuEntity se ORDER BY se.orderNum DESC")
-    List<SysMenuEntity> findAllMenuList();
+//    @Query("SELECT new SysMenuEntity(se.menuId, se.parentId, se.menuName, se.requestUrl, se.type, se.icon) " +
+//            "FROM SysMenuEntity se ORDER BY se.orderNum DESC")
+//    List<SysMenuEntity> findAllMenuList();
 
 }

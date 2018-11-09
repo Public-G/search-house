@@ -21,37 +21,25 @@
     <!--网页宽度及初始、最大缩放比例-->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <!-- 网站icon -->
-    <link rel="shortcut icon" th:href="@{/lib/images/common/favicon.ico}" type="image/x-icon"/>
+    <link rel="shortcut icon" th:href="@{/lib/images/admin/icon/favicon.ico}" type="image/x-icon"/>
     <!-- css样式 -->
     <link rel="stylesheet" type="text/css" th:href="@{'/lib/layui/css/layui.css?v='+3}" media="all"/>
     <link rel="stylesheet" type="text/css" th:href="@{'/lib/font/css/font-awesome.min.css?v='+1}" media="all"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/index.css}" media="all"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/public.css}" media="all"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/admin/index.css}" media="all"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/admin/public.css}" media="all"/>
     <title>search house</title>
 </head>
 <!-- 定义需引入的head end -->
 
+<body>
 <!-- 定义需引入的footer start -->
 <div th:fragment="script">
-    <script type="text/javascript" th:src="@{'/lib/layui/layui.js?v='+3}"></script>
+    <script type="text/javascript" th:src="@{'/lib/layui/layui.all.js?v='+3}"></script>
     <script type="text/javascript" th:src="@{'/lib/js/plugin/jquery-3.3.1.min.js?v='+1}"></script>
-    <script type="text/javascript" th:src="@{/lib/js/common/common.js}"></script>
-    <script type="text/javascript" th:src="@{'/lib/js/common/moment.js?v='+1}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/admin/common/common.js}"></script>
+    <script type="text/javascript" th:src="@{'/lib/js/admin/common/moment.js?v='+1}"></script>
 </div>
 <!-- 定义需引入的footer end -->
 
-<!--<div th:fragment="add-form">-->
-    <!--<!DOCTYPE html>-->
-    <!--<html>-->
-    <!--<head>-->
-        <!--<link rel="stylesheet" type="text/css" th:href="@{'/lib/layui/css/layui.css?v='+3}" media="all"/>-->
-        <!--<script type="text/javascript" th:src="@{'/lib/layui/layui.js?v='+3}"></script>-->
-        <!--<script type="text/javascript" th:src="@{'/lib/js/plugin/jquery-3.3.1.min.js?v='+1}"></script>-->
-        <!--<title></title>-->
-    <!--</head>-->
-    <!--<body>-->
-    <!---->
-    <!--</body>-->
-    <!--</html>-->
-<!--</div>-->
+</body>
 </html>

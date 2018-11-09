@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote quoteBox">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input searchVal" placeholder="请输入任务ID"/>
+        </div>
+        <a class="search_btn layui-btn" data-type="reload" id="keywordRefresh">搜索</a>
+    </div>
+</blockquote>
+
+<table id="scheduleLogList" lay-filter="scheduleLogList"></table>
+
+<div th:replace="~{admin/common/common :: script}"></div>
+</body>
+</html>
+<!-- 状态 -->
+<script type="text/html" id="status">
+    {{#  if(d.status == 0){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-xs">成功</span>
+    {{#  } else if(d.status == 1){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-danger layui-btn-xs">失败</span>
+    {{#  }}}
+</script>
+
+<script type="text/javascript">
+    var cols = [
+        [
+            {field: 'logId', title: '日志ID',  align: 'center', width: 80}
+            , {field: 'jobId', title: '任务ID', align: 'center', width: 80}
+            , {field: 'beanName', title: 'bean名称', align: 'center'}
+            , {field: 'methodName', title: '方法名称', align: 'center'}
+            , {field: 'params', title: '参数', align: 'center'}
+            , {field: 'status', title: '状态', align: 'center', width: 80, templet: '#status'}
+            , {field: 'error', title: '失败信息', align: 'center'}
+            , {field: 'times', title: '耗时(单位：毫秒)', align: 'center'}
+            , {field: 'createTime', title: '执行时间', align: 'center', templet: function (d) {
+                    return d.createTime != undefined ? moment(d.createTime).format("YYYY-MM-DD HH:mm:ss") : '';
+                 }
+              }
+        ]
+    ];
+
+   layui.renderTable('#scheduleLogList', 'scheduleLogListTable', '/data/scheduleLog/list', cols);
+
+   keywordSearch('scheduleLogListTable');
+
+</script>

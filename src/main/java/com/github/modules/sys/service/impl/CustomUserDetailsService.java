@@ -27,7 +27,7 @@ import java.util.*;
 @Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
     @Autowired
     private SysUserRepository sysUserRepository;

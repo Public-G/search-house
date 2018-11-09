@@ -1,0 +1,294 @@
+/*release*/
+/*@2018/10/02-232606*/
+.otherlogin, .sign input {
+    font-size: 14px
+}
+
+.signLogin {
+    background-color: rgba(0, 0, 0, .6);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    display: none
+}
+
+.lightLogin, .lostpasswordpage {
+    position: absolute;
+    left: 50%;
+    top: 50%
+}
+
+.lightLogin {
+    width: 400px;
+    height: 400px;
+    margin-left: -200px;
+    margin-top: -200px;
+    background-color: #fff
+}
+
+.lightLogin li {
+    width: 299px;
+    height: 50px;
+    list-style: none;
+    float: none;
+    margin: 0 auto
+}
+
+.lightLogin li:last-child {
+    text-align: right;
+    font-size: 14px;
+    color: #00AC97
+}
+
+.lightLogin .username {
+    margin-top: 50px;
+    padding-left: 5px;
+    width: 290px;
+    height: 39px;
+    border: 1px solid #CCC !important;
+    background: url(/static/image/icon/user_16x16.png) 260px 12px no-repeat
+}
+
+.lightLogin .username input {
+    border: 1px solid #ccc;
+    font-family: verdana, sans-serif;
+    background-color: #fff !important
+}
+
+.lightLogin .username:hover {
+    border: 1px solid #00AC97 !important;
+    background: url(/static/image/icon/user_h_16x16.png) 260px 12px no-repeat
+}
+
+.lightLogin .password {
+    margin-top: 40px;
+    padding-left: 5px;
+    width: 292px;
+    border: 1px solid #CCC !important;
+    height: 39px;
+    background: url(/static/image/icon/password_16x16.png) 260px 12px no-repeat
+}
+
+.lightLogin .password:hover {
+    border: 1px solid #00AC97 !important;
+    background: url(/static/image/icon/password_h_16x16.png) 260px 12px no-repeat
+}
+
+.lightLogin input {
+    width: 250px;
+    height: 100%;
+    float: left;
+    color: #939393 !important
+}
+
+input:-webkit-autofill {
+    padding-left: 5px;
+    color: #939393 !important;
+    -webkit-box-shadow: 0 0 0 1000px #fff inset;
+    border: none !important
+}
+
+.lightLogin .submitlogin {
+    clear: both;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    color: #fff;
+    margin-top: 30px;
+    background-color: #00AC97
+}
+
+.otherlogin {
+    margin: 0 auto;
+    text-align: left;
+    padding-top: 8px;
+    color: #00AC97
+}
+
+.lightLogin .helpyou {
+    position: absolute;
+    width: 340px;
+    bottom: 0;
+    line-height: 50px;
+    margin: 0 auto;
+    overflow: hidden
+}
+
+.lightLogin a {
+    display: inline-block;
+    color: transparent;
+    margin-right: 30px;
+    width: 49px;
+    height: 49px;
+    border: none
+}
+
+.sendnewdata, .sendverify {
+    color: #fff;
+    cursor: pointer
+}
+
+.logintype {
+    margin: 0 auto;
+    text-align: center
+}
+
+.lightLogin .douban {
+    background: url(/static/image/icon/oauth/oauth-login.png) no-repeat
+}
+
+.lightLogin .douban:hover {
+    background-position: 0 -49px
+}
+
+.lightLogin .xinlang {
+    width: 52px;
+    height: 50px;
+    background: url(/static/image/icon/oauth/oauth-login.png) -98px 0 no-repeat
+}
+
+.lightLogin .xinlang:hover {
+    background-position: -98px -50px
+}
+
+.lightLogin .tengxun {
+    background: url(/static/image/icon/oauth/oauth-login.png) -49px 0 no-repeat
+}
+
+.lightLogin .tengxun:hover {
+    background-position: -49px -49px
+}
+
+.lostpasswordpage {
+    display: none;
+    width: 400px;
+    height: 400px;
+    background-color: #fff;
+    margin-left: -200px;
+    margin-top: -200px
+}
+
+.setnewpwd, .telnumber, .verifycode {
+    left: 51px;
+    height: 39px;
+    position: absolute;
+    border: 1px solid #ccc
+}
+
+.telnumber {
+    width: 290px;
+    top: 50px
+}
+
+.verifycode {
+    width: 190px;
+    top: 125px
+}
+
+.setnewpwd {
+    width: 290px;
+    top: 200px
+}
+
+.sendverify {
+    width: 80px;
+    height: 39px;
+    background-color: #EBAC40;
+    font-size: 12px;
+    line-height: 39px;
+    position: absolute;
+    text-align: center;
+    left: 265px;
+    top: 125px;
+    border: 1px solid #ccc
+}
+
+.condition1, .condition2 {
+    left: 50%;
+    text-align: center;
+    position: absolute
+}
+
+.sendnewdata {
+    width: 296px;
+    height: 50px;
+    font-size: 16px;
+    margin: 270px auto;
+    line-height: 50px;
+    background-color: #00AC97;
+    text-align: center
+}
+
+.condition1 {
+    font-size: 14px;
+    bottom: 40px;
+    width: 250px;
+    margin-left: -125px
+}
+
+.condition2 {
+    font-size: 14px;
+    bottom: 20px;
+    width: 300px;
+    margin-left: -150px
+}
+
+.condition2 span:nth-child(1) {
+    color: #EBAC40
+}
+
+.condition2 span:nth-child(2) {
+    color: #00ac97
+}
+
+.lostpasswordpage input {
+    padding-left: 5px
+}
+
+.errorpromp {
+    color: red;
+    position: absolute;
+    width: 250px;
+    left: 55px;
+    text-align: left;
+    top: 245px;
+    font-size: 14px
+}
+
+.closedButton {
+    display: inline-block;
+    color: #00ac97;
+    width: 25px;
+    height: 25px;
+    z-index: 999;
+    position: absolute;
+    right: 0;
+    top: 5px;
+    cursor: pointer
+}
+
+.frog {
+    border-radius: 50%;
+    vertical-align: middle
+}
+
+.helpyou span {
+    cursor: pointer
+}
+
+.lightLogin .warning {
+    line-height: 30px;
+    clear: both;
+    height: 30px;
+    text-align: left;
+    color: #ED0000;
+    display: none;
+    font-size: 14px
+}
+
+.register .lostpassword {
+    cursor: pointer
+}

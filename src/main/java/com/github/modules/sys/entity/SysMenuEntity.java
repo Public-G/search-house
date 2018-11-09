@@ -36,35 +36,17 @@ public class SysMenuEntity implements Serializable {
     /**
      * 类型   0：顶级目录  1：目录  2：菜单  3：按钮
      */
-    private Integer type;
+    private int type;
 
     private String icon;
 
     @Column(name = "order_num")
     private Integer orderNum;
 
-    /**
-     * 父菜单名称
-     */
-    @Transient
-    private String parentName;
-
-    @Transient
-    private List<SysMenuEntity> child;
-
     public SysMenuEntity() {
     }
 
-    public SysMenuEntity(Long menuId, Long parentId, String menuName, String requestUrl, Integer type, String icon) {
-        this.menuId = menuId;
-        this.parentId = parentId;
-        this.menuName = menuName;
-        this.requestUrl = requestUrl;
-        this.type = type;
-        this.icon = icon;
-    }
-
-    public SysMenuEntity(Long menuId, Long parentId, String menuName, String requestUrl, String perms, Integer type, String icon, Integer orderNum) {
+    public SysMenuEntity(Long menuId, Long parentId, String menuName, String requestUrl, String perms, int type, String icon, Integer orderNum) {
         this.menuId = menuId;
         this.parentId = parentId;
         this.menuName = menuName;
@@ -115,11 +97,11 @@ public class SysMenuEntity implements Serializable {
         this.perms = perms;
     }
 
-    public Integer getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -137,21 +119,5 @@ public class SysMenuEntity implements Serializable {
 
     public void setOrderNum(Integer orderNum) {
         this.orderNum = orderNum;
-    }
-
-    public String getParentName() {
-        return parentName;
-    }
-
-    public void setParentName(String parentName) {
-        this.parentName = parentName;
-    }
-
-    public List<SysMenuEntity> getChild() {
-        return child;
-    }
-
-    public void setChild(List<SysMenuEntity> child) {
-        this.child = child;
     }
 }

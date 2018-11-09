@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<th:block th:each="item:${house}">
+    <div class="oneHouse setStyle">
+        <a href="/r1313051" target="_blank">
+            <ul class="leftTop">
+                <li class="overflowimg">
+                    <img class="backgroundImg lazy"
+                         th:src="@{/lib/images/front/icon/house-search/defaultFrog.png}"
+                         th:data-original="${item.img_href}"
+                         th:alt="${item.community}">
+                    <!--<img class="backgroundImg lazy"-->
+                         <!--th:src="@{/lib/images/front/icon/house-search/defaultFrog.png}"-->
+                         <!--th:data-original="'http:'+${item.img_href}+'?imageView/1/w/210/h/210'"-->
+                         <!--th:alt="${item.community}">-->
+                </li>
+                <li class="price">¥<span>[[${item.price}]]</span></li>
+            </ul>
+        </a>
+        <ul class="leftMiddle">
+            <li class="sexReq">
+                <a href="/r1313051" class="houseReq"
+                   target="_blank"><span>[[${item.region_cn_name}]]</span><span>[[${item.house_type}]]</span></a>
+            </li>
+            <li style="text-align:right;width:200px;" class="locationLi">
+                <a href="/r1313051" class="locationname" target="_blank">[[${item.community}]] </a>
+            </li>
+            <li class="desLi">
+                <a href="/r1313051" class="houseDescibtion" target="_blank">[[${item.description}]]</a>
+            </li>
+            <!--<a href="/r1313051" class="dateTime" target="_blank"> 11月03日 19:00</a>-->
+        </ul>
+    </div>
+</th:block>
+
+</body>
+</html>

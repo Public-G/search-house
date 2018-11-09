@@ -5,15 +5,12 @@ import com.github.common.constant.ApiReasonConstant;
 import com.github.common.constant.SysConstant;
 import com.github.common.utils.ApiResponse;
 import com.github.modules.sys.dto.SysMenuDTO;
-import com.github.modules.sys.entity.SysMenuEntity;
 import com.github.modules.sys.entity.SysUserEntity;
 import com.github.modules.sys.service.SysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.ServletException;
@@ -41,14 +38,15 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // 查询该用户的菜单
-        SysUserEntity       sysUserEntity = (SysUserEntity) authentication.getPrincipal();
-        List<SysMenuEntity> userMenuList  = sysMenuService.getUserMenuList(sysUserEntity.getUserId());
-        ServletWebRequest   webRequest    = new ServletWebRequest(request, response);
+        SysUserEntity     sysUserEntity = (SysUserEntity) authentication.getPrincipal();
+        List<SysMenuDTO>  userMenuList  = sysMenuService.getUserMenuList(sysUserEntity.getUserId());
+        ServletWebRequest webRequest    = new ServletWebRequest(request, response);
         sessionStrategy.setAttribute(webRequest, SysConstant.SESSION_KEY_USER_MENU, userMenuList);
 
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(objectMapper.writeValueAsString(ApiResponse.ofMessage
-                (ApiResponse.ResponseStatus.SUCCESS.getCode(), ApiReasonConstant.LOGIN_SUCCESS_MSG)));
+        response.setContentType(SysConstant.CONTENT_TYPE_JSON);
+        response.getWriter().write(objectMapper.writeValueAsString(
+                ApiResponse.ofMessage(ApiResponse.ResponseStatus.SUCCESS.getCode(),
+                                      ApiReasonConstant.LOGIN_SUCCESS_MSG)));
     }
 
     public void setSessionStrategy(SessionStrategy sessionStrategy) {

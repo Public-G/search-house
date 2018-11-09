@@ -39,7 +39,7 @@ import java.util.Set;
 @Component
 public class ValidateCaptchaFilter extends OncePerRequestFilter implements InitializingBean {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger logger = LoggerFactory.getLogger(ValidateCaptchaFilter.class);
 
     /**
      * 验证码校验失败处理器(默认的)

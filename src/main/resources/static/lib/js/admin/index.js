@@ -1,6 +1,6 @@
 var $,tab,dataStr,layer;
 layui.config({
-    base : "/lib/js/" //设定扩展的Layui模块的所在目录，一般用于外部模块扩展
+    base : "/lib/js/admin/" //设定扩展的Layui模块的所在目录，一般用于外部模块扩展
 }).extend({
     "bodyTab" : "bodyTab" //拓展一个模块别名
 });

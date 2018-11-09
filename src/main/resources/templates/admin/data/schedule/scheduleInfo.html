@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;" th:object="${schedule}">
+    <input name="jobId" type="hidden" th:value="*{jobId}">
+    <input name="_method" type="hidden" th:value="PUT">
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">bean名称</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="beanName" th:value="*{beanName}" lay-verify="required" placeholder="spring bean名称，如：testTask">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">方法名称</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="methodName" th:value="*{methodName}" lay-verify="required" placeholder="方法名称">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">参数</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" name="params" placeholder="如果有多个参数，使用json数据">[[*{params}]]</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">cron表达式</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="cronExpression" th:value="*{cronExpression}" lay-verify="required" placeholder="如 0 0 12 * * ?">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="remark" th:value="*{remark}" lay-verify="required" placeholder="备注">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="radio" name="status" value="0" title="正常" th:field="*{status}">
+            <input type="radio" name="status" value="1" title="暂停" th:field="*{status}">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="schedule_submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<div th:replace="~{admin/common/common :: script}"></div>
+</body>
+</html>
+<script type="text/javascript">
+    layui.formSubmit('schedule_submit', '/data/schedule/update');
+</script>

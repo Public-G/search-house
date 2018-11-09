@@ -19,6 +19,8 @@
 <table id="userList" lay-filter="userList"></table>
 
 <div th:replace="~{admin/common/common :: script}"></div>
+</body>
+</html>
 <!-- 状态 -->
 <script type="text/html" id="status">
     {{#  if(d.status == "0"){ }}
@@ -27,6 +29,7 @@
     <span class="layui-btn layui-btn-disabled layui-btn-xs">锁定</span>
     {{#  }}}
 </script>
+
 <!-- 操作 -->
 <script type="text/html" id="userListBar">
     <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i>编辑</a>
@@ -34,7 +37,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="grant-role"><i class="fa fa-user-plus"></i>分配角色</a>
 </script>
 
-<script type="text/javascript" th:inline="javascript">
+<script type="text/javascript">
     layui.use(['table'], function () {
         var table = layui.table;
 
@@ -49,7 +52,7 @@
             , request: {
                 pageName: 'curr' //页码的参数名称，默认：page
             }
-            ,parseData: function(res){ //res 即为原始返回的数据
+            , parseData: function (res) { //res 即为原始返回的数据
                 return {
                     "code": res.code, //解析接口状态
                     "msg": res.msg, //解析提示文本
@@ -80,7 +83,7 @@
         });
 
         $("#userAdd").click(function () {
-            alertByFull(layer, "添加管理员", "/sys/user/forward/Add");
+            alertByFull("添加管理员", "/sys/user/forward/Add");
         });
 
         //监听工具条
@@ -90,16 +93,16 @@
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
             if (layEvent === 'edit') { //修改
-                alertByFull(layer, "编辑管理员", "/sys/user/info/" + data.userId);
+                alertByFull("编辑管理员", "/sys/user/info/" + data.userId);
             } else if (layEvent === 'reset-pwd') { //重置密码
                 var userId = obj.data.userId;
                 layer.confirm('确认重置密码?', {icon: 3, title: '重置密码'}, function (index) {
-                    $.post("/sys/user/pwd/"+userId, {
+                    $.post("/sys/user/pwd/" + userId, {
                         _method: "PUT"
                     }, function (data) {
                         layer.msg(data.msg, {time: loadingTime});
                         if (data.code === code_success) {
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 tableIns.reload();
                             }, loadingTime);
                         }
@@ -118,21 +121,21 @@
         });
 
         var active = {
-            reload: function(){
+            reload: function () {
                 var usernameSearch = $('#usernameSearch');
                 //执行重载
                 table.reload('userListTable', {
                     page: {
                         curr: 1 //重新从第 1 页开始
                     }
-                    ,where: {
-                        username: usernameSearch.val()
+                    , where: {
+                        keyword: usernameSearch.val()
                     }
                 });
             }
         };
 
-        $('#userRefresh').on('click', function(){
+        $('#userRefresh').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
@@ -150,11 +153,7 @@
             });
         });
 
-
     });
 </script>
-
-</body>
-</html>
 
 

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class SHExceptionHandler {
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 处理自定义异常
@@ -28,6 +28,12 @@ public class SHExceptionHandler {
     @ExceptionHandler(ValidateCaptchaException.class)
     public ApiResponse handleValidateCaptchaException(ValidateCaptchaException e){
         return ApiResponse.ofMessage(ApiResponse.ResponseStatus.AUTHENTICATION_FAILED.getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ApiResponse handleException(Exception e){
+        logger.error(e.getMessage(), e);
+        return ApiResponse.ofError();
     }
 
 }

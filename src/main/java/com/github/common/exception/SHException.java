@@ -1,7 +1,5 @@
 package com.github.common.exception;
 
-import com.github.common.utils.ApiStrategy;
-
 /**
  * 自定义异常
  *
@@ -12,7 +10,7 @@ public class SHException extends RuntimeException {
 
     private static final long serialVersionUID = 16546543763L;
 
-    private int code = 500;
+    private int code = 1;
     private String msg;
 
 

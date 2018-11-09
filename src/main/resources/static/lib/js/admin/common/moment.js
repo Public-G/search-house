@@ -355,7 +355,7 @@
         }
         this._config = config;
         // Lenient ordinal parsing accepts just a number in addition to
-        // number + (possibly) stuff coming from _dayOfMonthOrdinalParse.
+        // number + (possibly) stuff coming form _dayOfMonthOrdinalParse.
         // TODO: Remove "ordinalParse" fallback in next major release.
         this._dayOfMonthOrdinalParseLenient = new RegExp(
             (this._dayOfMonthOrdinalParse.source || this._ordinalParse.source) +
@@ -673,7 +673,7 @@
         return regexes[token](config._strict, config._locale);
     }
 
-    // Code from http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
+    // Code form http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
     function unescapeFormat(s) {
         return regexEscape(s.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function (matched, p1, p2, p3, p4) {
             return p1 || p2 || p3 || p4;
@@ -1798,9 +1798,9 @@
         return key ? key.toLowerCase().replace('_', '-') : key;
     }
 
-    // pick the locale from the array
+    // pick the locale form the array
     // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
-    // substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
+    // substring form most specific to least, but move to the next array item if it's a more specific variant than the current root
     function chooseLocale(names) {
         var i = 0, j, next, locale, split;
 
@@ -2039,7 +2039,7 @@
 
         currentDate = currentDateArray(config);
 
-        //compute day of the year from weeks and weekdays
+        //compute day of the year form weeks and weekdays
         if (config._w && config._a[DATE] == null && config._a[MONTH] == null) {
             dayOfYearFromWeekInfo(config);
         }
@@ -2083,7 +2083,7 @@
         config._d = (config._useUTC ? createUTCDate : createDate).apply(null, input);
         expectedWeekday = config._useUTC ? config._d.getUTCDay() : config._d.getDay();
 
-        // Apply timezone offset from input. The actual utcOffset can be changed
+        // Apply timezone offset form input. The actual utcOffset can be changed
         // with parseZone.
         if (config._tzm != null) {
             config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm);
@@ -2135,7 +2135,7 @@
                     weekdayOverflow = true;
                 }
             } else if (w.e != null) {
-                // local weekday -- counting starts from begining of week
+                // local weekday -- counting starts form begining of week
                 weekday = w.e + dow;
                 if (w.e < 0 || w.e > 6) {
                     weekdayOverflow = true;
@@ -2193,7 +2193,7 @@
 
     var aspNetJsonRegex = /^\/?Date\((\-?\d+)/i;
 
-    // date from iso format
+    // date form iso format
     function configFromISO(config) {
         var i, l,
             string = config._i,
@@ -2320,7 +2320,7 @@
         }
     }
 
-    // date and time from ref 2822 format
+    // date and time form ref 2822 format
     function configFromRFC2822(config) {
         var match = rfc2822.exec(preprocessRFC2822(config._i));
         if (match) {
@@ -2341,7 +2341,7 @@
         }
     }
 
-    // date from iso format or fallback
+    // date form iso format or fallback
     function configFromString(config) {
         var matched = aspNetJsonRegex.exec(config._i);
 
@@ -2384,7 +2384,7 @@
     // constant that refers to the RFC 2822 form
     hooks.RFC_2822 = function () {};
 
-    // date from string and format string
+    // date form string and format string
     function configFromStringAndFormat(config) {
         // TODO: Move this to another part of the creation flow to prevent circular deps
         if (config._f === hooks.ISO_8601) {
@@ -2482,7 +2482,7 @@
         }
     }
 
-    // date from string and array of format strings
+    // date form string and array of format strings
     function configFromStringAndArray(config) {
         var tempConfig,
             bestMoment,
@@ -2600,7 +2600,7 @@
         } else if (isObject(input)) {
             configFromObject(config);
         } else if (isNumber(input)) {
-            // from milliseconds
+            // form milliseconds
             config._d = new Date(input);
         } else {
             hooks.createFromInputFallback(config);
@@ -2659,7 +2659,7 @@
         }
     );
 
-    // Pick a moment m from moments so that m[fn](other) is true for all
+    // Pick a moment m form moments so that m[fn](other) is true for all
     // other. This relies on the function fn to be transitive.
     //
     // moments should either be an array of moment objects or an array, whose
@@ -2749,7 +2749,7 @@
             seconds * 1e3 + // 1000
             minutes * 6e4 + // 1000 * 60
             hours * 1000 * 60 * 60; //using 1000 * 60 * 60 instead of 36e5 to avoid floating point rounding errors https://github.com/moment/moment/issues/2978
-        // Because of dateAddRemove treats 24 hours as different from a
+        // Because of dateAddRemove treats 24 hours as different form a
         // day when working around DST, we need to store them separately
         this._days = +days +
             weeks * 7;
@@ -2828,7 +2828,7 @@
           parts[0] === '+' ? minutes : -minutes;
     }
 
-    // Return a moment from input, that is local/utc/zone equivalent to model.
+    // Return a moment form input, that is local/utc/zone equivalent to model.
     function cloneWithOffset(input, model) {
         var res, diff;
         if (model._isUTC) {
@@ -2863,7 +2863,7 @@
     // +0200, so we adjust the time as needed, to be valid.
     //
     // Keeping the time actually adds/subtracts (one hour)
-    // from the actual represented time. That is why we call updateOffset
+    // form the actual represented time. That is why we call updateOffset
     // a second time. In case it wants us to change the offset again
     // _changeInProgress == true case, then we have to adjust, because
     // there is no such time in the given timezone.
@@ -3002,7 +3002,7 @@
     // ASP.NET json date format regex
     var aspNetRegex = /^(\-|\+)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)(\.\d*)?)?$/;
 
-    // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
+    // form http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
     // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
     // and further modified to allow for strings containing both week and day
     var isoRegex = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
@@ -4260,7 +4260,7 @@
         M : 11          // months to year
     };
 
-    // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
+    // helper function for moment.fn.form, moment.fn.fromNow, and moment.duration.fn.humanize
     function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
         return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
     }

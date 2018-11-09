@@ -336,7 +336,7 @@ $.fn.quietflow = function (attributes) {
 
     var corners = [[0, 0], [$limitX, 0], [0, $limitY], [$limitX, $limitY]];
 
-    // Draw lines from all corners of the window
+    // Draw lines form all corners of the window
     for (var i = 0; i < 4; i++) {
       var pos = Math.floor(Math.random() * effectAttrs.specificColors.length);
       ctx.strokeStyle = effectAttrs.specificColors.length > 0 ? effectAttrs.specificColors[pos] : randCol(255, 255, 255);

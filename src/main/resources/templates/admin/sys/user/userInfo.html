@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{admin/common/common :: head}"></div>
 <body class="childrenBody">
-<form class="layui-form" style="width:80%;" id="userUpdate" th:object="${user}">
+<form class="layui-form" style="width:80%;" th:object="${user}">
     <input name="userId" type="hidden" th:value="*{userId}">
     <input name="_method" type="hidden" th:value="PUT">
     <div class="layui-form-item layui-row layui-col-xs8">

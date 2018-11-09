@@ -15,9 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Transient;
 import javax.persistence.criteria.*;
 import java.util.*;
+
+import static com.github.common.constant.SysConstant.RequestParam.*;
 
 /**
  * 系统用户
@@ -39,14 +40,14 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public PageUtils findPage(Map<String, String> params) {
-        String      username = params.get("username");
-        Integer     curr     = Integer.valueOf(params.get("curr"));
-        Integer     limit    = Integer.valueOf(params.get("limit"));
+        String      keyword = params.get(KEYWORD.getName());
+        Integer     curr     = Integer.valueOf(params.get(CURR.getName()));
+        Integer     limit    = Integer.valueOf(params.get(LIMIT.getName()));
         PageRequest pageable = new PageRequest(curr - 1, limit);
 
         Page<SysUserEntity> sysUserEntityPage;
 
-        if (!StringUtils.isBlank(username)) {
+        if (!StringUtils.isBlank(keyword)) {
             Specification<SysUserEntity> specification = new Specification<SysUserEntity>() {
                 /**
                  * @param root            代表查询的实体类
@@ -57,7 +58,7 @@ public class SysUserServiceImpl implements SysUserService {
                 @Override
                 public Predicate toPredicate(Root<SysUserEntity> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                     Path usernamePath = root.get("username");
-                    return criteriaBuilder.like(usernamePath, "%" + username + "%");
+                    return criteriaBuilder.like(usernamePath, "%" + keyword + "%");
                 }
             };
             sysUserEntityPage = sysUserRepository.findAll(specification, pageable);
@@ -93,7 +94,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     @Transactional
-    public void userSaveOrUpdate(SysUserEntity sysUserEntity) {
+    public void saveOrUpdate(SysUserEntity sysUserEntity) {
         if (StringUtils.isBlank(sysUserEntity.getPassword())) {
             sysUserEntity.setPassword(encodePassword());
             sysUserEntity.setCreateTime(new Date());

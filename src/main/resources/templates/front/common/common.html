@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="house search rent"/>
+    <meta name="description" content="house search rent"/>
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=10"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="shortcut icon" th:href="@{/lib/images/front/icon/favicon.ico}" type="image/ico">
+    <link rel="stylesheet" type="text/css" th:href="@{'/lib/font/css/font-awesome.min.css?v='+1}" media="all"/>
+    <link rel="stylesheet" type="text/css" th:href="@{'/lib/layui/css/layui.css?v='+3}" media="all"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/main-0.3.1.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/components-0.6.23.css}">
+    <script type="text/javascript" th:src="@{'/lib/layui/layui.js?v='+3}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/plugin/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/plugin/jquery.mousewheel.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/front/common.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/front/main-0.3.1.js}"></script>
+    <title>rent</title>
+
+    <script type="text/javascript" th:inline="javascript">
+        (function () {
+            // requestAnimationFrame polyfill
+            var lastTime = 0;
+            var vendors = ['ms', 'moz', 'webkit', 'o'];
+            for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+                window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+                window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame']
+                    || window[vendors[x] + 'CancelRequestAnimationFrame'];
+            }
+
+            if (!window.requestAnimationFrame)
+                window.requestAnimationFrame = function (callback, element) {
+                    var currTime = new Date().getTime();
+                    var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                    var id = window.setTimeout(function () {
+                            callback(currTime + timeToCall);
+                        },
+                        timeToCall);
+                    lastTime = currTime + timeToCall;
+                    return id;
+                };
+
+            if (!window.cancelAnimationFrame)
+                window.cancelAnimationFrame = function (id) {
+                    clearTimeout(id);
+                };
+
+            // console downgrade
+            var ef = function () {
+            };
+            window.console = window.console || {log: ef, warn: ef, error: ef, dir: ef};
+        }());
+    </script>
+    <!--[if lte IE 9]>
+    <script>
+        if (window.room107) {
+            window.room107.lessEqualThanIE9 = true;
+        }
+    </script>
+    <![endif]-->
+    <!--[if lt IE 9]>
+    <script th:src="@{/lib/js/plugin/es5-shim.min.js}"></script>
+    <script th:src="@{/lib/js/plugin/es5-sham.min.js}"></script>
+    <script>
+        if (window.room107) {
+            window.room107.lessThanIE9 = true;
+        }
+    </script>
+    <![endif]-->
+    <script type="text/javascript" th:src="@{/lib/js/front/Card.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/front/vendor-0.6.23.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/front/components-0.6.23.js}"></script>
+</head>
+
+<body>
+
+<style th:fragment="bodyStyle">
+    body, html {
+        background-color: white;
+        font-family: "冬青黑体简体中文", "Microsoft YaHei", "微软雅黑", "Hiragino Sans GB", "黑体", "verdana", Arial, sans-serif !important;
+    }
+
+    body, a {
+        color: #939393;
+    }
+
+    .r7-card-banner .wrapper, .use-instruction-banner, .banner, .monthly-pay-banner, .contract-detail-banner {
+        display: none !important;
+    }
+
+    #footer {
+        display: block;
+    }
+
+    #header .banner {
+        background-color: #00ac97;
+        border-bottom-color: #EBAC40;
+    }
+
+    #contentContainer {
+        background-color: #f1f1f1;
+    }
+
+    #header {
+    }
+
+    #header .statusNotVerified {
+        color: #EBAC40;
+        margin-left: 5px;
+    }
+
+    #usernameMenu {
+        margin-right: 18px;
+        font-size: 12px;
+        float: left;
+        color: #00ac97;
+    }
+
+    #navigator > .navs {
+        position: absolute;
+        right: 0;
+        top: 37px;
+    }
+</style>
+
+<div class="adminNav" th:fragment="adminNav">
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/web-header.css}">
+
+    <ul class="userstatus">
+        <a class="indexpage" href="/"><img class="logofrog" src="http://s107.107room.com/static/image/logo-frog.png"
+                                           alt="107间[ 北京租房｜北京租房子｜北京租房网｜北京房屋出租｜个人房源｜个人租房]"/></a>
+        <li class="fourstatus"><span class="loginbutton">登录｜</span><span class="verify2">认证｜</span><span
+                class="logout1">退出</span><span class="regist"><a href="/user/auth/register">注册</a></span></li>
+        <!--<li><img class="frog" src="/static/image/userinfo/default-favicon-66.png"/><span class="headTel"></span></li>-->
+        <li class="wallet"><a href="/account/manage">钱包</a></li>
+        <li class="news1"><a href="/personal/message">消息</a></li>
+    </ul>
+</div>
+
+
+<div class="navwrap" th:fragment="navwrap">
+        <ul class="navbottom1">
+            <div class="s2" onMouseOver="this.className='s2 on'" onMouseOut="this.className='s2'">
+                <div class="city">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    <!--<span class="icon-15" style="margin-right: 5px"></span>-->
+                    <a target="_blank" href="/">北京租房</a>
+                </div>
+                <div class="citytab">
+                    <div class="citytabnr">
+                        <a target="_blank" href="http://www.107room.com" style="font-weight: 700;">北京</a>
+                        <a target="_blank" href="http://sh.107room.com" style="font-weight: 700;">上海</a>
+                        <a target="_blank" href="http://sz.107room.com" style="font-weight: 700;">深圳</a>
+                        <a target="_blank" href="http://gz.107room.com" style="font-weight: 700;">广州</a>
+                    </div>
+                </div>
+            </div>
+            <li class="biaoyu">
+                <span>&nbsp></span>&nbsp<a href="/z2_a1_1">北京找房</a>
+                <!--<span>&nbsp></span>&nbsp<a href="/z2_a1-b1chaoyang_1">朝阳租房</a>-->
+                <!--<span>&nbsp></span>&nbsp&nbsp<a href="#">潘家园松榆西里租房</a>-->
+            </li>
+        </ul>
+</div>
+
+<script type="text/javascript" th:fragment="navScript">
+    var frog = $('.frog');
+    var loginbutton = $('.loginbutton');
+    var verify = $('.verify2');
+    var news1 = $('.news1');
+    var wallet = $('.wallet');
+    var logout1 = $('.logout1');
+    var regist = $('.regist');
+    var tel = $('.headTel');
+    var waitsign = $('.waitsign');
+    var signNum = $('.signNum');
+    var userData = {};
+    var nowweb = $('.nowweb');
+    var publishHouse = $('.publishHouse');
+
+    userData['verifyStatus'] = "";
+    userData['auth'] = 0;
+    userData['userType'] = ("" == "") ? 0 : parseInt("");
+    userData['faviconUrl'] = "";
+    userData['name'] = "";
+    userData['username'] = "";
+    userData['visibleName'] = "";
+
+    $(function () {
+        $.get('/city', function (data) {
+            if(data.code === 0){
+                $(".citytabnr").append(parseCity(data.data));
+            }
+        }, "json");
+    });
+    
+    function parseCity(data) {
+        var cityHtml = '';
+        if(data !== undefined && data !== null){
+            $.each(data, function () {
+                cityHtml += '<br/><span class="initals">'+this.cnName+'</span>';
+                if (this.childCity !== undefined && this.childCity !== null ) {
+                    var cityList = this.childCity;
+                    $.each(cityList, function () {
+                        cityHtml += '<a target="_blank" href="http://bd.107room.com/">'+this.cnName+'</a>';
+                    });
+                }
+            });
+        } else {
+            cityHtml = '';
+        }
+        return cityHtml;
+    }
+
+    loginbutton.on('click', function () {
+        $('.signLogin').show();
+        $.ajax({
+            type: 'post',
+            url: '/user/login',
+            data: {'embedded': 'true'},
+            dataType: 'json'
+        }).done(function (data) {
+        })
+    });
+
+    logout1.on('click', function () {
+        window.location.href = '/user/logout';
+    });
+
+    $('.publishHouse a:nth-child(1)').on('click', function () {
+        window.open('/addHouseLeader');
+    });
+
+    if (userData.visibleName != '') {
+        if (userData.faviconUrl.split('?')[0] != '') {
+            frog.attr('src', userData.faviconUrl.split('?')[0]).show();
+        } else {
+            frog.show();
+        }
+
+        tel.html(userData.visibleName).show();
+        logout1.show();
+        verify.show();
+        if (userData.verifyStatus > 0) {
+            verify.hide();
+        }
+
+        waitsign.attr('href', '/contactHouse');
+        regist.hide();
+        loginbutton.hide();
+        news1.show();
+        wallet.show();
+    } else {
+        waitsign.on('click', function () {
+            $('.signLogin').show();
+        });
+        logout1.hide();
+        verify.hide();
+        regist.show();
+        loginbutton.show();
+        news1.hide();
+        wallet.hide();
+    }
+
+    verify.on('click', function () {
+        window.location.href = '/user/auth/verify';
+    });
+
+    var substr = nowweb.html();
+    if (substr != undefined) {
+        if (substr.length > 20) {
+            var str = substr.substring(0, 20) + '...';
+            nowweb.html(str);
+        }
+    }
+
+    function getCookie(name) {
+        var arr = document.cookie.split('; ');
+        var i = 0;
+        for (i = 0; i < arr.length; i++) {
+            var arr2 = arr[i].split('=');
+
+            if (arr2[0] == name) {
+                var getC = decodeURIComponent(arr2[1]);
+                return getC;
+            }
+        }
+        return false;
+    }
+
+    function substr1(dom) {
+        var houseDescibtion = dom;
+        for (var i = houseDescibtion.length - 1; i >= 0; i--) {
+            var substr = houseDescibtion.eq(i).html();
+            if (substr.length > 40) {
+                var str = substr.substring(0, 40) + '...';
+                houseDescibtion.eq(i).html(str);
+            }
+        }
+    }
+
+    substr1($('.biaoyu a'));
+</script>
+
+<div th:fragment="signLogin">
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/user-login-js-0.6.23.css}">
+    <div class="signLogin">
+        <div class="lightLogin">
+            <span class="closedButton">X</span>
+            <li class="username"><input style="border:none" type="text" placeholder="手机号/用户名" name="username"></li>
+            <li class="password"><input style="border:none" type="password" placeholder="密码" name="password"></li>
+            <li class="warning">用户名与密码不匹配</li>
+            <li class="submitlogin">登录</li>
+            <li class="otherlogin">其他登录方式</li>
+            <li class="logintype">
+                <a class="douban"
+                   href="https://www.douban.com/service/auth2/auth?client_id=0ac8dc20b45866d8205a94621d093488&redirect_uri=http://107room.com/user/oauth/douban/response&response_type=code"><img
+                        src=""></a>
+                <a class="xinlang"
+                   href="https://api.weibo.com/oauth2/authorize?client_id=1692960071&redirect_uri=http://107room.com/user/oauth/weibo/response&response_type=code"><img
+                        src=""></a>
+                <a class="tengxun" style="margin:0"
+                   href="https://graph.qq.com/oauth/show?which=Login&display=pc&client_id=101215955&redirect_uri=http://107room.com/user/oauth/qq/response&response_type=code"><img
+                        src=""></a>
+            </li>
+            <li class="helpyou"><span class="register">马上注册</span> | <span class="lostpassword">忘记密码</span></li>
+        </div>
+        <div class="lostpasswordpage">
+            <span class="closedButton">X</span>
+            <input class="telnumber" placeholder="手机号"/>
+            <input class="verifycode" placeholder="验证码"/>
+            <span class="sendverify">发送验证码</span>
+            <input type="password" class="setnewpwd" placeholder="设置新密码"/>
+            <li class="errorpromp"></li>
+            <li class="sendnewdata">重置密码</li>
+            <li class="condition1">未绑定手机号的用户请使用注册邮箱将</li>
+            <li class="condition2"><span>用户名</span>手机号发送至<span>support@107room.com</span></li>
+        </div>
+    </div>
+    <script type="text/javascript" th:src="@{/lib/js/front/userLoginJs-0.6.23.js}"></script>
+</div>
+
+
+<div id="header" style="display:none;" th:fragment="header">
+    <div id="navigator" class="fixedWithContainer">
+        <a id="navLogo" href="/"><img th:src="@{/lib/images/front/logo-frog2.png}"/></a>
+        <div class="navs" role="navs" style="display:none;"></div>
+    </div>
+    <div id="compacityBox">
+        <div class="close">
+            <img th:src="@{/lib/images/front/icon/close_13x15.png}"/>
+            <div>
+                <a href="javascript:;">关闭 </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:fragment="contentContainerCommon">
+    <div id="lightbox">
+        <div id="lightboxBg">
+        </div>
+        <div id="lightboxClose" title="关闭"></div>
+        <div id="lightboxContent"></div>
+        <div class="loading">
+            <img src="http://s107.107room.com/static/image/icon/loading-frog.gif"/>
+        </div>
+    </div>
+    <div id="navTop" class="reactive">
+        <a href="javascript:;">回到顶部</a>
+    </div>
+    <script type="text/javascript">
+        var userData = {};
+        room107.verifyStatus = "";
+        room107.auth = 0;
+        room107.userType = ("" == "") ? 0 : parseInt("");
+        room107.faviconUrl = "";
+        room107.name = "";
+        room107.username = "";
+        room107.visibleName = "";
+
+        // init navs
+        ReactDOM.render(React.createElement(components.HeaderNavigation), $('[role="navs"]')[0]);
+        // note that you shouldn't update redux Account here because
+        // it will be done within `loginHandler`
+
+        //webheader里我的租房是否现实
+        if (room107.userType > 1) {
+            var a = '<a href="/house/landlord" style="margin-top:3px;">出房宝</a>';
+            publishHouse.append(a);
+        }
+
+        $(document).on('room107.refreshLoginStatus', function (event, data) {
+            ReactDOM.render(React.createElement(components.HeaderNavigation, {
+                name: data.name,
+                username: data.username,
+                visibleName: data.visibleName,
+                faviconUrl: data.faviconUrl,
+                auth: data.auth,
+                userType: data.userType
+            }), $('[role="navs"]')[0]);
+        });
+
+        refreshLoginStatus(room107.name, room107.username, room107.faviconUrl, room107.visibleName);
+
+        (function () {
+            var verifyStatus = parseInt('');
+            // inform redux the user info
+            _bridge.updateAccount({
+                name: room107.name,
+                username: room107.username,
+                faviconUrl: room107.faviconUrl,
+                type: room107.userType,
+                verifyStatus: (isNaN(verifyStatus)) ? null : verifyStatus
+            });
+        })();
+
+        $("#lightboxClose").click(Lightbox.close);
+        $(".loginLightbox").click(UI.showLogin);
+        $(".navItem").hover(function () {
+            var icon = $(this).children(".icon");
+            icon.css("background-position", -icon.width());
+        }, function () {
+            var icon = $(this).children(".icon");
+            icon.css("background-position", 0);
+        });
+        $("body").mousewheel(function () {
+            return room107.enableScroll;
+        });
+        $(function () {
+            PlaceHolder.init();
+            $(':input').attr('spellcheck', 'false');
+            Input.bindValidate();
+            Input.bindNumberInput($('input.numberInput'));
+        });
+    </script>
+</div>
+
+<div th:fragment="footer">
+    <style type="text/css">
+
+        .footer {
+            width: 100%;
+            clear: both;
+            background-color: #fff;
+            padding: 20px 0;
+            padding-bottom: 50px;
+            text-align: left;
+        }
+
+        .bodyContent .leftContent h3:nth-child(3) {
+            margin-top: 20px;
+        }
+
+        .bodyContent .leftContent h3:nth-child(5) {
+            color: #CECECE;
+        }
+
+        .bodyContent .leftContent h3:nth-child(6) {
+            color: #CECECE;
+        }
+
+        .bodyContent .leftContent h3:nth-child(7) {
+            color: #CECECE;
+        }
+
+        .weUrlList .webURl a {
+            display: block;
+            font-size: 12px;
+            text-align: left;
+            line-height: 16px;
+            cursor: pointer;
+            margin-top: 7px;
+            color: #494949;
+        }
+
+        .friendURl {
+            padding-top: 10px;
+            clear: both;
+            width: 535px;
+            color: #494949;
+            font-size: 12px;
+        }
+
+        .friendURl a {
+            color: #494949;
+            display: inline-block;
+            margin-right: 8px;
+            padding-top: 6px;
+            font-size: 12px;
+        }
+
+        .friendURl h3 {
+            color: #494949;
+            font-size: 12px;
+        }
+
+    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/footer-0.6.23.css}">
+    <div class="footer">
+        <ul class="bodyContent">
+            <li class="leftContent" style="cursor:auto">
+                <h3>我们自主研发了T-Nega智能中介识别系统，保护北京租房的租客和房东免受虚假信息的骚扰</h3>
+                <h3>我们汇聚了海量的0中介费北京租房真实信息，帮助北京租房的租客方便省钱地找到房子</h3>
+                <h3>“六度”代表六度空间，“草堂”取自杜甫草堂。让租房真实而简单是我们的理想</h3>
+                <h3>© 2015-2018 107间・北京六度草堂网络科技有限公司出品 联系电话：010-52882522</h3><br/>
+                <h3>增值电信业务经营许可证：京B2-20180418</h3>
+                <h3>京ICP备13034745号 <a target="_blank" href="javascript:void(0)" class="police"
+                                      style="cursor:auto;display:inline-block;color:#CECECE;"><img
+                        src=" "/>京公网安备 11010802022348号</a></h3>
+            </li>
+            <ul class="rightContent">
+                <div class="weUrlList">
+                    <ul class="webURl">
+                        <h3 class="product">产品</h3>
+                        <a href="/" target="_blank">北京租房网</a>
+                        <a href="/chufangbao" target="_blank">出房宝说明</a>
+                        <a href="/z2_a1_1" target="_blank">开始北京租房找房</a>
+                    </ul>
+                    <ul class="webURl">
+                        <h3 class="company">公司</h3>
+                        <a href="http://107room.lofter.com/" target="_blank">官方博客</a>
+                        <a href="/about" target="_blank">关于107间</a>
+                        <a href="/user/feedback" target="_blank">联系我们</a>
+                    </ul>
+                    <ul class="webURl">
+                        <h3 class="help">帮助</h3>
+                        <a href="/newslist_1" target="_blank">北京租房新闻</a>
+                        <a href="/tipslist_1" target="_blank">北京租房攻略</a>
+                        <a href="/doc/protocol" target="_blank">用户协议</a>
+                    </ul>
+                </div>
+                <ul class="friendURl">
+                    <h3 class="friendWeb" style="margin-top: 10px">热门城市</h3>
+                    <a href="http://www.107room.com/" target="_blank">北京租房</a>
+                    <a href="http://sh.107room.com/" target="_blank">上海租房</a>
+                    <a href="http://nj.107room.com/" target="_blank">南京租房</a>
+                    <a href="http://sz.107room.com/" target="_blank">深圳租房</a>
+                    <a href="http://hz.107room.com/" target="_blank">杭州租房</a>
+                    <a href="http://gz.107room.com/" target="_blank">广州租房</a>
+                    <a href="http://zz.107room.com/" target="_blank">郑州租房</a>
+                    <a href="http://cq.107room.com/" target="_blank">重庆租房</a>
+                    <a href="http://cd.107room.com/" target="_blank">成都租房</a>
+                    <a href="http://wh.107room.com/" target="_blank">武汉租房</a>
+                    <a href="http://xa.107room.com/" target="_blank">西安租房</a>
+                    <a href="http://jn.107room.com/" target="_blank">济南租房</a>
+                    <a href="http://tj.107room.com/" target="_blank">天津租房</a>
+                    <a href="http://su.107room.com/" target="_blank">苏州租房</a>
+                    <a href="http://sy.107room.com/" target="_blank">沈阳租房</a>
+                    <a href="http://qd.107room.com/" target="_blank">青岛租房</a>
+                    <a href="http://cs.107room.com/" target="_blank">长沙租房</a>
+                    <a href="http://xm.107room.com/" target="_blank">厦门租房</a>
+                    <a href="http://km.107room.com/" target="_blank">昆明租房</a>
+                    <a href="http://dl.107room.com/" target="_blank">大连租房</a>
+                    <a href="http://cc.107room.com/" target="_blank">长春租房</a>
+                    <a href="http://nb.107room.com/" target="_blank">宁波租房</a>
+                    <a href="http://hrb.107room.com/" target="_blank">哈尔滨租房</a>
+                </ul>
+                <ul class="friendURl">
+                    <h3 class="friendWeb">友站</h3>
+                    <a href="http://www.107room.com/user/feedback" target="_blank">友链交换(PR大于2,权重大于2)</a>
+                </ul>
+
+            </ul>
+        </ul>
+    </div>
+    <script>document.write(unescape('%3Cdiv id="hm_t_118688"%3E%3C/div%3E%3Cscript charset="utf-8" src="http://crs.baidu.com/t.js?siteId=be59e7e8fcfc3936690de3a8c9d38dc3&planId=118688&async=0&referer=') + encodeURIComponent(document.referrer) + '&title=' + encodeURIComponent(document.title) + '&rnd=' + (+new Date) + unescape('"%3E%3C/script%3E'));</script>
+    <style type="text/css">
+        .adminNav {
+            display: block !important;
+        }
+
+        .navwrap {
+            display: block;
+        }
+    </style>
+
+    <div id="footer" style="display:none;"></div>
+    <script>
+//        (function () {
+//            ReactDOM.render(
+//                React.createElement(components.Footer, {
+//                    rejectHouse: '3072851',
+//                    userCount: '600',
+//                    houseCount: '95557',
+//                }),
+//                $('#footer')[0]
+//            );
+//            if (room107.lessThanIE9) {
+//                var b = $('#compacityBox');
+//                if (room107.compacityTip) {
+//                    b.find('.desc').text(room107.compacityTip);
+//                }
+//                b.show().animate({
+//                    height: 250
+//                }, 500);
+//                $('#compacityBox .close').click(function () {
+//                    b.animate({
+//                        height: 0
+//                    }, 500, function () {
+//                        b.remove();
+//                    });
+//                });
+//            }
+//        })();
+//        (function () {
+//            var bp = document.createElement('script');
+//            var curProtocol = window.location.protocol.split(':')[0];
+//            if (curProtocol === 'https') {
+//                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+//            }
+//            else {
+//                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+//            }
+//            var s = document.getElementsByTagName("script")[0];
+//            s.parentNode.insertBefore(bp, s);
+//        })();
+//        // 统计
+//        var _hmt = _hmt || [];
+//        (function () {
+//            var hm = document.createElement("script");
+//            hm.src = "https://hm.baidu.com/hm.js?be59e7e8fcfc3936690de3a8c9d38dc3";
+//            var s = document.getElementsByTagName("script")[0];
+//            s.parentNode.insertBefore(hm, s);
+//        })();
+//        //360推送代码
+//        (function () {
+//            var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?aa1950489635f21de0f8d82ffbee59aa" : "https://jspassport.ssl.qhimg.com/11.0.1.js?aa1950489635f21de0f8d82ffbee59aa";
+//            document.write('<script src="' + src + '" id="sozz"><\/script>');
+//        })();
+
+
+        // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        // })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        // ga('create', 'UA-88746707-1', 'auto');
+        // ga('send', 'pageview');
+    </script>
+</div>
+</body>
+</html>

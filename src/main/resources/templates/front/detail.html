@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{front/common/common :: head}"></div>
+<body>
+
+    <div th:replace="~{front/common/common :: bodyStyle}"></div>
+    <div th:replace="~{front/common/common :: adminNav}"></div>
+    <div th:replace="~{front/common/common :: navwrap}"></div>
+    <div th:replace="~{front/common/common :: navScript}"></div>
+    <div th:replace="~{front/common/common :: signLogin}"></div>
+    <div th:replace="~{front/common/common :: header}"></div>
+
+    <div id="contentContainer">
+        <div th:replace="~{front/common/common :: contentContainerCommon}"></div>
+
+         <div id="content" class="fixedWithContainer">
+
+
+        <link type="text/css" th:href="@{/lib/css/front/house-detail.css}" rel="stylesheet"
+              media="all"/>
+        <link type="text/css" th:href="@{/lib/css/front/jquery.jscrollpane.css}" rel="stylesheet"
+              media="all"/>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/swiper.min.css}">
+        <script type="text/javascript" th:src="@{/lib/js/plugin/jquery.jscrollpane.min.js}"></script>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=FsL0TGj6V2tmG6juhiU6ugdz"></script>
+
+             <style>
+                 .community, .rent_p {
+                     -moz-box-sizing: border-box; /* Firefox */
+                     -webkit-box-sizing: border-box; /* Safari */
+                 }
+
+                 .clearfix:after {
+                     content: "";
+                     display: block;
+                     height: 0;
+                     clear: both;
+                     visibility: hidden;
+                 }
+
+                 .clearfix {
+                     zoom: 1;
+                 }
+
+                 .fl {
+                     float: left;
+                     display: inline;
+                 }
+
+                 .fr {
+                     float: right;
+                     display: inline;
+                 }
+
+                 .community {
+                     margin-top: 20px;
+                     padding: 20px;
+                     background: #fff;
+                 }
+
+                 .community_top {
+                     font-size: 14px;
+                 }
+
+                 .community_top > div {
+                     line-height: 200%;
+                 }
+
+                 .community_top > div > span:nth-child(1) {
+                     margin-right: 10px;
+                     color: #9c9c9c;
+                 }
+
+                 .community_top > div > span:nth-child(2) {
+                     color: #494949;
+                 }
+
+                 .community_top > div > a {
+                     margin-right: 5px;
+                     color: #00ac97;
+                 }
+
+                 .community_top, .rent {
+                     text-align: left !important;
+                 }
+
+                 .pp {
+                     margin-bottom: 20px;
+                     width: 550px;
+                 }
+
+                 .pp > a {
+                     margin-right: 20px;
+                     font-size: 14px;
+                     color: #00ac97;
+                     line-height: 150%;
+                 }
+
+                 .rent > span {
+                     display: block;
+                     margin-top: 10px;
+                     color: #9c9c9c;
+                     font-size: 14px;
+                 }
+
+                 .rent {
+                     background: #fff;
+                 }
+
+                 #rent_chart {
+                     width: 260px;
+                     height: 170px;
+                 }
+
+                 .rent_list {
+                     width: 340px;
+                     font-size: 14px;
+                 }
+
+                 .rent_list p {
+                     margin-bottom: 10px;
+                     width: 170px;
+                     float: left;
+                     color: #9c9c9c;
+                 }
+
+                 .rent_p {
+                     padding-top: 4px;
+                     height: 29px;
+                     line-height: 29px;
+                     color: #494949 !important;
+                 }
+
+                 .rent_list p .span {
+                     width: 74px;
+                     display: inline-block;
+                     font-size: 24px;
+                     font-weight: 700;
+                     color: #00ac97;
+                     text-align: center;
+                 }
+
+                 .span_ {
+                     width: 53px;
+                     display: inline-block;
+                 }
+
+                 .riskNote {
+                     text-align: left;
+                     padding-top: 10px;
+                     padding-bottom: 10px;
+                     font-size: 12px;
+
+                 }
+
+                 .clear {
+                     clear: both;
+                 }
+             </style>
+
+        <script type="text/javascript" th:src="@{/lib/js/plugin/jquery.masonry.min.js}"></script>
+        <script type='text/javascript' th:src='@{/lib/js/plugin/echarts.simple.min.js}'></script>
+        <script type="text/javascript" th:src="@{/lib/js/plugin/ZeroClipboard.min.js}"></script>
+        <div class="house-detail" th:object="${house}">
+            <div class="topHouseDetail">
+                <table class="locations">
+                    <tr>
+                        <td>
+                            <!-- &nbsp[[*{city_cn_name}]]&nbsp[[*{region_cn_name}]] -->
+                            <h1><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp[[*{address}]]</h1>
+                        </td>
+                    </tr>
+                </table>
+                <li class="price"><span class="monthPrice">[[*{price}]]</span>元/月</li>
+                <div class="allHouseCondition">
+                    <table class="allHouseCondition1">
+                        <tr>
+                            <td>户型：</td>
+                            <td>[[*{house_type}]]</td>
+                            <!--<td>1厅</td>-->
+                            <!--<td>1厨</td>-->
+                            <!--<td>1卫</td>-->
+                        </tr>
+                    </table>
+                    <table class="allHouseCondition2">
+                        <tr>
+                            <td>面积：</td>
+                            <td>[[*{area}]]</td>
+                            <td>m<sup>2</sup></td>
+                            <!--<td>/</td>-->
+                            <!--<td>15</td>-->
+                            <!--<td>m<sup>2</sup></td>-->
+                        </tr>
+                    </table>
+                    <table class="allHouseCondition3">
+                        <tr>
+                            <td>出租：</td>
+                            <td>[[*{rent_way}]]</td>
+                            <!--<td class="roomSubDetailItem">朝北</td>-->
+                        </tr>
+                    </table>
+                    <!--<table class="allHouseCondition4">-->
+                        <!--<tr>-->
+                            <!--<td>要求：</td>-->
+                            <!--<td>-->
+                                <!--只租女生-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                </div>
+                <div class="houseDetail">
+                    <table class="houseDetail1">
+                        <tr>
+                            <td>编号：</td>
+                            <td>2018101697227</td>
+                        </tr>
+                        <tr>
+                            <td>发布核查时间：</td>
+                            <td>2018年11月01日</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="houseRoom">
+                <div class="slick">
+                    <div class="allImage">
+                        <img class="example-image"
+                             src="http://img.hb.aicdn.com/5ba59e65b878e7996c7bcd78e9ddf18baabe406a27e54-X9VM6W_fw658"
+                             alt="朝阳潘家园松榆西里租房" >
+                    </div>
+
+                </div>
+
+                <!--<div class="photoMask">-->
+                    <!--<img class="closedFrog" src="http://s107.107room.com/static/image/houseDetail/closedFrog.png">-->
+                    <!--<div class="swiper-container swiper-container2">-->
+                        <!--<div class="swiper-wrapper">-->
+                            <!--<div class="swiper-slide">-->
+                                <!--<img class="example-image photos swiper-lazy" width="" num="0" imgName='-->
+                                                                        <!--次卧-->
+                                                                        <!--'-->
+                                     <!--data-src="http://h107.107room.com/107room_20181018221159932_hVeGL1/2018101822251275324100.jpg"-->
+                                     <!--alt="朝阳潘家园松榆西里">-->
+                            <!--</div>-->
+                            <!--<div class="swiper-slide">-->
+                                <!--<img class="example-image photos swiper-lazy" width="" num="1" imgName='-->
+                                                                        <!--次卧-->
+                                                                        <!--'-->
+                                     <!--data-src="http://h107.107room.com/107room_20181018221159932_hVeGL1/2018101822251275324102.jpg"-->
+                                     <!--alt="朝阳潘家园松榆西里">-->
+                            <!--</div>-->
+                            <!--<div class="swiper-slide">-->
+                                <!--<img class="example-image photos swiper-lazy" width="" num="2" imgName='-->
+                                                                        <!--次卧-->
+                                                                        <!--'-->
+                                     <!--data-src="http://h107.107room.com/107room_20181018221159932_hVeGL1/2018101822251275324101.jpg"-->
+                                     <!--alt="朝阳潘家园松榆西里">-->
+                            <!--</div>-->
+                            <!--<div class="swiper-slide">-->
+                                <!--<img class="example-image photos swiper-lazy" width="" num="3" imgName='-->
+                                                                        <!--次卧-->
+                                                                        <!--'-->
+                                     <!--data-src="http://h107.107room.com/107room_20181018221159932_hVeGL1/2018101822251275324104.jpg"-->
+                                     <!--alt="朝阳潘家园松榆西里">-->
+                            <!--</div>-->
+                            <!--<div class="swiper-slide">-->
+                                <!--<img class="example-image photos swiper-lazy" width="" num="4" imgName='-->
+                                                                        <!--次卧-->
+                                                                        <!--'-->
+                                     <!--data-src="http://h107.107room.com/107room_20181018221159932_hVeGL1/2018101822251275324103.jpg"-->
+                                     <!--alt="朝阳潘家园松榆西里">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="swiper-pagination"></div>-->
+                        <!--<div class="swiper-button-prev"></div>-->
+                        <!--<div class="swiper-button-next"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div class="houseFromType rentDetail">
+                    <li>详细描述</li>
+                    <li class="agentWords">
+                        <h3>[[*{description}]]</h3>
+                    </li>
+                </div>
+
+                <div class="community">
+                    <div class="community_top">
+                        <div><span>小区名称:</span><a href="javascript:void(0);">[[*{community}]]</a></div>
+                        <div><span>所属范围:</span><a href="javascript:void(0);">[[*{city_cn_name}]]</a><a href="javascript:void(0);">[[*{region_cn_name}]]</a></div>
+                        <!--<div><span>小区地址:</span><span>[[*{city_cn_name}]] [[*{region_cn_name}]] [[*{address}]]</span></div>-->
+                        <!--<div class="clearfix" style="display: none;"><span class="fl">附近小区:</span>-->
+                            <!--<p class="fl pp">-->
+                            <!--<p>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="rent">
+                        <span>松榆西里租金走势</span>
+                        <div class="clearfix">
+                            <div id="rent_chart" class="fl">
+
+                            </div>
+                            <div class="rent_list fr clearfix">
+                                <p class="rent_p">分租（次卧）：</p>
+                                <p><span class="span_">2018/6</span><span style="visibility:hidden;"
+                                                                          class="span">0000</span>元/月</p>
+                                <p><span class="span_">2018/7</span><span style="visibility:hidden;"
+                                                                          class="span">0000</span>元/月</p>
+                                <p><span class="span_">2018/8</span><span style="visibility:hidden;"
+                                                                          class="span">0000</span>元/月</p>
+                                <p><span class="span_">2018/9</span><span class="span">2500</span>元/月</p>
+                                <p><span class="span_">2018/10</span><span class="span">2500</span>元/月</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rightContact">
+                <ul class="top">
+                    <li>
+                        <i class="fa fa-heart-o fa-lg" aria-hidden="true" ></i>
+                        <span class="addsign">收藏</span>
+                    </li>
+                    <li >
+                        <i class="fa fa-link fa-lg" aria-hidden="true"></i>
+                        <span class="addsign">来源</span>
+                        <!--<span class="Report"></span>-->
+                    </li>
+                </ul>
+            </div>
+
+            <div class="clear"></div>
+            <div class="riskNote">
+                <p>提示：实地看房签约前，不要支付任何费用，建议优先选择线上签约。</p>
+            </div>
+        </div>
+
+        <script>
+            function charts(data, month) {
+                var myChart = echarts.init(document.getElementById('rent_chart'));
+                myChart.setOption({
+                    color: ['#00ac97'],
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: month
+                    },
+                    tooltip: {},
+                    yAxis: {
+                        type: 'value'
+                    },
+                    grid: {
+                        x: 40,
+                        y: 20,
+                        x2: 10,
+                        y2: 20
+                    },
+                    series: [{
+                        data: data,
+                        type: 'line',
+                        areaStyle: {}
+                    }]
+                });
+            }
+
+            charts([0, 0, 0, 2500, 2500], [6, 7, 8, 9, 10]);
+        </script>
+        <script type="text/javascript" th:src="@{/lib/js/plugin/houseDetail-0.6.23.js}"></script>
+    </div>
+</div>
+
+
+<div th:replace="~{front/common/common :: footer}"></div>
+</body>
+</html>

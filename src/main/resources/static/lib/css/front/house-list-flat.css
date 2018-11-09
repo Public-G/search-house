@@ -1,0 +1,800 @@
+div a.on{
+    color:#00ac97;
+    font-weight:bold;
+}
+
+h1,h2,h3{
+    font-weight: normal;
+}
+.bannerDesc3 {
+    vertical-align: top;
+}
+.bannerDesc1 {
+    font-size: 20px;
+    font-family: arial;
+    padding-left: 2px;
+    vertical-align: top;
+}
+.bannerDesc2 {
+    font-size: 15px;
+    position: relative;
+    bottom: 5px;
+}
+/*this is parent container*/
+#contentContainer {
+    /*background-color: ${bg};*/
+    padding: 15px 0;
+}
+#contentContainer .fixedWithContainer {
+    position: relative;
+    text-align: left;
+}
+/* search result */
+#main {
+    width: 100%;
+    min-height: 690px;
+    overflow: hidden;
+}
+#main .mask {
+    position:absolute;
+    top:0;
+    right:0;
+    width: 15px;
+    height: 100%;
+    /*background-color: ${bg};*/
+}
+/*
+* misc
+*/
+*{
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    list-style: none;
+    /*text-decoration: 0;*/
+}
+a{
+    list-style: none;
+    /*text-decoration: 0;*/
+    cursor: pointer;
+}
+.backTop{
+    display: inline-block;
+    position: fixed;
+    display: none;
+    bottom: 30px;
+    cursor: pointer;
+    z-index: 10000;
+    right: 775px;
+    width: 40px;
+    height: 40px;
+}
+.searchHouse{
+    overflow: hidden;
+    height: 32px;
+}
+.searchInput{
+    display: inline-block;
+    border: 1px solid #00ac97;
+    width: 660px;
+    height: 30px;
+}
+.searchBox{
+    float: left;
+    background-color: #f1f1f1;
+    padding-left: 5px;
+    border: none;
+    width: 625px;
+    height: 30px;
+}
+.searchButton{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background:url(/lib/images/front/icon/house-search/search.png) center center no-repeat #00ac97;;
+    float: right;
+}
+.chooseType{
+    display: inline-block;
+    /*background-color: #fff;*/
+    float: right;
+    width: 400px;
+    height: 32px;
+    line-height: 20px;
+}
+.chooseType .signNum{
+    display: none;
+    font-size: 12px;
+    margin-left: 5px;
+    vertical-align: top;
+    background: #c9c9c9;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    line-height: 20px;
+    width: 20px;
+    height: 20px;
+}
+.allResults{
+    display: inline-block;
+    width: 49%;
+    height: 30px;
+    line-height: 28px;
+    border: 1px solid #00ac97;
+    text-align: center;
+    float: right;
+}
+.willSign{
+    display: inline-block;
+    height: 30px;
+    width: 49%;
+    vertical-align: top;
+    line-height: 20px;
+    text-align: center;
+}
+.allResults .leftIcon{
+    display: inline-block;
+    margin-right: 25px;
+    vertical-align: middle;
+    width: 25px;
+    height: 25px;
+    background: url(http://s107.107room.com/static/image/icon/house-search/list.png) center center no-repeat;
+}
+.willSign .rightIcon{
+    display: inline-block;
+    margin-right: 25px;
+    margin-top: -3px;
+    vertical-align: middle;
+    width: 25px;
+    height: 25px;
+    background: url(http://s107.107room.com/static/image/icon/house-search/favor-gray02.png) center center no-repeat;
+}
+.allResults span:nth-child(2){
+    color: #00ac97;
+    font-size: 13px;
+}
+.willSign span:nth-child(2){
+    font-size: 13px;
+    display: inline-block;
+    padding-top: 6px;
+    color: #C9C9C9;
+}
+.areas h1,.areas h2{
+    font-size: 12px;
+    display: inline-block;
+}
+.areaBold{
+    margin-right: 33px;
+    font-size: 12px;
+    cursor: auto;
+    color: #494949;
+    margin-left: 8px;
+}
+.allAreas{
+    background: #f1f1f1;
+    padding: 12px;
+    width: 1030px;
+    margin-top: 8px;
+    padding-right: 0;
+    padding-top: 10px;
+}
+.allAreas a{
+    padding: 0;
+    white-space: nowrap;
+    margin-right: 14px;
+}
+.allAreas h2{
+    font-size: 12px;
+    display: inline-block;
+}
+.polymerizationPage{
+    padding: 10px;
+    width: 100%;
+    background: #fff;
+}
+.polymerizationPage a:hover,.polymerizationPage h1:hover,.polymerizationPage h2:hover{
+    color: #00ac97;
+    font-weight: bold;
+}
+.citySubway{
+    background: #e4e4e4;
+    width: 100%;
+    clear: both;
+    margin-top: 15px;
+    height: 32px;
+}
+.citySubway .city{
+    float: left;
+    width: 100px;
+    height:100%;
+    font-size: 16px;
+    line-height: 32px;
+    text-align: center;
+}
+.citySubway .subway{
+    float: left;
+    font-size: 16px;
+    width: 100px;
+    height:100%;
+    line-height: 32px;
+    text-align: center;
+    color: #939393;
+}
+.citySubway .words{
+    float: right;
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    color: #00ac97;
+    float: right;
+    padding-right: 16px;
+}
+.monthCost{
+    margin: 12px 0;
+}
+.monthCost span{
+    color: #494949;
+}
+.monthCost .priceTrue,.houseMeasure .areaTrue{
+    display: inline-block;
+    width: 50px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 22px;
+    cursor: pointer;
+    height: 23px;
+    border: 1px solid #9c9c9c;
+    display: none;
+}
+.monthCost input{
+    text-align: center;
+    border: 1px solid #e4e4e4;
+    width: 48px;
+    height: 22px;
+    color: #494949;
+}
+.houseMeasure span{
+    color: #494949;
+}
+.houseMeasure input{
+    text-align: center;
+    border: 1px solid #e4e4e4;
+    color: #494949;
+    width: 48px;
+    height: 22px;
+}
+.houseType{
+    margin-top: 11px;
+    /*margin-bottom:2px solid #f1f1f1;*/
+}
+.demandSelect{
+    clear: both;
+    height: 35px;
+    line-height: 35px;
+    border-top: 2px solid #f1f1f1;
+    background: #fff;
+    padding-top: 8px;
+    clear: both;
+    padding-bottom: 10px;
+    padding-left: 19px;
+}
+.demandSelect .findOne{
+    margin-right: 44px;
+    float: left;
+    cursor: auto;
+    color: #494949;
+    font-size: 12px;
+}
+.polymerizationPage{
+    display: inline-block;
+    float: left;
+}
+.polymerizationPage a{
+    color: #494949;
+    font-size: 12px;
+    margin-left: 8px;
+}
+.allCondition{
+    height: 35px;
+    background: #fff;
+    line-height: 35px;
+    margin-top: 2px;
+    padding: 10px 0;
+    padding-left: 20px;
+}
+.allCondition a{
+    display: inline-block;
+    line-height: 14px;
+    height: 14px;
+    padding:5px;
+    border: 1px solid #00ac97;
+    color: #00ac97;
+    font-size: 12px;
+}
+.allCondition p{
+    display: inline-block;
+    color: #494949;
+    margin-right: 38px;
+    font-size: 12px;
+}
+.allCondition .delthis{
+    display: inline;
+    margin-left: 5px;
+    border: none;
+}
+.allCondition .delAll{
+    border: none;
+    padding: 0;
+    display: inline-block;
+    width: 110px;
+    height: 24px;
+    line-height: 24px;
+}
+.allCondition .delAll .garbage{
+    width:20px;
+    height: 25px;
+    border: none;
+    background: url(/static/image/icon/house-search/allDel.png) center 2px no-repeat;
+    background-size: 20px 20px;
+    float: left;
+    padding: 0;
+    display: inline-block;
+}
+.allCondition .clearAll{
+    padding: 0;
+    color: #c9c9c9;
+    width: 80px;
+    border: none;
+}
+
+
+.phoneType{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding-top: 10px;
+    height: 100%;
+    display: none;
+    background-color: rgba(00,172,151,0.7);
+}
+.phoneType p{
+    text-align: center;
+    line-height: 30px;
+    height: 30px;
+    font-size: 18px;
+    color: #fff;
+}
+.phoneType ul{
+    text-align: center;
+    height: 140px;
+}
+.phoneType ul img{
+    height: 120px;
+    width: 120px;
+}
+.advertisement{
+    width: 208px;
+    height: 358px;
+    border: 1px solid #fff;
+    float: left;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    position: relative;
+}
+.advertisement:hover .phoneType{
+    display: block;
+}
+
+
+.nonehouse{
+    clear: both;
+    padding-top: 60px;
+}
+.nonehouse p{
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.icons{
+    text-align: center;
+}
+.icons a{
+    font-size: 16px;
+    color: #00ac97;
+    display: inline-block;
+    margin-left: 20px;
+    width: 142px;
+    height: 48px;
+    border: 1px solid #00ac97;
+    line-height: 48px;
+    text-align: left;
+}
+.icons a:nth-child(1){
+    margin-left: 0;
+    text-align: center;
+}
+.icons a span:nth-child(1){
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    margin-left: -4px;
+    vertical-align: middle;
+}
+.icons a span:nth-child(2){
+
+}
+.icons .Android{
+    text-align: center;
+}
+.icons .apple{
+    /*background: url(/static/image/icon/index-flat/app/ios.png);*/
+}
+.icons .android{
+    /*background: url(/static/image/icon/index-flat/app/android.png);*/
+}
+.icons .appStore:hover{
+    transition: all .5s linear;
+    color: #fff;
+    background-color: #00ac97;
+}
+.icons .appStore:hover span{
+    /*background: url(/static/image/icon/index-flat/app/ios-white.png);*/
+}
+.icons .Android:hover{
+    transition: all .5s linear;
+    color: #fff;
+    background-color: #00ac97;
+}
+.icons .Android:hover span{
+    /*background: url(/static/image/icon/index-flat/app/android-white.png);*/
+}
+.APP{
+    display: inline-block;
+}
+.appStore{
+    text-align: center;
+}
+.qcode{
+    text-align: center;
+    margin-top: 50px;
+}
+.qcode img{
+    width: 130px;
+    height: 130px;
+}
+.qcode ul{
+    padding-top: 5px;
+    width: 140px;
+    height: 130px;
+
+    display: inline-block;
+    background-color: #fff;
+}
+.qcode ul:nth-child(1){
+    margin-right: 25px;
+}
+
+.bodyHouseMap{
+    margin-top: 15px;
+}
+.bodyHouseMap .sortHouse{
+    width: 660px;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom:4px;
+}
+.bodyHouseMap .sortHouse .allHouseNum{
+    cursor: auto;
+}
+.bodyHouseMap .sortHouse a,.bodyHouseMap .sortHouse li{
+    width: 70px;
+    color: #c9c9c9;
+    text-align: center;
+    font-size: 12px;
+    height: 36px;
+    line-height: 36px;
+    float: left;
+}
+.bodyHouseMap .sortHouse li:nth-child(1){
+    color: #00ac97;
+}
+.bodyHouseMap .autoSort{
+    color: #00ac97;
+    font-weight: bold;
+}
+.bodyHouseMap .allHouseNum{
+    float: right !important;
+    width: 165px !important;
+}
+.bodyHouseMap .allHouseNum span{
+    font-weight: bold;
+    font-size: 16px;
+    color: #00ac97;
+    padding-right: 5px;
+}
+.allHouseSearch{
+    width: 675px;
+    position: relative;
+    float: left;
+    padding-bottom: 60px;
+}
+
+.oneHouse{
+    width: 210px;
+    height: 360px;
+    position: relative;
+    float: left;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    background: #fff;
+}
+.oneHouse .overflowimg{
+    width: 210px;
+    height: 210px;
+    overflow: hidden;
+}
+.oneHouse:hover{
+    opacity: 0.8;
+}
+.oneHouse:hover .favor{
+    display: block;
+    cursor: pointer;
+}
+.leftTop{
+    width: 210px;
+    height: 210px;
+    position: relative;
+}
+.houseDes1{
+    position: absolute;
+    display: none;
+    width: 240px;
+    color: #fff;
+    background-color: #75ccbc;
+    left: 90px;
+    top:15px;
+    padding: 10px 15px;
+    z-index: 10000;
+    font-size: 12px;
+}
+.leftTop .circle{
+    position: absolute;
+    border-radius: 50%;
+    left: 10px;
+    top: 10px;
+    width: 55px;
+    height: 55px;
+    z-index: 10;
+    border: 2px solid #fff;
+}
+.leftTop .usertype{
+    position: absolute;
+    left: 50px;
+    top: 30px;
+    width: 38px;
+    height: 38px;
+    z-index: 1000;
+}
+.oneHouse .favor{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display:none;
+    cursor: pointer;
+    border-radius: 50%;
+    width:30px;
+    height:30px;
+    z-index: 1000;
+}
+.leftTop .backgroundImg{
+    width: 210px;
+    height: 210px;
+}
+.leftTop .price{
+    position: absolute;
+    width: 200px;
+    text-align: right;
+    padding-right: 10px;
+    right: 0px;
+    height: 80px;
+    line-height: 110px;
+    bottom:0px;
+    color: #fff;
+    z-index: 100;
+    background:-webkit-linear-gradient(bottom,rgba(0,0,0,.8),rgba(0,0,0,0))
+}
+.leftTop .price span{
+    margin-left: 3px;
+    font-size: 32px;
+    color: #fff;
+}
+.leftMiddle{
+    position: relative;
+    height: 150px;
+    width: 210px;
+    display: inline-block;
+}
+.leftMiddle span{
+    margin-left: 5px;
+    color: #000;
+    font-size: 12px;
+}
+.leftMiddle .locationname{
+    text-align: right;
+    height: 21px;
+    display: inline-block;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #000;
+    font-size: 16px;
+    white-space:nowrap;
+}
+.houseReq{
+    margin-left: 5px;
+}
+.houseDescibtion{
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: inline-block;
+    font-size: 12px;
+    max-height: 70px;
+    position: relative;
+    line-height: 20px;
+    max-height: 60px;
+    overflow: hidden;
+    /*word-wrap閿涙瓬reak-word;*/
+    /*word-break: break-word;*/
+    z-index: 10000;
+}
+.leftMiddle .dateTime{
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
+    margin-top: 10px;
+    color: #CACACA;
+    padding-right: 10px;
+    text-align: right;
+    font-size: 12px;
+}
+.leftMiddle .distance{
+    position: absolute;
+    color: #CACACA;
+    bottom: 10px;
+    left: 5px;
+    font-size: 12px;
+}
+
+
+.mapwrap{
+    position: relative;
+    float: right;
+    width: 394px;
+}
+#allmap{
+    width: 393px;
+    height: 300px;
+}
+.mapwrap .big{
+    opacity: 0.5;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    bottom:160px;
+    /*bottom:360px;*/
+    right: 15px;
+    display: inline-block;
+    position: absolute;
+}
+.mapwrap .small{
+    opacity: 0.5;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    bottom: 96px;
+    /*bottom: 300px;*/
+    right: 15px;
+    position: absolute;
+}
+.mapwrap .mapBottomImg{
+    margin-top: 10px;
+}
+.BMap_stdMpZoom,.anchorBL,.BMap_cpyCtrl{
+    display: none;
+}
+.mapwrap .big:hover,.mapwrap .small:hover{
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+
+.demandSelect .findOne{
+    float: left;
+}
+.selectMale{
+    position: relative;
+    margin-top: 5px;
+    float: left;
+    margin-right: 15px;
+    font-size: 12px;
+    width: 86px;
+    color: #494949;
+    border: 1px solid #ccc;
+}
+.selectMale li,.selectMale a{
+    padding-left: 5px;
+}
+.selectMale .selectEle span:nth-child(1){
+    margin-right: 10px;
+}
+.selectMale .selectEle{
+    border: none;
+    line-height: 24px;
+    text-align: left;
+    width: 81px;
+    height: 24px;
+}
+.selectMale ul{
+    background: #fff;
+    position: absolute;
+    z-index: 2;
+    left: -1px;
+    top: 24px;
+    display: none;
+    width: 86px;
+}
+.selectMale ul a{
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    width: 81px;
+    color: #494949;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    white-space: nowrap;
+    display: block;
+    height: 22px;
+    line-height:24px;
+}
+.selectMale ul a:last-child{
+    border-bottom :1px solid #ccc;
+}
+.selectMale ul a:hover{
+    background: #f1f1f1;
+}
+.select_icon{
+    position: absolute;
+    right: 5px;
+    top: 1px;
+}
+
+.favorPrompt{
+    position: fixed;
+    width: 287px;
+    height: 80px;
+    font-size: 12px;
+    background: rgba(0,172,151,.6);
+    left: 50%;
+    top:50%;
+    display: none;
+    margin-left: -144px;
+    margin-top: -20px;
+    color: #fff;
+    text-align: center;
+    z-index: 10000;
+}
+.holdsign{
+    margin-top: 20px;
+}
+.xclose{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}

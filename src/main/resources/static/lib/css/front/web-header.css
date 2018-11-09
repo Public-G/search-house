@@ -1,0 +1,183 @@
+.userstatus{
+    width: 1065px;
+    height: 50px;
+    line-height: 70px;
+    margin: 0 auto;
+    position: relative;
+}
+.userstatus>li{
+    float: right;
+    margin-left: 40px;
+    font-size: 14px;
+    color: #c9c9c9;
+}
+.userstatus .frog{
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius:50%;
+    vertical-align:middle;
+}
+.adminNav{
+    border-top: 2px solid #00ac97;
+    padding-top: 15px;
+    display: none;
+    background: #fff;
+}
+.adminNav .logofrog{
+    height: 40px;
+    position: absolute;
+    left: 0;
+}
+.navwrap{
+    display: none;
+}
+.navwrap .help{
+    color:#fff;
+    float: right;
+}
+.navwrap .linkme{
+    float: right;
+    margin-right: 50px;
+    color:#fff;
+}
+.navwrap .biaoyu{
+    color: #fff;
+    float: left;
+    margin-left: 0;
+    font-size: 13px;
+}
+.navwrap .biaoyu a span{
+    cursor: auto;
+}
+.seven{
+    font-size: smaller;
+}
+.navbottom1{
+    clear: right;
+    width: 1065px;
+    height: 44px;
+    line-height: 5px;
+    margin: 0 auto;
+}
+.biaoyu a{
+    font-size: 14px;
+    color: #fff;
+}
+.biaoyu span{
+    font-size: 14px;
+    color: #fff;
+}
+.userstatus .news1,.verify2,.logout1{
+    display: none;
+    cursor: pointer;
+}
+.userstatus .wallet{
+    display: none;
+    cursor: pointer;
+    margin-left:43px;
+}
+.headTel,.frog{
+    display: none;
+}
+.navwrap li{
+    display: inline-block;
+    margin-left: 40px;
+    font-size: 14px;
+}
+.navwrap{
+    border-bottom:2px solid #F1C40F;
+    background-color: #00AC97;
+    width: 100%;
+    height: 45px;
+}
+.userstatus .rentman,.userstatus .rentperson{
+    position: relative;
+    width: 70px;
+    margin-left: 30px;
+    z-index: 100;
+}
+.userstatus .rentman{
+    margin-left: 5px;
+    margin-right: -37px;
+}
+.publishHouse,.rentlist{
+    position: absolute;
+    width: 100px;
+    line-height: 25px;
+    left: -35px;
+    top: 53px;
+    background:#fff;
+    display: none;
+    cursor: pointer;
+}
+.rentman:hover .publishHouse{
+    display: block;
+}
+.rentperson:hover .rentlist{
+    display: block;
+}
+.rentlist a,.rentman a{
+    height: 30px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    color: #c9c9c9;
+}
+.rentperson:hover p:nth-child(1),.rentman:hover p:nth-child(1){
+    color: #00AC97;
+}
+.rentman p,.rentperson p{
+    cursor: pointer;
+}
+.rentlist a:hover,.rentman a:hover{
+    color: #00AC97;
+}
+.renthouselog a,.news1 a,.wallet a,.regist a{
+    display: inline;
+    color: #c9c9c9;
+}
+.renthouselog a:hover,.news1 a:hover,.wallet a:hover,
+.regist a:hover,.verify2:hover,.logout1:hover,.loginbutton:hover{
+    color: #00AC97;
+}
+.navbottom1 .help a,.navbottom1 .linkme a{
+    color: #fff;
+    cursor: pointer;
+}
+.navbottom1 .help a:hover,.navbottom1 .linkme a:hover{
+    opacity: 0.6;
+}
+.loginbutton,.regist{
+    cursor: pointer;
+}
+.indexpage{
+    display: inline;
+}
+.userstatus .fourstatus span,.userstatus .headTel{
+    font-size: 12px;
+}
+.banner-content{
+    display: none;
+}
+
+.s2 {float:left;height:35px;line-height:20px;padding-top:15px;padding-left:5px;padding-right:5px;font-size:14px;color:#fff;position:relative;
+    z-index:1000;_width:40px;margin-top:-22px; margin-right: 4px; }
+.s2 a{color:#fff;text-decoration:none}
+.s2 .city{height:20px;line-height:20px;}
+.s2 .citytab{display:none;width:300px;height:160px;background-color:rgba(255, 255, 255, 0.96);position: absolute; z-index:1000;left:0;top:50px;left:0;text-align:center;padding:5px 12px 5px 5px;}
+.s2.on .citytab{display:block;}
+.citytab{
+    text-align:left!important;
+}
+.citytabnr{width:300px; height:148px;margin:5px;overflow-y:auto;}
+.citytab .citytabnr a{padding:4px;color:#494949; text-align:left;font-size:12px;}
+.citytab .citytabnr a:hover{opacity:0.6; }
+.citytab .citytabnr span{display: inline-block;padding:4px;color:#494949; text-align:left;font-size:12px;text-transform:uppercase;margin-top: 5px;}
+.s2   ::-webkit-scrollbar
+{width: 14px;height:14px;}
+.s2  ::-webkit-scrollbar-track
+{background-color: rgba(228, 228, 228, 0.9);}
+.s2 ::-webkit-scrollbar-thumb
+{background-color: rgba(201, 201, 201, 0.9);}

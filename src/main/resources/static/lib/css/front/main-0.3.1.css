@@ -1,0 +1,588 @@
+@charset "utf-8";
+* {
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    outline: none;
+}
+html {
+    width: 100%;
+}
+body {
+    min-width: 1170px;
+}
+body, input, textarea {
+    color: #939393;
+    font-family: "冬青黑体简体中文", "Microsoft YaHei", "微软雅黑", "Hiragino Sans GB", "黑体", "verdana", Arial, sans-serif;
+}
+body, input, textarea, .transition, .button, .uploadBox, .uploadDropZone {
+    outline: none;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+a {
+    text-decoration: none;
+}
+ul,li{
+    list-style-type: none;
+}
+/* place holder */
+::-webkit-input-placeholder {/* WebKit browsers */
+    opacity: 0.3;
+}
+:-moz-placeholder {/* Mozilla Firefox 4 to 18 */
+    opacity: 0.3;
+}
+::-moz-placeholder {/* Mozilla Firefox 19+ */
+    opacity: 0.3;
+}
+:-ms-input-placeholder {/* Internet Explorer 10+ */
+    font-family: "冬青黑体简体中文", "Microsoft YaHei", "微软雅黑", "Hiragino Sans GB", "黑体", "verdana", Arial, sans-serif;
+}
+.fixedWithContainer {
+    margin: 0 auto;
+    width: 1070px;
+    height: 100%;
+}
+/* IE 10 */
+::-ms-clear {
+    display: none;
+}
+::-ms-reveal {
+    display: none;
+}
+/*************************** header **************************/
+#header {
+    position: relative;
+    /*z-index: 100;*/
+    border-top: 3px solid #00ac97;
+    border-bottom: 2px solid #F1C40F;
+    background-color: white;
+}
+#navigator {
+    z-index: 1000;
+    height: 65px;
+    position: relative;
+}
+#navLogo img {
+    position: absolute;
+    height: 38px;
+    bottom: 10px;
+}
+#navMenu {
+    bottom: 10px;
+    font-size: 15px;
+    height: 20px;
+    letter-spacing: 1px;
+    line-height: 20px;
+    position: absolute;
+    right: 0;
+}
+#navMenu li {
+    float: left;
+    margin-left: 30px;
+    position: relative;
+}
+#navMenu .navItem {
+    cursor: pointer;
+}
+#navMenu .navItem:hover {
+    color: #00ac97;
+}
+.navItem .icon {
+    height: 20px;
+    width: 17px;
+    float: left;
+    position: relative;
+    top: -1px;
+}
+.navItemText {
+    float: left;
+    padding-left: 5px;
+}
+#searchMenu .icon {
+    width: 17px;
+    /*background: url("/static/image/icon/search.png") no-repeat scroll 0 center transparent;*/
+}
+#houseMenu .icon {
+    width: 21px;
+    /*background: url("/static/image/icon/house.png") no-repeat scroll 0 center transparent;*/
+}
+#addHouseMenu .icon {
+    width: 17px;
+    /*background: url("/static/image/icon/release.png") no-repeat scroll 0 center transparent;*/
+}
+#cvMenu .icon{
+    width: 17px;
+    /*background: url("/static/image/icon/cv.png") no-repeat scroll 0 center transparent;*/
+}
+#usernameMenu{
+    cursor: pointer;
+}
+#squareMenu .icon {
+    width: 17px;
+    /*background: url("/static/image/icon/square_20150414.png") no-repeat scroll 0 center transparent;*/
+}
+#homeMenu .navItemText {
+    font-size: 12px;
+    padding-top: 2px;
+}
+/*#homeMenu .icon {
+    width: 17px;
+    background: url("/static/image/icon/user.png") no-repeat scroll 0 center transparent;
+}
+#registerMenu .icon {
+    width: 20px;
+    background: url("/static/image/icon/reg.png") no-repeat scroll 0 center transparent;
+}
+#loginMenu .icon {
+    width: 15px;
+    background: url("/static/image/icon/login.png") no-repeat scroll 0 center transparent;
+}
+#logoutMenu .icon {
+    width: 14px;
+    background: url("/static/image/icon/logout.png") no-repeat scroll 0 center transparent;
+}
+#logoutMenuItem {
+    color: #CCCCCC;
+    font-size: 12px;
+    margin-left: 5px;
+}
+#homeMenu .unverifiedTag {
+    display: none;
+}
+#homeMenu .unverifiedTag {
+    position: absolute;
+    left: -13px;
+    top: -26px;
+}
+#homeMenu .unverifiedTag img {
+    height: 24px;
+}*/
+/* compacity */
+#compacityBox {
+    z-index: 100;
+    display: none;
+    position: relative;
+    background-color: #484848;
+    width: 100%;
+    height: 0;
+    color: white;
+}
+#compacityBox a {
+    color: white;
+}
+#compacityBox a:hover {
+    color: #CCCCCC;
+}
+#compacityBox .tip {
+    position: absolute;
+    left: 140px;
+    top: 30px;
+    width: 450px;
+}
+#compacityBox .tip  h3 {
+    font-size: 21px;
+}
+#compacityBox .tip  .desc {
+    line-height: 24px;
+    margin: 20px 0;
+    font-size: 14px;
+}
+#compacityBox .tip  a {
+    display: block;
+    font-size: 12px;
+    line-height: 20px;
+    margin-bottom: 10px;
+    width: 250px;
+}
+#compacityBox .tip img {
+    margin-right: 5px;
+    position: relative;
+    top: 4px;
+}
+#compacityBox .download {
+    position: absolute;
+    right: 150px;
+    top: 50px;
+    width: 500px;
+}
+#compacityBox .browserBox {
+    padding-top: 30px;
+}
+#compacityBox .browser {
+    display: block;
+    float: left;
+    margin-right: 50px;
+    font-size: 12px;
+    text-align: center;
+}
+#compacityBox .browser p {
+    line-height: 30px;
+}
+#compacityBox .close {
+    position: absolute;
+    top: 20px;
+    right: 135px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+/* banner */
+.banner {
+    position: relative;
+    z-index: 100;
+    clear: both;
+    color: white;
+    height: 44px;
+    line-height: 44px;
+    text-align: left;
+    letter-spacing: 1px;
+}
+.banner .page-title{
+    position: relative;
+    display: inline-block;
+}
+.banner .title {
+    font-size: 18px;
+    margin-right: 10px;
+    vertical-align: top;
+}
+.banner .desc {
+    display: inline-block;
+    margin-top: 2px;
+    font-size: 13px;
+}
+
+.banner .banner-items {
+    float: right;
+    line-height: 40px;
+    margin-left: 45px;
+}
+.banner .banner-items:hover {
+    opacity: 0.8;
+}
+.banner .banner-items img {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+.banner .banner-items span {
+    display: inline-block;
+    margin-bottom: 1px;
+    font-size: 15px;
+    color: #FFFFFF;
+    vertical-align: middle;
+    padding-left: 3px;
+}
+
+.card .banner {
+    z-index: 150;
+    position: absolute;
+    top: -66px;
+    left: 0;
+}
+/*************************** content **************************/
+#contentContainer {
+    position: relative;
+    text-align: center;
+    clear: both;
+}
+/* light box */
+#lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1000;
+}
+#lightbox > .loading {
+    position: fixed;
+    top: 40%;
+    width: 100%;
+}
+#lightbox > .loading > * {
+    width: 120px;
+    display: block;
+    margin: 0 auto;
+}
+#lightboxBg, .bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    filter: alpha(opacity=80);
+    opacity: 0;
+}
+#lightboxContent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+#lightboxClose {
+    position: fixed;
+    top: 0;
+    right: 10px;
+    width: 70px;
+    height: 70px;
+    background: url('/static/image/icon/frog-close.png') no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    z-index: 1001;
+    opacity: 0.8;
+}
+#lightboxClose:hover {
+    opacity: 1;
+}
+/* nav top */
+#navTop {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    bottom: 10px;
+    font-size: 15px;
+}
+
+/*************************** feedback **************************/
+.feedbackContainer {
+    height: 435px;
+    padding: 20px 0;
+    position: relative;
+}
+
+/*************************** card **************************/
+.cardContainer {
+    /*overflow: hidden;*/
+    height: 435px;
+    padding: 20px 0;
+    position: relative;
+}
+.card {
+    height: 435px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    display: none;
+}
+.card:first-child {
+    display: inherit;
+}
+
+/*************************** element **************************/
+/* input */
+input, textarea {
+    border: 1px solid transparent;
+}
+input:hover, textarea:hover {
+    border-color: #16A085;
+}
+.reactive:hover {
+    opacity: 0.8;
+}
+button {
+    cursor: pointer;
+}
+.input {
+    width: 280px;
+    height: 21px;
+    padding: 8px 5px;
+    border: 1px solid #BDC3C7;
+    font-size: 15px;
+    font-family: "verdana", sans-serif;
+}
+.input:hover {
+    border-color: #16A085;
+}
+.button {
+    width: 120px;
+    font-size: 16px;
+    line-height: 40px;
+    text-indent: 0;
+    text-align: center;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    cursor: pointer;
+    color: white;
+    background-color: #00ac97;
+    letter-spacing: 1px;
+}
+.button:hover {
+    background-color: #1ABC9C;
+}
+.buttonBig {
+    font-size: 17px;
+    border-radius: 3px;
+    line-height: 40px;
+    width: 125px;
+}
+.buttonSelected {
+    background-color: #00ac97;
+    color: white;
+}
+.buttonUnselected {
+    background-color: white;
+    color: #939393;
+}
+.buttonUnselected:hover {
+    background-color: #EFFFFF;
+}
+/* popup */
+.popup {
+    position: absolute;
+    z-index: 200;
+    padding: 10px;
+    color: white;
+    background-color: #75cbbc;
+}
+.popup .button {
+    width: 72px;
+    height: 30px;
+    line-height: 30px;
+    margin: 5px;
+}
+/* tip arrow */
+.tipArrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+.tipArrowLeft, .tipArrowRight {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+.tipArrowUp, .tipArrowDown {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}
+.tipArrowLeft {
+    left: -10px;
+    border-right: 10px solid #75cbbc;
+}
+.tipArrowRight {
+    right: -10px;
+    border-left: 10px solid #75cbbc;
+}
+.tipArrowUp {
+    top: -10px;
+    border-bottom: 10px solid #75cbbc;
+}
+.tipArrowDown {
+    bottom: -10px;
+    border-top: 10px solid #75cbbc;
+}
+/* validate */
+.validateError {
+    border: 1px solid #E74C3C !important;
+}
+/* upload */
+.uploadBox {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+.uploadBox:hover {
+    opacity: 0.8;
+}
+.uploadButton {
+    cursor: pointer;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.uploadDropZone {
+}
+.uploadDropZone.in {
+    background-color: #FAFAFA !important;
+}
+.uploadDropZone.hover {
+    background-color: #F8FFFF !important;
+}
+.uploadDropZone.fade {
+}
+/* MISC */
+#roomContent .disableMask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    opacity: 0.9;
+}
+.hover107:hover {
+    opacity: 0.7;
+}
+.shakeClass {
+    opacity: 0.1;
+}
+.button.disabled {
+    background-color: #AAA !important;
+}
+/* placeholder */
+.placeholder {
+    color: #CCCCCC;
+}
+input::-moz-placeholder {
+    opacity: 0.3;
+}
+input::-webkit-input-placeholder {
+    opacity: 0.3;
+}
+/* slide */
+.slideContainer {
+    position: relative;
+    overflow: hidden;
+}
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+/* map */
+.map .mapContent {
+    width: 100%;
+    height: 100%;
+}
+.map .op {
+    cursor: pointer;
+    height: 40px;
+    opacity: 0.3;
+    position: absolute;
+    width: 40px;
+}
+.map .op:hover {
+    opacity: 0.5;
+}
+.map .zoomin {
+    bottom: 70px;
+    right: 20px;
+}
+.map .zoomout {
+    bottom: 20px;
+    right: 20px;
+}
+.map .BMap_cpyCtrl, .map .anchorBL {
+    display: none;
+}
+.favicon img {
+    width: 120px;
+    height: 120px;
+    border-radius:50%;
+}

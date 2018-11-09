@@ -1,6 +1,7 @@
 package com.github.common.security.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.common.constant.SysConstant;
 import com.github.common.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
@@ -26,7 +27,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        response.setContentType("application/json;charset=UTF-8");
+        response.setContentType(SysConstant.CONTENT_TYPE_JSON);
         response.getWriter().write(objectMapper.writeValueAsString(ApiResponse.ofMessage
                 (ApiResponse.ResponseStatus.AUTHENTICATION_FAILED.getCode(), exception.getMessage())));
     }

@@ -35,8 +35,7 @@ public interface SysUserService {
     /**
      * 保存/修改 用户
      */
-    void userSaveOrUpdate(SysUserEntity sysUserEntity);
-
+    void saveOrUpdate(SysUserEntity sysUserEntity);
 
     /**
      * 批量删除用户

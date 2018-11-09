@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote quoteBox">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input searchVal" placeholder="请输入bean名称"/>
+        </div>
+        <a class="search_btn layui-btn" data-type="reload" id="keywordRefresh">搜索</a>
+    </div>
+    <div class="layui-inline">
+        <a id="scheduleAdd" class="layui-btn layui-btn-normal">新增</a>
+    </div>
+    <div class="layui-inline">
+        <a id="scheduleDelete" class="layui-btn layui-btn-danger">批量删除</a>
+    </div>
+    <div class="layui-inline">
+        <a id="schedulePause" class="layui-btn layui-btn-danger">批量暂停</a>
+    </div>
+    <div class="layui-inline">
+        <a id="scheduleResume" class="layui-btn layui-btn-danger">批量恢复</a>
+    </div>
+    <div class="layui-inline">
+        <a id="scheduleBatchRun" class="layui-btn layui-btn-danger">批量立即执行</a>
+    </div>
+    <div class="layui-inline">
+        <a id="scheduleLogList" class="layui-btn layui-btn-warm">日志列表</a>
+    </div>
+</blockquote>
+
+<table id="scheduleList" lay-filter="scheduleList"></table>
+
+<div th:replace="~{admin/common/common :: script}"></div>
+</body>
+</html>
+
+<!-- 状态 -->
+<script type="text/html" id="status">
+    {{#  if(d.status == 0){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-xs">正常</span>
+    {{#  } else if(d.status == 1){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-danger layui-btn-xs">暂停</span>
+    {{#  }}}
+</script>
+
+<!-- 操作 -->
+<script type="text/html" id="scheduleListBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i>修改</a>
+    <!--<a class="layui-btn layui-btn-xs" lay-event="reset-pwd"><i class="fa fa-retweet"></i>重置密码</a>-->
+    <!--<a class="layui-btn layui-btn-xs" lay-event="grant-role"><i class="fa fa-user-plus"></i>分配角色</a>-->
+</script>
+
+<script type="text/javascript">
+
+    var cols = [
+        [
+            {field: 'jobId', checkbox: true, fixed: 'left', width: 50}
+            , {field: 'beanName', title: 'bean名称', align: 'center'}
+            , {field: 'methodName', title: '方法名称', align: 'center'}
+            , {field: 'params', title: '参数', align: 'center'}
+            , {field: 'cronExpression', title: 'cron表达式', align: 'center'}
+            , {field: 'remark', title: '备注', align: 'center'}
+            , {
+               field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
+                    return d.createTime != undefined ? moment(d.createTime).format("YYYY-MM-DD HH:mm:ss") : '';
+                }
+              }
+            , {field: 'status', title: '状态', align: 'center', width: 100, templet: '#status'}
+            , {title: '操作', width: 140, toolbar: '#scheduleListBar', fixed: "right", align: "center"}
+        ]
+    ];
+
+    layui.renderTable('#scheduleList', 'scheduleListTable', '/data/schedule/list', cols);
+
+    keywordSearch('scheduleListTable');
+
+    $("#scheduleLogList").click(function () {
+        alertByFull("日志列表", "/data/scheduleLog/forward/List");
+    });
+
+    $("#scheduleAdd").click(function () {
+        alertByFull("新增任务", "/data/schedule/forward/Add");
+    });
+
+    //监听工具条
+    table.on('tool(scheduleList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+        if (layEvent === 'edit') { //修改
+            alertByFull("修改定时任务", "/data/schedule/info/" + data.jobId);
+        }
+    });
+
+</script>

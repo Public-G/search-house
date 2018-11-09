@@ -16,7 +16,7 @@ public interface SysMenuService {
     /**
      * 获取用户菜单列表
      */
-    List<SysMenuEntity> getUserMenuList(Long userId);
+    List<SysMenuDTO> getUserMenuList(Long userId);
 
     /**
      * 根据父菜单，查询子菜单

@@ -31,10 +31,11 @@ public class ApiResponse extends HashMap<String, Object> {
     public static ApiResponse ofFail(String ... message) {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.put("code", ResponseStatus.FAIL.getCode());
-        if (StringUtils.isBlank(message[0])) {
+        String msg = message[0];
+        if (StringUtils.isBlank(msg)) {
             apiResponse.put("msg", ResponseStatus.FAIL.getStandardMessage());
         } else {
-            apiResponse.put("msg", message[0]);
+            apiResponse.put("msg", msg);
         }
 
         return apiResponse;
@@ -67,13 +68,13 @@ public class ApiResponse extends HashMap<String, Object> {
 
     public enum ResponseStatus{
         SUCCESS(0, ApiReasonConstant.SUCCESS_MSG),
-        FAIL(1, ApiReasonConstant.AUTHENTICATION_FAILED_MSG),
+        FAIL(1, ApiReasonConstant.FAIL_MSG),
         UNAUTHORIZED(401, ApiReasonConstant.UNAUTHORIZED_MSG),
         BAD_REQUEST(400, ApiReasonConstant.BAD_REQUEST_MSG),
         FORBIDDEN(403, ApiReasonConstant.FORBIDDEN_MSG),
         NOT_FOUND(404, ApiReasonConstant.NOT_FOUND_MSG),
         INTERNAL_SERVER_ERROR(500, ApiReasonConstant.INTERNAL_SERVER_ERROR_MSG),
-        NOT_VALID_PARAM(40000, ApiReasonConstant.NOT_VALID_PARAM_MSG),
+        NOT_VALID_PARAM(40001, ApiReasonConstant.NOT_VALID_PARAM_MSG),
         AUTHENTICATION_FAILED(40003, ApiReasonConstant.AUTHENTICATION_FAILED_MSG);
 
         private int code;
