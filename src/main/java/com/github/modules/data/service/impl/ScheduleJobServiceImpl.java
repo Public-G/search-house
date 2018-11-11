@@ -10,6 +10,7 @@ import com.github.modules.data.service.ScheduleJobService;
 import com.github.modules.data.utils.ScheduleUtils;
 import com.github.modules.sys.dto.SysUserDTO;
 import com.github.modules.sys.entity.SysUserEntity;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -90,6 +92,11 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
     }
 
     @Override
+    public ScheduleJobEntity findByJobId(Long jobId) {
+        return scheduleJobRepository.findOne(jobId);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(ScheduleJobEntity scheduleJobEntity) {
         scheduleJobEntity.setCreateTime(new Date());
@@ -106,8 +113,43 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
         ScheduleUtils.updateScheduleJob(scheduler, jobEntity);
     }
 
+
     @Override
-    public ScheduleJobEntity findByJobId(Long jobId) {
-        return scheduleJobRepository.findByJobId(jobId);
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteBatch(Long[] jobIds) {
+        scheduleJobRepository.deleteByJobIdIn(Arrays.asList(jobIds));
+
+        for(Long jobId : jobIds){
+            ScheduleUtils.deleteScheduleJob(scheduler, jobId);
+        }
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void run(Long[] jobIds) {
+        for(Long jobId : jobIds){
+            ScheduleUtils.run(scheduler, scheduleJobRepository.findOne(jobId));
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void pause(Long[] jobIds) {
+        for(Long jobId : jobIds){
+            scheduleJobRepository.updateStatus(jobId, SysConstant.ScheduleStatus.PAUSE.getValue());
+
+            ScheduleUtils.pauseJob(scheduler, jobId);
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void resume(Long[] jobIds) {
+        for(Long jobId : jobIds){
+            scheduleJobRepository.updateStatus(jobId, SysConstant.ScheduleStatus.NORMAL.getValue());
+
+            ScheduleUtils.resumeJob(scheduler, jobId);
+        }
+    }
+
 }

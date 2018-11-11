@@ -12,4 +12,6 @@ public interface SupportAreaRepository extends JpaRepository<SupportAreaEntity, 
     SupportAreaEntity findByCnName(String cnName);
 
     List<SupportAreaEntity> findByParentId(Long parentId);
+
+    List<SupportAreaEntity> findByLevel(int level);
 }

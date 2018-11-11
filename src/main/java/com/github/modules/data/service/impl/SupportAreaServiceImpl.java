@@ -84,11 +84,11 @@ public class SupportAreaServiceImpl implements SupportAreaService {
         }
 
         for (SupportAreaEntity supportAreaEntity : allCity) {
-            if (supportAreaEntity.getLevel() == SysConstant.AreaLevel.CITYPREFIX.getLevel()) {
+            if (supportAreaEntity.getLevel() == SysConstant.AreaLevel.CITYPREFIX.getValue()) {
                 supportAreaListWrapper.add(supportAreaEntity);
 
             } else {
-                if (supportAreaEntity.getLevel() != SysConstant.AreaLevel.REGION.getLevel()) {
+                if (supportAreaEntity.getLevel() != SysConstant.AreaLevel.REGION.getValue()) {
                     Long              parentId   = supportAreaEntity.getParentId();
                     SupportAreaEntity areaParent = supportAreaMap.get(parentId);
 
@@ -119,5 +119,15 @@ public class SupportAreaServiceImpl implements SupportAreaService {
             regionArray.add(supportAreaEntity.getCnName());
         }
         return regionArray;
+    }
+
+    @Override
+    public List<SupportAreaEntity> findByLevel(int level) {
+        return supportAreaRepository.findByLevel(level);
+    }
+
+    @Override
+    public SupportAreaEntity findById(Long id) {
+        return supportAreaRepository.findOne(id);
     }
 }

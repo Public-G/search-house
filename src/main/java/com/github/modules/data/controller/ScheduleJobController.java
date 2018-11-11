@@ -1,6 +1,5 @@
 package com.github.modules.data.controller;
 
-import com.github.common.constant.SysConstant;
 import com.github.common.utils.ApiResponse;
 import com.github.common.utils.PageUtils;
 import com.github.common.validator.ValidatorUtils;
@@ -9,14 +8,11 @@ import com.github.common.validator.group.UpdateGroup;
 import com.github.modules.base.form.PageForm;
 import com.github.modules.data.entity.ScheduleJobEntity;
 import com.github.modules.data.service.ScheduleJobService;
-import com.github.modules.sys.entity.SysUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * 定时任务
@@ -32,7 +28,7 @@ public class ScheduleJobController {
     private ScheduleJobService scheduleJobService;
 
     /**
-     * 列表/添加页面的跳转
+     * 列表/添加 页面的跳转
      *
      * @param forwardType 跳转类型
      */
@@ -82,7 +78,7 @@ public class ScheduleJobController {
     @ResponseBody
     public ApiResponse update(@ModelAttribute("schedule") ScheduleJobEntity scheduleJobEntity){
         // @ModelAttribute 拿不到值可能该条记录已经被删除, 请求无效
-        if (scheduleJobEntity.getJobId() == null) {
+        if (scheduleJobEntity == null) {
             return ApiResponse.ofStatus(ApiResponse.ResponseStatus.NOT_FOUND);
         }
 
@@ -93,9 +89,53 @@ public class ScheduleJobController {
         return ApiResponse.ofSuccess();
     }
 
+    /**
+     * 删除定时任务
+     */
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public ApiResponse delete(@RequestParam("selectIds") Long[] jobIds) {
+        scheduleJobService.deleteBatch(jobIds);
+
+        return ApiResponse.ofSuccess();
+    }
+
+    /**
+     * 立即执行任务
+     */
+    @PutMapping("/run")
+    @ResponseBody
+    public ApiResponse run(@RequestParam("selectIds") Long[] jobIds){
+        scheduleJobService.run(jobIds);
+
+        return ApiResponse.ofSuccess();
+    }
+
+    /**
+     * 暂停定时任务
+     */
+    @PutMapping("/pause")
+    @ResponseBody
+    public ApiResponse pause(@RequestParam("selectIds") Long[] jobIds){
+        scheduleJobService.pause(jobIds);
+
+        return ApiResponse.ofSuccess();
+    }
+
+    /**
+     * 恢复定时任务
+     */
+    @PutMapping("/resume")
+    @ResponseBody
+    public ApiResponse resume(@RequestParam("selectIds") Long[] jobIds){
+        scheduleJobService.resume(jobIds);
+
+        return ApiResponse.ofSuccess();
+    }
+
 
     @ModelAttribute
-    public void customModelAttribute(@RequestParam(value = "jobId", required = false) Long jobId, Model model) {
+    private void customModelAttribute(@RequestParam(value = "jobId", required = false) Long jobId, Model model) {
         if (jobId != null) {
             ScheduleJobEntity scheduleJobEntity = scheduleJobService.findByJobId(jobId);
             model.addAttribute("schedule", scheduleJobEntity);

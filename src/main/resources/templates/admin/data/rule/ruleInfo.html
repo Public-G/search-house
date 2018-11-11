@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;" th:object="${rule}">
+    <input name="ruleId" type="hidden" th:value="*{ruleId}">
+    <input name="_method" type="hidden" th:value="PUT">
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">规则名称</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="ruleName" th:value="*{ruleName}" lay-verify="required" placeholder="规则名称">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">爬取的域名</label>
+        <div class="layui-input-block">
+            <input type="text" name="allowedDomains" th:value="*{allowedDomains}" lay-verify="required" autocomplete="off" placeholder="爬取的域名，多个请用逗号分隔，例如：a.com,b.com" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">详情页循环入口</label>
+        <div class="layui-input-block">
+            <input type="text" name="loopStart" th:value="*{loopStart}" autocomplete="off" placeholder="详情页循环入口" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">下一页</label>
+        <div class="layui-input-block">
+            <input type="text" name="nextUrl" th:value="*{nextUrl}" lay-verify="required" autocomplete="off" placeholder="下一页" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">详情页</label>
+        <div class="layui-input-block">
+            <input type="text" name="detailUrl" th:value="*{detailUrl}" lay-verify="required" autocomplete="off" placeholder="详情页" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">区域</label>
+        <div class="layui-input-block">
+            <input type="text" name="region" th:value="*{region}" autocomplete="off" placeholder="区域" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" th:value="*{title}" lay-verify="required" autocomplete="off" placeholder="标题" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">小区</label>
+        <div class="layui-input-block">
+            <input type="text" name="community" th:value="*{community}" autocomplete="off" placeholder="小区" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">详细地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="address" th:value="*{address}" lay-verify="required" autocomplete="off" placeholder="详细地址" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">价格</label>
+        <div class="layui-input-block">
+            <input type="text" name="price" th:value="*{price}" lay-verify="required" autocomplete="off" placeholder="价格" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">面积</label>
+        <div class="layui-input-block">
+            <input type="text" name="square" th:value="*{square}" lay-verify="required" autocomplete="off" placeholder="面积" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <input type="text" name="description" th:value="*{description}" lay-verify="required" autocomplete="off" placeholder="描述" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">封面图</label>
+        <div class="layui-input-block">
+            <input type="text" name="imgHref" th:value="*{imgHref}" autocomplete="off" placeholder="封面图" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">户型</label>
+        <div class="layui-input-block">
+            <input type="text" name="houseType" th:value="*{houseType}" autocomplete="off" placeholder="户型" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">出租方式</label>
+        <div class="layui-input-block">
+            <input type="text" name="rentWay" th:value="*{rentWay}" autocomplete="off" placeholder="出租方式" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">城市</label>
+        <div class="layui-input-block">
+            <select name="cityId" lay-filter="required">
+                <option value=""></option>
+                <option th:selected="*{cityId}==${item.id}" th:each="item : ${city}" th:value="${item.id}" th:if="${city != null}">[[${item.cnName}]]</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="rule_submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<div th:replace="~{admin/common/common :: script}"></div>
+</body>
+</html>
+<script type="text/javascript">
+    layui.formSubmit('rule_submit', '/data/rule/update');
+
+</script>

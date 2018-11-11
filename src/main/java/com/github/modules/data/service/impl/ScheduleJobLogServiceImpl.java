@@ -11,6 +11,7 @@ import org.quartz.CronTrigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,9 @@ public class ScheduleJobLogServiceImpl implements ScheduleJobLogService {
 
     @Override
     public PageUtils findPage(PageForm pageForm) {
-        PageRequest pageable = new PageRequest(pageForm.getCurr() - 1, pageForm.getLimit());
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "createTime");
+        Sort sort = new Sort(order);
+        PageRequest pageable = new PageRequest(pageForm.getCurr() - 1, pageForm.getLimit(), sort);
 
         Page<ScheduleJobLogEntity> scheduleJobEntityPage;
 

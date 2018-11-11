@@ -33,14 +33,19 @@ public interface SysUserService {
     List<Long> findAllMenuId(Long userId);
 
     /**
-     * 保存/修改 用户
+     * 保存用户
      */
-    void saveOrUpdate(SysUserEntity sysUserEntity);
+    void save(SysUserEntity sysUserEntity);
+
+    /**
+     * 修改用户
+     */
+    void update(SysUserEntity sysUserEntity);
 
     /**
      * 批量删除用户
      */
-    void deleteBatch(Collection<Long> userIds);
+    void deleteBatch(Long[] userIds);
 
     /**
      * 批量删除用户

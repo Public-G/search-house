@@ -78,7 +78,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public SysUserEntity findByUserId(Long userId) {
-        return sysUserRepository.findByUserId(userId);
+        return sysUserRepository.findOne(userId);
     }
 
     @Override
@@ -94,19 +94,22 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     @Transactional
-    public void saveOrUpdate(SysUserEntity sysUserEntity) {
-        if (StringUtils.isBlank(sysUserEntity.getPassword())) {
-            sysUserEntity.setPassword(encodePassword());
-            sysUserEntity.setCreateTime(new Date());
-        }
-
+    public void save(SysUserEntity sysUserEntity) {
+        sysUserEntity.setPassword(encodePassword());
+        sysUserEntity.setCreateTime(new Date());
         sysUserRepository.save(sysUserEntity);
     }
 
     @Override
     @Transactional
-    public void deleteBatch(Collection<Long> userIds) {
-        sysUserRepository.deleteByUserIdIn(userIds);
+    public void update(SysUserEntity sysUserEntity) {
+        sysUserRepository.save(sysUserEntity);
+    }
+
+    @Override
+    @Transactional
+    public void deleteBatch(Long[] userIds) {
+        sysUserRepository.deleteByUserIdIn(Arrays.asList(userIds));
     }
 
     @Override

@@ -5,9 +5,9 @@
 <blockquote class="layui-elem-quote quoteBox">
     <div class="layui-inline">
         <div class="layui-input-inline">
-            <input id="usernameSearch" type="text" class="layui-input searchVal" placeholder="请输入用户名"/>
+            <input type="text" class="layui-input searchVal" placeholder="请输入用户名"/>
         </div>
-        <a class="search_btn layui-btn" data-type="reload" id="userRefresh">搜索</a>
+        <a class="search_btn layui-btn" data-type="reload" id="keywordRefresh">搜索</a>
     </div>
     <div class="layui-inline">
         <a class="layui-btn layui-btn-normal" id="userAdd">添加用户</a>
@@ -38,122 +38,151 @@
 </script>
 
 <script type="text/javascript">
-    layui.use(['table'], function () {
-        var table = layui.table;
-
-        var tableIns = table.render({
-            elem: '#userList' //指定原始表格元素选择器（推荐id选择器）
-            , id: 'userListTable'
-            , url: '/sys/user/list'
-            , page: true
-            , height: "full-125"
-            , limit: 10
-            , limits: [10, 15, 20, 25, 30]
-            , request: {
-                pageName: 'curr' //页码的参数名称，默认：page
-            }
-            , parseData: function (res) { //res 即为原始返回的数据
-                return {
-                    "code": res.code, //解析接口状态
-                    "msg": res.msg, //解析提示文本
-                    "count": res.pageBean.count, //解析数据长度
-                    "data": res.pageBean.data //解析数据列表
-                };
-            }
-            , cols: [ //二维数组的符号不要连在一起，因为[\[…\]]之间的表达式在thymeleaf被认为是内联表达式,会渲染错误
-                [
-                    {field: 'userId', checkbox: true, fixed: 'left', width: 50}
-                    , {field: 'username', title: '用户名', align: 'center'}
-                    , {field: 'email', title: '邮箱', align: 'center'}
-                    , {field: 'mobile', title: '手机号', align: 'center'}
-                    , {field: 'status', title: '状态', align: 'center', templet: '#status'}
-                    , {
-                    field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
-                        return moment(d.createTime).format("YYYY-MM-DD HH:mm:ss");
-                    }
-                }
-                    , {
-                    field: 'lastLoginTime', title: '上次登录时间', align: 'center', templet: function (d) {
-                        return d.lastLoginTime != undefined ? moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss") : '';
-                    }
-                }
-                    , {title: '操作', width: 270, toolbar: '#userListBar', fixed: "right", align: "center"}
-                ]
-            ]
-        });
-
-        $("#userAdd").click(function () {
-            alertByFull("添加管理员", "/sys/user/forward/Add");
-        });
-
-        //监听工具条
-        table.on('tool(userList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            var tr = obj.tr; //获得当前行 tr 的DOM对象
-
-            if (layEvent === 'edit') { //修改
-                alertByFull("编辑管理员", "/sys/user/info/" + data.userId);
-            } else if (layEvent === 'reset-pwd') { //重置密码
-                var userId = obj.data.userId;
-                layer.confirm('确认重置密码?', {icon: 3, title: '重置密码'}, function (index) {
-                    $.post("/sys/user/pwd/" + userId, {
-                        _method: "PUT"
-                    }, function (data) {
-                        layer.msg(data.msg, {time: loadingTime});
-                        if (data.code === code_success) {
-                            setTimeout(function () {
-                                tableIns.reload();
-                            }, loadingTime);
+    var cols = [ //二维数组的符号不要连在一起，因为[\[…\]]之间的表达式在thymeleaf被认为是内联表达式,会渲染错误
+                    [
+                        {field: 'userId', checkbox: true, fixed: 'left', width: 50}
+                        , {field: 'username', title: '用户名', align: 'center'}
+                        , {field: 'email', title: '邮箱', align: 'center'}
+                        , {field: 'mobile', title: '手机号', align: 'center'}
+                        , {field: 'status', title: '状态', align: 'center', templet: '#status'}
+                        , {
+                        field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
+                            return moment(d.createTime).format("YYYY-MM-DD HH:mm:ss");
                         }
-                    }, "json");
-                    layer.close(index);
-                });
-            } else if (layEvent === 'grant-role') { //分配角色
-                //do something
-                console.log("获得当前行 tr 的DOM对象 = " + tr);
-                //同步更新缓存对应的值
+                    }
+                        , {
+                        field: 'lastLoginTime', title: '上次登录时间', align: 'center', templet: function (d) {
+                            return d.lastLoginTime != undefined ? moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss") : '';
+                        }
+                    }
+                        , {title: '操作', width: 270, toolbar: '#userListBar', fixed: "right", align: "center"}
+                    ]
+                ];
+
+    layui.renderTable('#userList', 'userListTable', '/sys/user/list', cols);
+
+    keywordSearch('userListTable');
+
+    $("#userAdd").click(function () {
+        alertByFull("添加管理员", "/sys/user/forward/Add");
+    });
+
+    $("#userDelete").click(function () {
+        layer.confirm('确认删除?', {icon: 3, title: '提示'}, function (index) {
+            var checkStatusData = table.checkStatus('userListTable').data; //获取表格选中行
+            var deleteIds = [];
+            checkStatusData.forEach(function (val, index) {
+                deleteIds.push(val.userId);
+            });
+            doBatch(deleteIds, "/sys/user/delete", "DELETE");
+            layer.close(index);
+        });
+    });
+
+    //监听工具条
+    table.on('tool(userList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+        if (layEvent === 'edit') { //修改
+            alertByFull("编辑管理员", "/sys/user/info/" + data.userId);
+        } else if (layEvent === 'reset-pwd') { //重置密码
+            var userId = obj.data.userId;
+            layer.confirm('确认重置密码?', {icon: 3, title: '重置密码'}, function (index) {
+                $.post("/sys/user/pwd/" + userId, {
+                    _method: "PUT"
+                }, function (data) {
+                    layer.msg(data.msg, {time: loadingTime});
+                    if (data.code === code_success) {
+                        setTimeout(function () {
+                            tableIns.reload();
+                        }, loadingTime);
+                    }
+                }, "json");
+                layer.close(index);
+            });
+        } else if (layEvent === 'grant-role') { //分配角色
+            //do something
+            console.log("获得当前行 tr 的DOM对象 = " + tr);
+            //同步更新缓存对应的值
 //                obj.update({
 //                    username: '123'
 //                    ,title: 'xxx'
 //                });
-            }
-        });
-
-        var active = {
-            reload: function () {
-                var usernameSearch = $('#usernameSearch');
-                //执行重载
-                table.reload('userListTable', {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    , where: {
-                        keyword: usernameSearch.val()
-                    }
-                });
-            }
-        };
-
-        $('#userRefresh').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-
-        $("#userDelete").click(function () {
-            layer.confirm('确认删除?', {icon: 3, title: '提示'}, function (index) {
-                var checkStatusData = table.checkStatus('userListTable').data;
-                var deleteCheck = [];
-                checkStatusData.forEach(function (val, index) {
-                    deleteCheck.push(val.userId);
-                });
-                console.log("ids = " + deleteCheck);
-                doDelete(layer, deleteCheck, "/sys/user/delete", tableIns);
-                layer.close(index);
-            });
-        });
-
+        }
     });
+
+
+//    layui.use(['table'], function () {
+//        var table = layui.table;
+
+//        var tableIns = table.render({
+//            elem: '#userList' //指定原始表格元素选择器（推荐id选择器）
+//            , id: 'userListTable'
+//            , url: '/sys/user/list'
+//            , page: true
+//            , height: "full-125"
+//            , limit: 10
+//            , limits: [10, 15, 20, 25, 30]
+//            , request: {
+//                pageName: 'curr' //页码的参数名称，默认：page
+//            }
+//            , parseData: function (res) { //res 即为原始返回的数据
+//                return {
+//                    "code": res.code, //解析接口状态
+//                    "msg": res.msg, //解析提示文本
+//                    "count": res.pageBean.count, //解析数据长度
+//                    "data": res.pageBean.data //解析数据列表
+//                };
+//            }
+//            , cols: [ //二维数组的符号不要连在一起，因为[\[…\]]之间的表达式在thymeleaf被认为是内联表达式,会渲染错误
+//                [
+//                    {field: 'userId', checkbox: true, fixed: 'left', width: 50}
+//                    , {field: 'username', title: '用户名', align: 'center'}
+//                    , {field: 'email', title: '邮箱', align: 'center'}
+//                    , {field: 'mobile', title: '手机号', align: 'center'}
+//                    , {field: 'status', title: '状态', align: 'center', templet: '#status'}
+//                    , {
+//                    field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
+//                        return moment(d.createTime).format("YYYY-MM-DD HH:mm:ss");
+//                    }
+//                }
+//                    , {
+//                    field: 'lastLoginTime', title: '上次登录时间', align: 'center', templet: function (d) {
+//                        return d.lastLoginTime != undefined ? moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss") : '';
+//                    }
+//                }
+//                    , {title: '操作', width: 270, toolbar: '#userListBar', fixed: "right", align: "center"}
+//                ]
+//            ]
+//        });
+
+
+
+
+
+//        var active = {
+//            reload: function () {
+//                var usernameSearch = $('#usernameSearch');
+//                //执行重载
+//                table.reload('userListTable', {
+//                    page: {
+//                        curr: 1 //重新从第 1 页开始
+//                    }
+//                    , where: {
+//                        keyword: usernameSearch.val()
+//                    }
+//                });
+//            }
+//        };
+//
+//        $('#userRefresh').on('click', function () {
+//            var type = $(this).data('type');
+//            active[type] ? active[type].call(this) : '';
+//        });
+
+//    });
 </script>
 
 

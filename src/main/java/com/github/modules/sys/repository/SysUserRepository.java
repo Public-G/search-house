@@ -12,8 +12,6 @@ import java.util.List;
 
 public interface SysUserRepository extends JpaRepository<SysUserEntity, Long>, JpaSpecificationExecutor<SysUserEntity> {
 
-    SysUserEntity findByUserId(Long userId);
-
     SysUserEntity findByUsername(String username);
 
     @Query(value = "select distinct rm.menu_id from sys_user_role ur " +

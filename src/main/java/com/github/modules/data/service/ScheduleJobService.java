@@ -32,4 +32,28 @@ public interface ScheduleJobService {
      * @return
      */
     ScheduleJobEntity findByJobId(Long jobId);
+
+    /**
+     * 批量删除定时任务
+     * @param jobIds
+     */
+    void deleteBatch(Long[] jobIds);
+
+    /**
+     * 批量立即执行任务
+     * @param jobIds
+     */
+    void run(Long[] jobIds);
+
+    /**
+     * 批量暂停定时任务
+     * @param jobIds
+     */
+    void pause(Long[] jobIds);
+
+    /**
+     * 批量恢复定时任务
+     * @param jobIds
+     */
+    void resume(Long[] jobIds);
 }

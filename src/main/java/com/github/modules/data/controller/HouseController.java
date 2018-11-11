@@ -23,7 +23,7 @@ public class HouseController {
     private HouseService houseService;
 
     /**
-     * 列表/添加/更新页面的跳转
+     * 列表/添加 页面的跳转
      *
      * @param forwardType 跳转类型
      */

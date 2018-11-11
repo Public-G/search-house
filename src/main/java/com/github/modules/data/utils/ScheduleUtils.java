@@ -14,13 +14,15 @@ import org.quartz.*;
  */
 public class ScheduleUtils {
 
-    private final static String JOB_NAME = "TASK_";
+    private final static String JOB_NAME = "JOB_";
+
+    private final static String TRIGGER_KEY = "TRIGGER_";
 
     /**
      * 获取触发器 key
      */
     public static TriggerKey getTriggerKey(Long jobId) {
-        return TriggerKey.triggerKey(JOB_NAME + jobId);
+        return TriggerKey.triggerKey(TRIGGER_KEY + jobId);
     }
 
     /**
@@ -69,8 +71,11 @@ public class ScheduleUtils {
                 pauseJob(scheduler, scheduleJobEntity.getJobId());
             }
 
-        } catch (SchedulerException e) {
-            throw new SHException("创建定时任务失败", e);
+        } catch (SchedulerException se) {
+            throw new SHException("创建定时任务失败", se);
+
+        } catch (Exception e) {
+            throw new SHException("创建定时任务失败，请检查定时任务参数", e);
         }
 
     }
@@ -100,13 +105,18 @@ public class ScheduleUtils {
             if (scheduleJobEntity.getStatus() == SysConstant.ScheduleStatus.PAUSE.getValue()) {
                 pauseJob(scheduler, scheduleJobEntity.getJobId());
             }
-        } catch (SchedulerException e) {
-            throw new SHException("更新定时任务失败", e);
+
+        } catch (SchedulerException se) {
+            throw new SHException("更新定时任务失败", se);
+
+        } catch (Exception e) {
+            throw new SHException("更新定时任务失败，请检查定时任务参数", e);
         }
     }
 
     /**
      * 立即执行任务
+     * 马上执行一次该任务，只执行一次
      */
     public static void run(Scheduler scheduler, ScheduleJobEntity scheduleJobEntity) {
         try {
@@ -122,7 +132,9 @@ public class ScheduleUtils {
     }
 
     /**
-     * 暂停任务(不是暂停正在执行的任务，而是以后不再执行这个定时任务了)
+     * 暂停任务
+     * 不是暂停正在执行的任务，而是以后不再执行这个定时任务了
+     * 正在执行的任务，还是照常执行完
      */
     public static void pauseJob(Scheduler scheduler, Long jobId) {
         try {
@@ -134,6 +146,8 @@ public class ScheduleUtils {
 
     /**
      * 恢复任务
+     * 针对pauseJob来的，如果任务暂停了，以后都不会再执行，
+     * 要想再执行，则需要调用resumeJob，使定时任务恢复执行
      */
     public static void resumeJob(Scheduler scheduler, Long jobId) {
         try {

@@ -14,6 +14,11 @@ import java.util.List;
 public interface SysMenuService {
 
     /**
+     * 查询所有
+     */
+    List<SysMenuEntity> findAll();
+
+    /**
      * 获取用户菜单列表
      */
     List<SysMenuDTO> getUserMenuList(Long userId);
@@ -24,4 +29,10 @@ public interface SysMenuService {
      * @param menuIdList  用户菜单ID
      */
     List<SysMenuEntity> findMenuByParentId(Long parentId, List<Long> menuIdList);
+
+    /**
+     * 根据用户ID查询权限
+     */
+    List<String> findPermsByUserId(Long userId);
+
 }

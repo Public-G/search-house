@@ -76,7 +76,7 @@ public class SysUserController {
     public ApiResponse save(SysUserEntity userEntity) {
         ValidatorUtils.validateEntity(userEntity, AddGroup.class);
 
-        sysUserService.saveOrUpdate(userEntity);
+        sysUserService.save(userEntity);
 
         return ApiResponse.ofSuccess();
     }
@@ -97,7 +97,7 @@ public class SysUserController {
     @ResponseBody
     public ApiResponse update(@ModelAttribute("user") SysUserEntity sysUserEntity){
         // @ModelAttribute 拿不到值可能该条记录已经被删除, 请求无效
-        if (sysUserEntity.getUserId() == null) {
+        if (sysUserEntity == null) {
             return ApiResponse.ofStatus(ApiResponse.ResponseStatus.NOT_FOUND);
         }
 
@@ -109,7 +109,7 @@ public class SysUserController {
 
         ValidatorUtils.validateEntity(sysUserEntity, UpdateGroup.class);
 
-        sysUserService.saveOrUpdate(sysUserEntity);
+        sysUserService.update(sysUserEntity);
 
         return ApiResponse.ofSuccess();
     }
@@ -119,12 +119,12 @@ public class SysUserController {
      */
     @DeleteMapping("/delete")
     @ResponseBody
-    public ApiResponse delete(Long[] deleteCheck) {
-        if (ArrayUtils.contains(deleteCheck, SysConstant.SUPER_ADMIN)) {
+    public ApiResponse delete(@RequestParam("selectIds") Long[] userIds) {
+        if (ArrayUtils.contains(userIds, SysConstant.SUPER_ADMIN)) {
             return ApiResponse.ofFail("超级管理员不能删除");
         }
 
-        sysUserService.deleteBatch(Arrays.asList(deleteCheck));
+        sysUserService.deleteBatch(userIds);
 
         return ApiResponse.ofSuccess();
     }
@@ -140,14 +140,11 @@ public class SysUserController {
     }
 
     @ModelAttribute
-    public void customModelAttribute(@RequestParam(value = "userId", required = false) Long userId, Model model) {
+    private void customModelAttribute(@RequestParam(value = "userId", required = false) Long userId, Model model) {
         if (userId != null) {
             SysUserEntity userEntity = sysUserService.findByUserId(userId);
             model.addAttribute("user", userEntity);
         }
     }
-
-
-
 
 }

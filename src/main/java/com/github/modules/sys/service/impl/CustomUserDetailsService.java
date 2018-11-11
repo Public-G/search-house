@@ -5,6 +5,8 @@ import com.github.modules.sys.entity.SysMenuEntity;
 import com.github.modules.sys.entity.SysUserEntity;
 import com.github.modules.sys.repository.SysMenuRepository;
 import com.github.modules.sys.repository.SysUserRepository;
+import com.github.modules.sys.service.SysMenuService;
+import com.github.modules.sys.service.SysUserService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,17 +32,17 @@ public class CustomUserDetailsService implements UserDetailsService {
     private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
     @Autowired
-    private SysUserRepository sysUserRepository;
+    private SysUserService sysUserService;
 
     @Autowired
-    private SysMenuRepository sysMenuRepository;
+    private SysMenuService sysMenuService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.debug("用户"+ username +"登录");
 
         // 根据用户名查找用户信息
-        SysUserEntity sysUserEntity = sysUserRepository.findByUsername(username);
+        SysUserEntity sysUserEntity = sysUserService.findByUsername(username);
         if (sysUserEntity == null) {
             // catch异常处默认隐藏UsernameNotFoundException, 最终以BadCredentialsException抛出
             throw new UsernameNotFoundException("");
@@ -62,13 +64,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         //系统管理员，拥有最高权限
         if (userId == SysConstant.SUPER_ADMIN) {
-            List<SysMenuEntity> menuList = sysMenuRepository.findAll();
+            List<SysMenuEntity> menuList = sysMenuService.findAll();
             permsList = new ArrayList<>(menuList.size());
             for (SysMenuEntity menu : menuList) {
                 permsList.add(menu.getPerms());
             }
         } else {
-            permsList = sysMenuRepository.findPermsByUserId(userId);
+            permsList = sysMenuService.findPermsByUserId(userId);
         }
 
         //用户权限列表

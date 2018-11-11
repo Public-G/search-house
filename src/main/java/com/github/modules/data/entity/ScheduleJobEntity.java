@@ -5,6 +5,7 @@ import com.github.common.validator.group.UpdateGroup;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -25,6 +26,7 @@ public class ScheduleJobEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "job_id")
+    @NotNull(message = "该记录不存在，请检查是否被删除",  groups = {UpdateGroup.class})
     private Long jobId;
 
     /**

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote quoteBox">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input searchVal" placeholder="请输入bean名称"/>
+        </div>
+        <a class="search_btn layui-btn" data-type="reload" id="keywordRefresh">搜索</a>
+    </div>
+    <div class="layui-inline">
+        <a id="ruleAdd" class="layui-btn layui-btn-normal">新增</a>
+    </div>
+    <div class="layui-inline">
+        <a id="ruleDelete" class="layui-btn layui-btn-danger">批量删除</a>
+    </div>
+</blockquote>
+
+<table id="ruleList" lay-filter="ruleList"></table>
+
+<div th:replace="~{admin/common/common :: script}"></div>
+
+<!-- 操作 -->
+<script type="text/html" id="ruleListBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i>修改</a>
+</script>
+</body>
+</html>
+<script type="text/javascript">
+    var cols = [
+        [
+            {field: 'ruleId', checkbox: true, fixed: 'left', width: 50}
+            , {field: 'ruleName', title: '规则名称', align: 'center', width: 140}
+            , {field: 'cityCnName', title: '城市', align: 'center', width: 120}
+            , {field: 'allowedDomains', title: '爬取的域名', align: 'center', width: 160}
+            , {field: 'loopStart', title: '详情页循环入口', align: 'center', width: 160}
+            , {field: 'nextUrl', title: '下一页', align: 'center', width: 160}
+            , {field: 'detailUrl', title: '详情页', align: 'center', width: 160}
+            , {field: 'region', title: '区域', align: 'center', width: 160}
+            , {field: 'title', title: '标题', align: 'center', width: 160}
+            , {field: 'community', title: '小区', align: 'center', width: 160}
+            , {field: 'address', title: '详细地址', align: 'center', width: 160}
+            , {field: 'price', title: '价格', align: 'center', width: 160}
+            , {field: 'square', title: '面积', align: 'center', width: 160}
+            , {field: 'description', title: '描述', align: 'center', width: 160}
+            , {field: 'imgHref', title: '封面图', align: 'center', width: 160}
+            , {field: 'houseType', title: '户型', align: 'center', width: 160}
+            , {field: 'rentWay', title: '出租方式', align: 'center', width: 160}
+            , {field: 'createTime', title: '创建时间', align: 'center', width: 160, templet: function (d) {
+                  return d.createTime != undefined ? moment(d.createTime).format("YYYY-MM-DD HH:mm:ss") : '';
+                }
+              }
+            , {title: '操作', width: 120, toolbar: '#ruleListBar', fixed: "right", align: "center"}
+        ]
+    ];
+
+    layui.renderTable('#ruleList', 'ruleListTable', '/data/rule/list', cols);
+
+    keywordSearch('ruleListTable');
+
+    $("#ruleAdd").click(function () {
+        alertByFull("新增规则", "/data/rule/forward/Add");
+    });
+
+    $("#ruleDelete").click(function () {
+        layer.confirm('确认删除规则?', {icon: 3, title: '提示'}, function (index) {
+            var checkStatusData = table.checkStatus('ruleListTable').data; //获取表格选中行
+            var selectIds = [];
+            checkStatusData.forEach(function (val, index) {
+                selectIds.push(val.ruleId);
+            });
+
+            doBatch(selectIds, "/data/rule/delete", "DELETE");
+            layer.close(index);
+        });
+    });
+
+    //监听工具条
+    table.on('tool(ruleList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+        if (layEvent === 'edit') { //修改
+            alertByFull("修改定时任务", "/data/rule/info/" + data.ruleId);
+        }
+    });
+</script>

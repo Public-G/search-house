@@ -2,6 +2,7 @@ package com.github.modules.data.service;
 
 import com.github.common.utils.PageUtils;
 import com.github.modules.data.entity.SupportAreaEntity;
+import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 
 import java.util.List;
 import java.util.Map;
@@ -29,5 +30,17 @@ public interface SupportAreaService {
      * 根据城市查询区域
      */
     List<String> findRegionByCity(String cityName);
+
+    /**
+     * 根据级别查询区域
+     */
+    List<SupportAreaEntity> findByLevel(int level);
+
+    /**
+     * 根据ID查询区域
+     */
+    SupportAreaEntity findById(Long id);
+
+
 
 }

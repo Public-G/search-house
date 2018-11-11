@@ -17,6 +17,7 @@ var code_success = 0;
 var code_fail = 1;
 
 var table, layer, form;
+var tableIns;
 
 /**
  * 定义模块
@@ -29,7 +30,7 @@ layui.define(['layer', 'table', 'form'], function(exports){
 
     // 动态表格
     exports('renderTable', function(tableSelector, tableId, url, cols){
-        var tableIns = table.render({
+        tableIns = table.render({
             elem: tableSelector //指定原始表格元素选择器（推荐id选择器）
             , id: tableId
             , url: url
@@ -110,8 +111,7 @@ function keywordSearch(tableId) {
 }
 
 /**
- * 弹窗最大化
- * @param layer
+ * 弹窗
  * @param title
  * @param url
  */
@@ -133,35 +133,17 @@ function alertByFull(title, url) {
             }, loadingTime)
         }
     });
-    // layer.open({
-    //     title: title,
-    //     type: 2,
-    //     shift: 0,
-    //     area: ['100%', '100%'],
-    //     content: url,
-    //     success: function (layero, index) {
-    //         layer.full(index);
-    //     }
-    // });
 }
 
-/**
- * 判断是否为空
- * @param data
- * @returns {boolean}
- */
-function checkIsNotNull(data) {
-    return data != null && typeof data !== "undefined" && typeof data.valueOf() === "string" && data.length > 0;
-}
 
 /**
- * 删除
- * @param deleteCheck
+ * 批量操作
+ * @param selectIds
  * @param url
- * @param fun
+ * @param _method
  */
-function doDelete(layer, deleteCheck, url, tableIns) {
-    if (deleteCheck.length == 0) {
+function doBatch(selectIds, url, _method) {
+    if (selectIds.length === 0 || selectIds === null) {
         layer.msg("请选择删除项");
     } else {
         $.ajax({
@@ -169,8 +151,8 @@ function doDelete(layer, deleteCheck, url, tableIns) {
             type: "POST",
             traditional: true,
             data: {
-                _method: "DELETE",
-                deleteCheck: deleteCheck
+                _method: _method,
+                selectIds: selectIds
             },
             dataType: "json",
             success: function (data) {
@@ -192,53 +174,3 @@ function doDelete(layer, deleteCheck, url, tableIns) {
     }
 }
 
-/**
- * 分页
- * @param laypage
- * @param page_label
- * @param count
- * @param curr
- * @param fun
- */
-function renderPage(laypage, page_label, count, curr, fun) {
-    laypage.render({
-        elem: page_label
-        , count: count
-        , curr: curr
-        , layout: ['prev', 'page', 'next', 'count', 'skip']
-        , jump: function (obj, first) {
-            if (!first) {
-                fun(obj.curr);
-            }
-        }
-    });
-}
-
-/**
- * 公告
- * @param layer
- * @param noticeStartTime
- * @param noticeEndTime
- * @param noticeTitle
- * @param noticeContent
- */
-function alertNotice(layer, noticeStartTime, noticeEndTime, noticeTitle, noticeContent) {
-    var content = '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">网站将在以下时间段进行升级维护:<br/>'
-        + noticeStartTime + ' -- ' + noticeEndTime + '<br/><br/>本次升级内容:<br/>' + noticeContent + '</div>';
-    if (checkIsNotNull(noticeStartTime)) {
-        layer.open({
-            type: 1
-            ,title: noticeTitle
-            ,closeBtn: false
-            ,area: '400px;'
-            ,shade: 0.8
-            ,id: 'notice-id'
-            ,btn: ['知道了']
-            ,btnAlign: 'c'
-            ,moveType: 1
-            ,content: content
-            ,success: function(layero){
-            }
-        });
-    };
-}

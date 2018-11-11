@@ -47,12 +47,9 @@
 <!-- 操作 -->
 <script type="text/html" id="scheduleListBar">
     <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i>修改</a>
-    <!--<a class="layui-btn layui-btn-xs" lay-event="reset-pwd"><i class="fa fa-retweet"></i>重置密码</a>-->
-    <!--<a class="layui-btn layui-btn-xs" lay-event="grant-role"><i class="fa fa-user-plus"></i>分配角色</a>-->
 </script>
 
 <script type="text/javascript">
-
     var cols = [
         [
             {field: 'jobId', checkbox: true, fixed: 'left', width: 50}
@@ -80,14 +77,62 @@
     });
 
     $("#scheduleAdd").click(function () {
-        alertByFull("新增任务", "/data/schedule/forward/Add");
+        alertByFull("新增定时任务", "/data/schedule/forward/Add");
+    });
+
+    $("#scheduleDelete").click(function () {
+        layer.confirm('确认删除任务?', {icon: 3, title: '提示'}, function (index) {
+            var checkStatusData = table.checkStatus('scheduleListTable').data; //获取表格选中行
+            var selectIds = [];
+            checkStatusData.forEach(function (val, index) {
+                selectIds.push(val.jobId);
+            });
+
+            doBatch(selectIds, "/data/schedule/delete", "DELETE");
+            layer.close(index);
+        });
+    });
+
+    $("#schedulePause").click(function () {
+        layer.confirm('确认暂停任务?', {icon: 3, title: '提示'}, function (index) {
+            var checkStatusData = table.checkStatus('scheduleListTable').data; //获取表格选中行
+            var selectIds = [];
+            checkStatusData.forEach(function (val, index) {
+                selectIds.push(val.jobId);
+            });
+            doBatch(selectIds, "/data/schedule/pause", "PUT");
+            layer.close(index);
+        });
+    });
+
+    $("#scheduleResume").click(function () {
+        layer.confirm('确认恢复任务?', {icon: 3, title: '提示'}, function (index) {
+            var checkStatusData = table.checkStatus('scheduleListTable').data; //获取表格选中行
+            var selectIds = [];
+            checkStatusData.forEach(function (val, index) {
+                selectIds.push(val.jobId);
+            });
+            doBatch(selectIds, "/data/schedule/resume", "PUT");
+            layer.close(index);
+        });
+    });
+
+    $("#scheduleBatchRun").click(function () {
+        layer.confirm('确认立即执行任务?', {icon: 3, title: '提示'}, function (index) {
+            var checkStatusData = table.checkStatus('scheduleListTable').data; //获取表格选中行
+            var selectIds = [];
+            checkStatusData.forEach(function (val, index) {
+                selectIds.push(val.jobId);
+            });
+            doBatch(selectIds, "/data/schedule/run", "PUT");
+            layer.close(index);
+        });
     });
 
     //监听工具条
     table.on('tool(scheduleList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
         var data = obj.data; //获得当前行数据
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-        var tr = obj.tr; //获得当前行 tr 的DOM对象
 
         if (layEvent === 'edit') { //修改
             alertByFull("修改定时任务", "/data/schedule/info/" + data.jobId);

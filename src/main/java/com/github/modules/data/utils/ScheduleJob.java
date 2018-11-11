@@ -41,8 +41,6 @@ public class ScheduleJob extends QuartzJobBean {
         ScheduleJobEntity scheduleJobEntity = (ScheduleJobEntity)context.getMergedJobDataMap()
                 .get(SysConstant.JOB_PARAM_KEY);
 
-        Assert.notNull(scheduleJobEntity, "没有获取到要执行的组件，请检查");
-
         //获取spring bean
         ScheduleJobLogService scheduleJobLogService = SpringContextUtils.getBean("scheduleJobLogService", ScheduleJobLogService.class);
 

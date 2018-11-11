@@ -22,19 +22,20 @@ public class ScheduleRunnable implements Runnable {
     /**
      * 初始化成员变量
      *
-     * @param beanName      SpringBean名称
-     * @param methodName    要执行的方法名
-     * @param params        方法参数
+     * @param beanName   SpringBean名称
+     * @param methodName 要执行的方法名
+     * @param params     方法参数
      * @throws NoSuchMethodException
      * @throws SecurityException
      */
-    public ScheduleRunnable(String beanName, String methodName, String params) throws NoSuchMethodException, SecurityException{
+    public ScheduleRunnable(String beanName, String methodName, String params) throws NoSuchMethodException {
         this.target = SpringContextUtils.getBean(beanName);
         this.params = params;
 
-        if(StringUtils.isNotBlank(params)){
+        if (StringUtils.isNotBlank(params)) {
             this.method = target.getClass().getDeclaredMethod(methodName, String.class);
-        }else{
+
+        } else {
             this.method = target.getClass().getDeclaredMethod(methodName);
         }
     }
@@ -46,12 +47,12 @@ public class ScheduleRunnable implements Runnable {
     public void run() {
         try {
             ReflectionUtils.makeAccessible(method);
-            if(StringUtils.isNotBlank(params)){
+            if (StringUtils.isNotBlank(params)) {
                 method.invoke(target, params);
-            }else{
+            } else {
                 method.invoke(target);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new SHException("执行定时任务失败", e);
         }
     }

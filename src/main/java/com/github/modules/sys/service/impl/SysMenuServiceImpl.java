@@ -6,6 +6,7 @@ import com.github.modules.sys.entity.SysMenuEntity;
 import com.github.modules.sys.repository.SysMenuRepository;
 import com.github.modules.sys.service.SysMenuService;
 import com.github.modules.sys.service.SysUserService;
+import org.apache.commons.lang.ArrayUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -31,6 +32,11 @@ public class SysMenuServiceImpl implements SysMenuService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Override
+    public List<SysMenuEntity> findAll() {
+        return sysMenuRepository.findAll();
+    }
 
     @Override
     public List<SysMenuDTO> getUserMenuList(Long userId) {
@@ -103,5 +109,10 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Override
     public List<SysMenuEntity> findMenuByParentId(Long parentId, List<Long> menuIdList) {
         return null;
+    }
+
+    @Override
+    public List<String> findPermsByUserId(Long userId) {
+        return sysMenuRepository.findPermsByUserId(userId);
     }
 }
