@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;">
+
+    <div class="layui-row">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">项目名称</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="spiderName" lay-verify="required" placeholder="项目名称">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">爬取深度</label>
+            <div class="layui-input-block">
+                <input type="number" min="1" class="layui-input" name="depthLimit" placeholder="爬取深度">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">城市</label>
+            <div class="layui-input-block">
+                <select name="cityId" lay-verify="required">
+                    <option value=""></option>
+                    <option th:each="item:${city}" th:if="${city!=null}" th:value="${item.areaId}">[[${item.cnName}]]</option>
+                </select>
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">解析规则</label>
+            <div class="layui-input-block">
+                <select name="ruleId" lay-verify="required">
+                    <option value=""></option>
+                    <option th:each="item:${rule}" th:if="${rule!=null}" th:value="${item.ruleId}">[[${item.ruleName}]]</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">起始链接</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" name="startUrls" lay-verify="required" placeholder="起始链接，多个请用逗号分隔，例如：x.a.com,y.a.com"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" name="remark" placeholder="备注"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="spider_submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>
+<div th:replace="~{admin/common/common :: script}"></div>
+</body>
+</html>
+<script type="text/javascript">
+    layui.formSubmit('spider_submit', '/data/spider/save');
+</script>

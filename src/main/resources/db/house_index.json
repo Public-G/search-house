@@ -1,0 +1,76 @@
+{
+  "settings": {
+    "number_of_shards": 5,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "house": {
+      "dynamic": false,
+      "properties": {
+        "suggest": {
+          "type": "completion"
+        },
+        "sourceUrlId": {
+          "type": "keyword"
+        },
+        "title": {
+          "type": "text",
+          "analyzer": "ik_max_word"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "square": {
+          "type": "integer"
+        },
+        "houseType": {
+          "type": "text",
+          "analyzer": "ik_smart"
+        },
+        "rentWay": {
+          "type": "short"
+        },
+        "community": {
+          "type": "keyword"
+        },
+        "city": {
+          "type": "keyword"
+        },
+        "region": {
+          "type": "keyword"
+        },
+        "address": {
+          "type": "text",
+          "analyzer": "ik_smart"
+        },
+        "description": {
+          "type": "text",
+          "analyzer": "ik_max_word"
+        },
+        "imgHref": {
+          "type": "keyword"
+        },
+        "sourceUrl": {
+          "type": "keyword"
+        },
+        "website": {
+          "type": "long"
+        },
+        "attribute": {
+          "type": "short"
+        },
+        "updateTime": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "createTime": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "location": {
+          "type": "geo_point"
+        }
+      }
+    }
+  }
+}
