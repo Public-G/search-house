@@ -8,7 +8,7 @@ package com.github.modules.search.constant;
  */
 public class HouseIndexConstant {
 
-    public static final String INDEX_NAME = "sf";
+    public static final String INDEX_NAME = "sh";
 
     public static final String TYPE_NAME = "house";
 

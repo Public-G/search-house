@@ -1,6 +1,7 @@
 package com.github.modules.data.service;
 
 import com.github.common.utils.PageUtils;
+import com.github.modules.data.pojo.HouseIndexTemplate;
 
 import java.util.Map;
 
@@ -13,5 +14,8 @@ public interface HouseService {
      */
     PageUtils findPage(Map<String, String> params);
 
-
+    /**
+     * 保存或更新房源
+     */
+    void saveOrUpdate(HouseIndexTemplate houseIndexTemplate);
 }

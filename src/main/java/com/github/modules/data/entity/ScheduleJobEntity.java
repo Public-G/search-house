@@ -71,6 +71,12 @@ public class ScheduleJobEntity implements Serializable {
     @Column(name = "create_time")
     private Date createTime;
 
+    /**
+     * 更新时间
+     */
+    @Column(name = "update_time")
+    private Date updateTime;
+
 
     public Long getJobId() {
         return jobId;
@@ -134,5 +140,13 @@ public class ScheduleJobEntity implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

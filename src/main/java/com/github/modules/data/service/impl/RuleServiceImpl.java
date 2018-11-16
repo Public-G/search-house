@@ -20,18 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.*;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Service("ruleService")
 public class RuleServiceImpl implements RuleService {
 
     @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
     private RuleRepository ruleRepository;
-
-    @Autowired
-    private SupportAreaService supportAreaService;
 
     @Override
     public PageUtils findPage(PageForm pageForm) {
@@ -60,15 +55,6 @@ public class RuleServiceImpl implements RuleService {
             ruleEntityPage = ruleRepository.findAll(pageable);
         }
 
-        if (ruleEntityPage.getTotalElements() > 0) {
-            for (RuleEntity ruleEntity : ruleEntityPage.getContent()) {
-                SupportAreaEntity city = supportAreaService.findById(ruleEntity.getCityId());
-                if (city != null) {
-                    ruleEntity.setCityCnName(city.getCnName());
-                }
-            }
-        }
-
         return new PageUtils(ruleEntityPage);
     }
 
@@ -79,7 +65,10 @@ public class RuleServiceImpl implements RuleService {
         ruleRepository.save(ruleEntity);
     }
 
+    @Transactional
+    @Override
     public void update(RuleEntity ruleEntity) {
+        ruleEntity.setUpdateTime(new Date());
         ruleRepository.save(ruleEntity);
     }
 
@@ -92,5 +81,10 @@ public class RuleServiceImpl implements RuleService {
     @Override
     public void deleteBatch(Long[] ruleIds) {
         ruleRepository.deleteByRuleIdIn(ruleIds);
+    }
+
+    @Override
+    public List<RuleEntity> findAll() {
+        return ruleRepository.findAll();
     }
 }

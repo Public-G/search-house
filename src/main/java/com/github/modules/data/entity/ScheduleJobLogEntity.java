@@ -65,7 +65,7 @@ public class ScheduleJobLogEntity implements Serializable {
     private Integer times;
 
     /**
-     * 创建时间
+     * 执行时间
      */
     @Column(name = "create_time")
     private Date createTime;

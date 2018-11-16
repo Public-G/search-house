@@ -5,10 +5,19 @@
 <form class="layui-form" style="width:80%;" th:object="${rule}">
     <input name="ruleId" type="hidden" th:value="*{ruleId}">
     <input name="_method" type="hidden" th:value="PUT">
-    <div class="layui-form-item layui-row layui-col-xs8">
-        <label class="layui-form-label">规则名称</label>
-        <div class="layui-input-block">
-            <input type="text" class="layui-input" name="ruleName" th:value="*{ruleName}" lay-verify="required" placeholder="规则名称">
+
+    <div class="layui-row">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">规则名称</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="ruleName" th:value="*{ruleName}" lay-verify="required" placeholder="规则名称">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">来源网站</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="websiteName" th:value="*{websiteName}" lay-verify="required" placeholder="规则名称">
+            </div>
         </div>
     </div>
 
@@ -107,16 +116,6 @@
         <label class="layui-form-label">出租方式</label>
         <div class="layui-input-block">
             <input type="text" name="rentWay" th:value="*{rentWay}" autocomplete="off" placeholder="出租方式" class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">城市</label>
-        <div class="layui-input-block">
-            <select name="cityId" lay-filter="required">
-                <option value=""></option>
-                <option th:selected="*{cityId}==${item.id}" th:each="item : ${city}" th:value="${item.id}" th:if="${city != null}">[[${item.cnName}]]</option>
-            </select>
         </div>
     </div>
 

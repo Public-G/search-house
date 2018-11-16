@@ -2,6 +2,7 @@ package com.github.modules.data.service;
 
 import com.github.common.utils.PageUtils;
 import com.github.modules.data.entity.SupportAreaEntity;
+import com.github.modules.data.pojo.BaiduMapLocation;
 import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 
 import java.util.List;
@@ -37,10 +38,24 @@ public interface SupportAreaService {
     List<SupportAreaEntity> findByLevel(int level);
 
     /**
+     * 根据名称查询
+     */
+    SupportAreaEntity findByCnName(String cnName);
+
+    /**
      * 根据ID查询区域
      */
-    SupportAreaEntity findById(Long id);
+    SupportAreaEntity findByAreaId(Long areaId);
 
+    /**
+     * 保存
+     */
+    void save(List<SupportAreaEntity> areaEntityList);
+
+    /**
+     * 根据城市以及具体地位获取百度地图的经纬度
+     */
+    BaiduMapLocation getBaiduMapLocation(String city, String region, String address, String community);
 
 
 }

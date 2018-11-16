@@ -108,6 +108,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(ScheduleJobEntity scheduleJobEntity) {
+        scheduleJobEntity.setUpdateTime(new Date());
         ScheduleJobEntity jobEntity = scheduleJobRepository.save(scheduleJobEntity);
 
         ScheduleUtils.updateScheduleJob(scheduler, jobEntity);

@@ -15,7 +15,7 @@ import java.util.Date;
  * @author ZEALER
  * @date 2018-11-11
  */
-@Table(name = "py_rule")
+@Table(name = "tb_rule")
 @Entity
 public class RuleEntity implements Serializable {
     private static final long serialVersionUID = 613882152L;
@@ -122,19 +122,23 @@ public class RuleEntity implements Serializable {
     private Date createTime;
 
     /**
+     * 更新时间
+     */
+    @Column(name = "update_time")
+    private Date updateTime;
+
+    /**
      * 城市ID，逻辑外键
      */
-    @Column(name = "city_id")
-    @NotNull(message="城市不能为空", groups = {AddGroup.class, UpdateGroup.class})
-    private Long cityId;
-
-    @Transient
-    private String cityCnName;
+    @Column(name = "website_name")
+    @NotNull(message="来源网站不能为空", groups = {AddGroup.class, UpdateGroup.class})
+    private String websiteName;
 
     public RuleEntity() {
     }
 
-    public RuleEntity(String ruleName, String allowedDomains, String loopStart, String nextUrl, String detailUrl, String region, String title, String community, String address, String price, String square, String description, String imgHref, String houseType, String rentWay, Date createTime, Long cityId) {
+    public RuleEntity(Long ruleId, String ruleName, String allowedDomains, String loopStart, String nextUrl, String detailUrl, String region, String title, String community, String address, String price, String square, String description, String imgHref, String houseType, String rentWay, Date createTime, Date updateTime, String websiteName) {
+        this.ruleId = ruleId;
         this.ruleName = ruleName;
         this.allowedDomains = allowedDomains;
         this.loopStart = loopStart;
@@ -151,7 +155,8 @@ public class RuleEntity implements Serializable {
         this.houseType = houseType;
         this.rentWay = rentWay;
         this.createTime = createTime;
-        this.cityId = cityId;
+        this.updateTime = updateTime;
+        this.websiteName = websiteName;
     }
 
     public Long getRuleId() {
@@ -290,19 +295,19 @@ public class RuleEntity implements Serializable {
         this.createTime = createTime;
     }
 
-    public Long getCityId() {
-        return cityId;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public String getCityCnName() {
-        return cityCnName;
+    public String getWebsiteName() {
+        return websiteName;
     }
 
-    public void setCityCnName(String cityCnName) {
-        this.cityCnName = cityCnName;
+    public void setWebsiteName(String websiteName) {
+        this.websiteName = websiteName;
     }
 }

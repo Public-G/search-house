@@ -30,7 +30,7 @@ public class ValidatorUtils {
      * @param groups        待校验的组
      * @throws SHException  校验不通过，则报SHException异常
      */
-    public static void validateEntity(Object object, Class<?>... groups) throws SHException{
+    public static void validateEntity(Object object, Class<?>... groups) {
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object, groups);
 
         if (!constraintViolations.isEmpty()) {

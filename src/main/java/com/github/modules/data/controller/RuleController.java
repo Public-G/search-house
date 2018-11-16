@@ -42,11 +42,7 @@ public class RuleController {
      * @param forwardType 跳转类型
      */
     @GetMapping("/forward/{forwardType:\\bList\\b|\\bAdd\\b}")
-    public String forward(@PathVariable String forwardType, Model model) {
-        if ("Add".equals(forwardType)) {
-            List<SupportAreaEntity> allCity = supportAreaService.findByLevel(SysConstant.AreaLevel.CITY.getValue());
-            model.addAttribute("city", allCity);
-        }
+    public String forward(@PathVariable String forwardType) {
         return "admin/data/rule/rule" + forwardType;
     }
 
@@ -75,19 +71,6 @@ public class RuleController {
     }
 
     /**
-     * 解析规则信息
-     */
-    @GetMapping("/info/{ruleId:[1-9]+}")
-    public String info(@PathVariable Long ruleId, Model model){
-        List<SupportAreaEntity> allCity = supportAreaService.findByLevel(SysConstant.AreaLevel.CITY.getValue());
-        model.addAttribute("city", allCity);
-
-        model.addAttribute("rule", ruleService.findByRuleId(ruleId));
-
-        return "admin/data/rule/ruleInfo";
-    }
-
-    /**
      * 修改解析规则
      */
     @PutMapping("/update")
@@ -103,8 +86,8 @@ public class RuleController {
         ruleService.update(ruleEntity);
 
         return ApiResponse.ofSuccess();
+    }
 
-}
     /**
      * 删除解析规则
      */

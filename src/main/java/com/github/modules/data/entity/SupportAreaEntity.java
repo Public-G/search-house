@@ -17,7 +17,8 @@ public class SupportAreaEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "area_id")
+    private Long areaId;
 
     @Column(name = "parent_id")
     private Long parentId;
@@ -39,19 +40,33 @@ public class SupportAreaEntity implements Serializable {
     public SupportAreaEntity() {
     }
 
-    public SupportAreaEntity(Long parentId, String cnName, int level, List<SupportAreaEntity> childCity) {
+    public SupportAreaEntity(Long parentId, String cnName, int level) {
+        this.parentId = parentId;
+        this.cnName = cnName;
+        this.level = level;
+    }
+
+    public SupportAreaEntity(Long areaId, Long parentId, String cnName, int level) {
+        this.areaId = areaId;
+        this.parentId = parentId;
+        this.cnName = cnName;
+        this.level = level;
+    }
+
+    public SupportAreaEntity(Long areaId, Long parentId, String cnName, int level, List<SupportAreaEntity> childCity) {
+        this.areaId = areaId;
         this.parentId = parentId;
         this.cnName = cnName;
         this.level = level;
         this.childCity = childCity;
     }
 
-    public Long getId() {
-        return id;
+    public Long getAreaId() {
+        return areaId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAreaId(Long areaId) {
+        this.areaId = areaId;
     }
 
     public Long getParentId() {

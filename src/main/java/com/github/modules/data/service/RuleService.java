@@ -4,6 +4,8 @@ import com.github.common.utils.PageUtils;
 import com.github.modules.base.form.PageForm;
 import com.github.modules.data.entity.RuleEntity;
 
+import java.util.List;
+
 /**
  * 解析规则
  *
@@ -33,4 +35,6 @@ public interface RuleService {
      * 批量删除解析规则
      */
     void deleteBatch(Long[] ruleIds);
+
+    List<RuleEntity> findAll();
 }

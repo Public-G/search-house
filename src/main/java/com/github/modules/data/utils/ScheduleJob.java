@@ -63,7 +63,7 @@ public class ScheduleJob extends QuartzJobBean {
                     scheduleJobEntity.getMethodName(), scheduleJobEntity.getParams());
             Future<?> future = executor.submit(task);
 
-            // 阻塞等待线程返回结果
+            // 阻塞等待任务执行结束
             future.get();
 
             //任务执行总时长
@@ -86,6 +86,9 @@ public class ScheduleJob extends QuartzJobBean {
             log.setError(StringUtils.substring(e.toString(), 0, 2000));
         } finally {
             scheduleJobLogService.save(log);
+//            if (!executor.isShutdown()) {
+//                executor.shutdown();
+//            }
         }
     }
 

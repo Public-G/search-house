@@ -46,7 +46,7 @@
 
 <!-- 操作 -->
 <script type="text/html" id="scheduleListBar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i>修改</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 修改</a>
 </script>
 
 <script type="text/javascript">
@@ -63,6 +63,11 @@
                     return d.createTime != undefined ? moment(d.createTime).format("YYYY-MM-DD HH:mm:ss") : '';
                 }
               }
+            , {
+            field: 'updateTime', title: '更新时间', align: 'center', templet: function (d) {
+                return d.updateTime != undefined ? moment(d.updateTime).format("YYYY-MM-DD HH:mm:ss") : '';
+                }
+            }
             , {field: 'status', title: '状态', align: 'center', width: 100, templet: '#status'}
             , {title: '操作', width: 140, toolbar: '#scheduleListBar', fixed: "right", align: "center"}
         ]
