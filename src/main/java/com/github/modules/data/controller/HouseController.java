@@ -5,7 +5,7 @@ import com.github.common.exception.SHException;
 import com.github.common.utils.ApiResponse;
 import com.github.common.utils.PageUtils;
 import com.github.common.validator.ValidatorUtils;
-import com.github.modules.data.pojo.HouseIndexTemplate;
+import com.github.modules.base.pojo.HouseIndexTemplate;
 import com.github.modules.data.service.HouseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public class HouseController {
 
                 houseService.saveOrUpdate(houseIndexTemplate);
             } catch (SHException e) {
-                logger.warn("房源数据 {} 校验不通过, 原因 {}", houseIndexTemplate.getSourceUrl(), e.getMsg());
+                logger.warn("房源数据 : {} 校验不通过, 原因 : {}", houseIndexTemplate.getSourceUrl(), e.getMsg());
             }
             long times2 = System.currentTimeMillis() - startTime2;
             logger.debug("子线程任务执行总时长 = {}", times2);

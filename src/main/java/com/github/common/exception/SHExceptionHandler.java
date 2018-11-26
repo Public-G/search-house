@@ -4,8 +4,12 @@ import com.github.common.security.exception.ValidateCaptchaException;
 import com.github.common.utils.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * 异常处理器
@@ -28,6 +32,18 @@ public class SHExceptionHandler {
     @ExceptionHandler(ValidateCaptchaException.class)
     public ApiResponse handleValidateCaptchaException(ValidateCaptchaException e){
         return ApiResponse.ofMessage(ApiResponse.ResponseStatus.AUTHENTICATION_FAILED.getCode(), e.getMessage());
+    }
+
+//    @ExceptionHandler(RuntimeException.class)
+//    public ApiResponse handleRuntimeException(RuntimeException e){
+//        logger.error(e.getMessage(), e);
+//        return ApiResponse.ofFail(e.getMessage());
+//    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ApiResponse handleDuplicateKeyException(DataIntegrityViolationException e){
+        logger.error(e.getMessage(), e);
+        return ApiResponse.ofFail("数据库中已存在该记录");
     }
 
     @ExceptionHandler(Exception.class)

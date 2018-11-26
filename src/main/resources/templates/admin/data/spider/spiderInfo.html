@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;" th:object="${spider}">
+    <input name="spiderId" type="hidden" th:value="*{spiderId}">
+    <input name="_method" type="hidden" th:value="PUT">
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">项目名称</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="spiderName" th:value="*{spiderName}" lay-verify="required|spiderName" placeholder="项目名称">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">起始链接</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" name="startUrls" lay-verify="required" placeholder="起始链接，多个请用逗号分隔，例如：x.a.com,y.a.com">[[*{startUrls}]]</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">解析规则</label>
+        <div class="layui-input-block">
+            <select name="ruleId" lay-verify="required">
+                <option value=""></option>
+                <option th:if="${rule!=null}" th:each="ruleItem:${rule}" th:value="${ruleItem.ruleId}" th:selected="${ruleItem.ruleId}==*{ruleId}">[[${ruleItem.ruleName}]]</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">爬虫参数</label>
+        <div class="layui-input-block">
+            <select name="settingId">
+                <option value=""></option>
+                <option th:if="${setting!=null}" th:each="settingItem:${setting}" th:value="${settingItem.settingId}" th:selected="${settingItem.settingId}==*{settingId}">[[${settingItem.settingName}]]</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item layui-row layui-col-md8">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">区域</label>
+            <div class="layui-input-block" >
+                <select id="province" lay-verify="required" lay-filter="province">
+                    <option value="">请选择省份</option>
+                </select>
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <div class="layui-input-block">
+                <select id="city" name="city" lay-verify="required">
+                    <option value="">请选择城市</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" name="remark" placeholder="备注">[[*{remark}]]</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="spider_submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>
+<div th:replace="~{admin/common/common :: script}"></div>
+
+<script type="text/javascript" th:inline="javascript">
+    var spiderName = [[${spider.spiderName}]];
+    var city = [[${spider.city}]];
+
+    form.verify({
+        spiderName: function (value) {
+            var msg = '';
+            if (spiderName != value) {
+                $.ajax({
+                    url: "/data/spider/verify",
+                    type: "GET",
+                    async: false,
+                    data: {
+                        spiderName: value
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code === code_fail) {
+                            msg = data.msg;
+                        }
+                    }
+                });
+            }
+            return msg;
+        }
+    });
+
+    layui.formSubmit('spider_submit', '/data/spider/update');
+
+    $.ajax({
+        url: "/lib/json/province_city.json",
+        type: "GET",
+        async: true,
+        success: function (data) {
+            var parentId;
+            // 根据城市提取父ID
+            $.each(data, function (index, item) {
+               if (item.name == city) {
+                   parentId = item.parentId;
+                   return false; //break
+               }
+            });
+            $.each(data, function (index, item) {
+                // 遍历省份
+                if (item.level == 0) {
+                    if (item.id == parentId) {
+                        $("#province").append('<option selected="selected" value="'+item.id+'">'+item.name+'</option>')
+                    } else {
+                        $("#province").append('<option value="'+item.id+'">'+item.name+'</option>')
+                    }
+                }
+
+                // 根据省份获取城市
+                if (item.parentId == parentId) {
+                    if (item.name == city) {
+                        $("#city").append('<option selected="selected" value="'+item.name+'">'+item.name+'</option>')
+                    } else {
+                        $("#city").append('<option value="'+item.name+'">'+item.name+'</option>')
+                    }
+                }
+            });
+            form.render('select'); //刷新select选择框渲染
+        }
+    });
+
+    // 监听省份选择
+    form.on('select(province)', function(data){
+        console.log(data.value); //得到被选中的值
+
+        $("#city > option:gt(0)").remove(); //删除第一个option之后的
+
+        if (data.value.length > 0) {
+            $.ajax({
+                url: "/lib/json/province_city.json",
+                type: "GET",
+                async: false,
+                success: function (area) {
+                    $.each(area, function (index, item) {
+                        if (item.parentId == data.value) {
+                            $("#city").append('<option value="'+item.name+'">'+item.name+'</option>')
+                        }
+                    });
+                }
+            });
+        }
+
+        form.render('select'); //刷新select选择框渲染
+    });
+
+</script>
+</body>
+</html>

@@ -10,7 +10,7 @@ public class ApiReasonConstant {
 
     public static final String SUCCESS_MSG = "操作成功";
 
-    public static final String FAIL_MSG = "操作失败，请稍后重试";
+    public static final String FAIL_MSG = "操作失败";
 
     public static final String LOGIN_SUCCESS_MSG = "登陆成功";
 

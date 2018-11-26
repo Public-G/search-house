@@ -5,7 +5,7 @@
 <blockquote class="layui-elem-quote quoteBox">
     <div class="layui-inline">
         <div class="layui-input-inline">
-            <input type="text" class="layui-input searchVal" placeholder="请输入bean名称"/>
+            <input type="text" class="layui-input searchVal" placeholder="请输入规则名称"/>
         </div>
         <a class="search_btn layui-btn" data-type="reload" id="keywordRefresh">搜索</a>
     </div>
@@ -21,9 +21,21 @@
 
 <div th:replace="~{admin/common/common :: script}"></div>
 
+<!-- 类型 -->
+<script type="text/html" id="attribute">
+    {{#  if(d.attribute == 0){ }}
+    <span>个人</span>
+    {{#  } else if(d.attribute == 1){ }}
+    <span>中介</span>
+    {{#  } else if(d.attribute == 2){ }}
+    <span>使用分类器</span>
+    {{#  }}}
+</script>
+
 <!-- 操作 -->
 <script type="text/html" id="ruleListBar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 修改</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
 </script>
 </body>
 </html>
@@ -33,6 +45,7 @@
             {field: 'ruleId', checkbox: true, fixed: 'left', width: 50}
             , {field: 'ruleName', title: '规则名称', align: 'center', width: 140}
             , {field: 'websiteName', title: '来源网站', align: 'center', width: 120}
+            , {field: 'attribute', title: '类型', align: 'center', width: 120, templet: '#attribute'}
             , {field: 'allowedDomains', title: '爬取的域名', align: 'center', width: 160}
             , {field: 'loopStart', title: '详情页循环入口', align: 'center', width: 160}
             , {field: 'nextUrl', title: '下一页', align: 'center', width: 160}
@@ -47,11 +60,16 @@
             , {field: 'imgHref', title: '封面图', align: 'center', width: 160}
             , {field: 'houseType', title: '户型', align: 'center', width: 160}
             , {field: 'rentWay', title: '出租方式', align: 'center', width: 160}
+            , {field: 'releaseTime', title: '发布时间', align: 'center', width: 160}
             , {field: 'createTime', title: '创建时间', align: 'center', width: 160, templet: function (d) {
                   return d.createTime != undefined ? moment(d.createTime).format("YYYY-MM-DD HH:mm:ss") : '';
                 }
               }
-            , {title: '操作', width: 120, toolbar: '#ruleListBar', fixed: "right", align: "center"}
+            , {field: 'updateTime', title: '更新时间', align: 'center', width: 160, templet: function (d) {
+                 return d.updateTime != undefined ? moment(d.updateTime).format("YYYY-MM-DD HH:mm:ss") : '';
+                }
+              }
+            , {title: '操作', width: 160, toolbar: '#ruleListBar', fixed: "right", align: "center"}
         ]
     ];
 
@@ -64,7 +82,7 @@
     });
 
     $("#ruleDelete").click(function () {
-        layer.confirm('确认删除规则?', {icon: 3, title: '提示'}, function (index) {
+        layer.confirm('确认删除所选规则?', {icon: 3, title: '提示'}, function (index) {
             var checkStatusData = table.checkStatus('ruleListTable').data; //获取表格选中行
             var selectIds = [];
             checkStatusData.forEach(function (val, index) {
@@ -83,6 +101,13 @@
 
         if (layEvent === 'edit') { //修改
             alertByFull("修改定时任务", "/data/rule/info/" + data.ruleId);
+        } else if(layEvent === 'delete') {
+            layer.confirm('确认删除规则?', {icon: 3, title: '提示'}, function (index) {
+                var selectIds = [];
+                selectIds.push(data.ruleId);
+                doBatch(selectIds, "/data/rule/delete", "DELETE");
+                layer.close(index);
+            });
         }
     });
 </script>

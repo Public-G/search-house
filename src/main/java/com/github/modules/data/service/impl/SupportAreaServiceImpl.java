@@ -1,21 +1,15 @@
 package com.github.modules.data.service.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.common.constant.SysConstant;
 import com.github.common.utils.PageUtils;
 import com.github.modules.data.entity.SupportAreaEntity;
-import com.github.modules.data.pojo.BaiduMapLocation;
+import com.github.modules.base.pojo.BaiduMapLocation;
 import com.github.modules.data.repository.SupportAreaRepository;
 import com.github.modules.data.service.SupportAreaService;
 import com.github.modules.sys.service.impl.SysMenuServiceImpl;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.util.EntityUtils;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -51,13 +42,13 @@ public class SupportAreaServiceImpl implements SupportAreaService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private HttpClient httpClient;
+//    @Autowired
+//    private HttpClient httpClient;
 
     private static final String BAIDU_MAP_GEOCONV_API = "http://api.map.baidu.com/geocoder/v2/?";
 
-    @Value("${baidu.map.service.ak}")
-    private String mapAk;
+//    @Value("${baidu.map.service.ak}")
+//    private String mapAk;
 
     @Override
     public PageUtils findPage(Map<String, String> params) {
@@ -169,49 +160,50 @@ public class SupportAreaServiceImpl implements SupportAreaService {
 
     @Override
     public BaiduMapLocation getBaiduMapLocation(String city, String region, String address, String community) {
-        String encodeAddress = city + region + address;
-        if (StringUtils.isNotBlank(community)) {
-            encodeAddress += community;
-        }
-        String encodeCity;
+        return null;
+//        String encodeAddress = city + region + address;
+//        if (StringUtils.isNotBlank(community)) {
+//            encodeAddress += community;
+//        }
+//        String encodeCity;
+//
+//        try {
+//            encodeCity = URLEncoder.encode(city, "utf-8");
+//            encodeAddress = URLEncoder.encode(encodeAddress, "utf-8");
+//        } catch (UnsupportedEncodingException e) {
+//            logger.error("Error to encode house address {}", e);
+//            return null;
+//        }
 
-        try {
-            encodeCity = URLEncoder.encode(city, "utf-8");
-            encodeAddress = URLEncoder.encode(encodeAddress, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            logger.error("Error to encode house address {}", e);
-            return null;
-        }
+//        StringBuilder sb = new StringBuilder(BAIDU_MAP_GEOCONV_API);
+//        sb.append("address=").append(encodeAddress)
+//                .append("&city=").append(encodeCity)
+//                .append("&output=json")
+//                .append("&ak=").append(mapAk);
 
-        StringBuilder sb = new StringBuilder(BAIDU_MAP_GEOCONV_API);
-        sb.append("address=").append(encodeAddress)
-                .append("&city=").append(encodeCity)
-                .append("&output=json")
-                .append("&ak=").append(mapAk);
-
-        HttpGet httpGet = new HttpGet(sb.toString());
-        try {
-            HttpResponse httpResponse = httpClient.execute(httpGet);
-            if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                logger.warn("Can not get baidu map location");
-                return null;
-            }
-
-            String result = EntityUtils.toString(httpResponse.getEntity());
-            JsonNode jsonNode = objectMapper.readTree(result);
-
-            int status = jsonNode.get("status").asInt();
-            if (status != 0) {
-                logger.warn("Error to get map location for status : {}", status);
-                return null;
-            } else {
-                JsonNode jsonLocation = jsonNode.get("result").get("location");
-                return new BaiduMapLocation(jsonLocation.get("lng").asDouble(), jsonLocation.get("lat").asDouble());
-            }
-
-        } catch (IOException e) {
-            logger.error("Error to fetch baidumap api", e);
-            return null;
-        }
+//        HttpGet httpGet = new HttpGet(sb.toString());
+//        try {
+//            HttpResponse httpResponse = httpClient.execute(httpGet);
+//            if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+//                logger.warn("Can not get baidu map location");
+//                return null;
+//            }
+//
+//            String result = EntityUtils.toString(httpResponse.getEntity());
+//            JsonNode jsonNode = objectMapper.readTree(result);
+//
+//            int status = jsonNode.get("status").asInt();
+//            if (status != 0) {
+//                logger.warn("Error to get map location for status : {}", status);
+//                return null;
+//            } else {
+//                JsonNode jsonLocation = jsonNode.get("result").get("location");
+//                return new BaiduMapLocation(jsonLocation.get("lng").asDouble(), jsonLocation.get("lat").asDouble());
+//            }
+//
+//        } catch (IOException e) {
+//            logger.error("Error to fetch baidumap api", e);
+//            return null;
+//        }
     }
 }

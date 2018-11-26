@@ -21,11 +21,15 @@
 
             <div id="main" role="house-search-page">
                 <div class="searchHouse">
-                    <li class="searchInput"><input class="searchBox" type="text" name="" value=""><span class="searchButton"></span></li>
+                    <li class="searchInput">
+                        <input class="searchBox" type="text" name="" value=""><span class="searchButton"></span>
+                    </li>
+
                     <ul class="chooseType">
                         <a class="allResults" href="javascript:void(0)"><span class="leftIcon"></span><span>地图找房</span></a>
                     </ul>
                 </div>
+                <div>热门搜索: <span><a target="_blank" href="wwww.baidu.com">小区</a></span> <span>小区</span> <span>小区</span></div>
                 <div class="citySubway">
                     <a href="javascript:void(0)" class="city" style="color:#fff;background:#00ac97;font-weight:bold;">热门区域</a>
                     <!--<a href="/z3_a1_1" class="subway">地铁找房</a>-->
@@ -34,10 +38,10 @@
                 <div class="polymerizationPage">
                     <!-- 区域条件筛选if判断为搜索地址带的参数判断 -->
                     <div class="areas">
-                        <ul class="area">
+                        <ul id="region" class="area">
                             <strong href="javascript:void(0)" class="areaBold" style="font-weight:bold;">区域 </strong>
                             <a href="javascript:void(0);" data-bind="*">不限</a>
-                            <a href="javascript:void(0);" th:each="region,iterStat:${regions}" th:if="${regions[iterStat.index] != null}" th:data-bind="${regions[iterStat.index]}">[[${regions[iterStat.index]}]]</a>
+
                         </ul>
                     </div>
 
@@ -160,12 +164,12 @@
                         <div class="houseResult">
                             <th:block th:each="item:${houses.data}">
                                 <div class="oneHouse setStyle">
-                                    <a th:href="'/search/'+${item.id}" target="_blank">
+                                    <a th:href="'/rent/search/'+${item.sourceUrlId}" target="_blank">
                                         <ul class="leftTop">
                                             <li class="overflowimg">
                                                 <img class="backgroundImg lazy"
                                                      th:src="@{/lib/images/front/icon/house-search/defaultFrog.png}"
-                                                     th:data-original="${item.img_href}"
+                                                     th:data-original="${item.imgHref}"
                                                      th:alt="${item.community}">
                                                 <!--<img class="backgroundImg lazy"-->
                                                 <!--th:src="@{/lib/images/front/icon/house-search/defaultFrog.png}"-->
@@ -177,16 +181,16 @@
                                     </a>
                                     <ul class="leftMiddle">
                                         <li class="sexReq">
-                                            <a th:href="'/search/'+${item.id}" class="houseReq"
-                                               target="_blank"><span>[[${item.region_cn_name}]]</span><span>[[${item.house_type}]]</span></a>
+                                            <a th:href="'/rent/search/'+${item.sourceUrlId}" class="houseReq"
+                                               target="_blank"><span>[[${item.region}]]</span><span>[[${item.houseType}]]</span></a>
                                         </li>
                                         <li style="text-align:right;width:200px;" class="locationLi">
-                                            <a th:href="'/search/'+${item.id}" class="locationname" target="_blank">[[${item.community}]] </a>
+                                            <a th:href="'/rent/search/'+${item.sourceUrlId}" class="locationname" target="_blank">[[${item.community}]] </a>
                                         </li>
                                         <li class="desLi">
-                                            <a th:href="'/search/'+${item.id}" class="houseDescibtion" target="_blank">[[${item.description}]]</a>
+                                            <a th:href="'/rent/search/'+${item.sourceUrlId}" class="houseDescibtion" target="_blank">[[${item.title}]]</a>
                                         </li>
-                                        <!--<a href="/r1313051" class="dateTime" target="_blank"> 11月03日 19:00</a>-->
+                                        <a th:href="'/rent/search/'+${item.sourceUrlId}" class="dateTime" target="_blank">[[${item.updateTime}]]</a>
                                     </ul>
                                 </div>
                             </th:block>
@@ -244,52 +248,87 @@
     </div>
 
     <div th:replace="~{front/common/common :: footer}"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/plugin/jquery-ui.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/plugin/jquery-ui.theme.css}">
+    <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+    <script type="text/javascript" th:src="@{/lib/js/front/area.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/plugin/jquery-ui.js}"></script>
     <script type="text/javascript" th:inline="javascript">
 
+        var city = [[${searchBody.city}]];
         var count = [[${houses.count}]];
         var curr = [[${searchBody.curr}]];
         var limit = [[${searchBody.limit}]];
 
 
         var data = {
-
             priceBlock : [[${searchBody.priceBlock}]],
-            areaBlock : [[${searchBody.areaBlock}]],
-            regionCnName : [[${searchBody.regionCnName}]],
+            squareBlock : [[${searchBody.squareBlock}]],
+            region : [[${searchBody.region}]]
         };
-
-        var currentKeyword = [[${searchBody.keyword}]];
-        searchBox.val(currentKeyword);
-
-        $('.monthCost a[data-bind="' + data.priceBlock + '"]').addClass("on");
-        if (!$('.monthCost > a').hasClass("on")) {
-            priceStart.val(data.priceBlock.substring(0, 1));
-            priceEnd.val(data.priceBlock.substring(2));
-        }
-        $('.houseMeasure a[data-bind="' + data.areaBlock + '"]').addClass("on");
-        if (!$('.houseMeasure > a').hasClass("on")) {
-            measureStart.val(data.areaBlock.substring(0, 1));
-            measureEnd.val(data.areaBlock.substring(2));
-        }
-        $('.areas a[data-bind="' + data.regionCnName + '"]').addClass("on");
-
 
         layui.use('laypage', function() {
             var laypage = layui.laypage;
+
+            loadRegion();
+
+            var currentKeyword = [[${searchBody.keyword}]];
+            if (null !== currentKeyword && currentKeyword.length > 0) {
+                data.keyword = currentKeyword;
+                searchBox.val(currentKeyword);
+            }
+
+            $('.monthCost a[data-bind="' + data.priceBlock + '"]').addClass("on");
+            if (!$('.monthCost > a').hasClass("on")) {
+                priceStart.val(data.priceBlock.substring(0, 1));
+                priceEnd.val(data.priceBlock.substring(2));
+            }
+            $('.houseMeasure a[data-bind="' + data.squareBlock + '"]').addClass("on");
+            if (!$('.houseMeasure > a').hasClass("on")) {
+                measureStart.val(data.squareBlock.substring(0, 1));
+                measureEnd.val(data.squareBlock.substring(2));
+            }
 
             laypage.render({
                 elem: 'pageable'
                 ,theme: '#00ac97'
                 ,count: count
-                ,limit: 12
-                ,curr: curr / limit + 1
+                ,limit: 12 // 每页显示的条数
+                ,curr: ((curr - 1) / limit) + 1 //起始页。locate_url()参数的逆计算
                 ,jump: function(obj, first){
                     //首次不执行
                     if(!first){
-                        window.location.href = locate_url((obj.curr - 1) * obj.limit);
+                        window.location.href = locate_url(((obj.curr - 1) * obj.limit) + 1);
                     }
                 }
             });
+
+            $(".searchBox").autocomplete({
+                minLength: 2, // 最小字符数，默认1
+                delay: 300, // 延迟加载300ms
+                source: function (request, response) { // 数据源
+                    console.log(request.term);
+                    $.ajax({
+                        url: '/rent/autocomplete?prefix=' + request.term,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.code === 0) {
+                                console.log("suggest = " + res.data);
+                                response(res.data);
+                            }
+                        }
+                    });
+                },
+                select: function (event, ui) { // 选中事件
+                    var selectKeyword = ui.item.value;
+                    $('.searchBox').text(selectKeyword);
+                    data.keyword = selectKeyword;
+                    window.location.href = locate_url(1);
+                }
+            });
+
+            $(".lazy").lazyload({effect: "fadeIn", threshold : 200});  //lazyload初始化函数
         });
 
         monthCost.delegate('a','click',function () {
@@ -298,12 +337,12 @@
         });
 
         houseMeasure.delegate('a','click',function () {
-            data.areaBlock = $(this).data("bind");
+            data.squareBlock = $(this).data("bind");
             searchButton.click();
         });
 
         regions.delegate('a','click',function () {
-            data.regionCnName = $(this).data("bind");
+            data.region = $(this).data("bind");
             searchButton.click();
         });
 
@@ -312,7 +351,7 @@
             if (typeof(keyword) !== 'undefined' && keyword !== null && keyword.trim() !== '') {
                 data.keyword = keyword;
             }
-            window.location.href = locate_url(0, 12);
+            window.location.href = locate_url(1);
         });
 
         // 价格输入后确认提交
@@ -328,22 +367,49 @@
         areaAdd.on('click',function(){
             var area1 = measureStart.val();
             var area2 = measureEnd.val();
-            data.areaBlock = area1 + '-' + area2;
+            data.squareBlock = area1 + '-' + area2;
             searchButton.click();
         });
 
         function locate_url(curr) {
-            var target = '/search?cityCnName=' + [[${searchBody.cityCnName}]] + '&';
+            var target = '/rent/search?city=' + [[${searchBody.city}]] + '&';
             $.each(data, function (key, value) {
                 target += (key + '=' + value + '&');
             });
             target += 'curr=' + curr;
             return target;
         }
+        
+        function loadRegion() {
+            var regionList = [];
+            $.get('/lib/json/city_region.json', function (area) {
+                $.each(area, function (index, item) {
+                    if (item.name === city) {
+                        parentId = item.id;
+                        return false; // break
+                    }
+                });
+
+                $.each(area, function (index, item) {
+                    if (item.parentId === parentId) {
+                        regionList.push(item);
+                    }
+                });
+
+                $.each(regionList, function (index, region) {
+                    if (data.region === region.name) {
+                        $("#region").append('<a href="javascript:void(0);" class="on" data-bind='+region.name+'>'+region.name+'</a>');
+                    } else {
+                        $("#region").append('<a href="javascript:void(0);" data-bind='+region.name+'>'+region.name+'</a>');
+                    }
+                });
+                $("#region").find('a[data-bind="' + data.region + '"]').addClass("on");
+            });
+        }
 
         function searchHouse(curr) {
             $.ajax({
-                url: "/search",
+                url: "/rent/search",
                 type: "GET",
                 traditional: true,
 //                data: {

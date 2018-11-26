@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 解析规则
@@ -32,9 +33,6 @@ public class RuleController {
 
     @Autowired
     private RuleService ruleService;
-
-    @Autowired
-    private SupportAreaService supportAreaService;
 
     /**
      * 列表/添加 页面的跳转
@@ -58,6 +56,20 @@ public class RuleController {
     }
 
     /**
+     * 唯一性校验
+     */
+    @GetMapping("/verify")
+    @ResponseBody
+    public ApiResponse verify(@RequestParam String ruleName) {
+        RuleEntity ruleEntity = ruleService.findByName(ruleName);
+        if (ruleEntity == null) {
+            return ApiResponse.ofSuccess();
+        }
+
+        return ApiResponse.ofFail("规则名已存在");
+    }
+
+    /**
      * 保存解析规则
      */
     @PostMapping("/save")
@@ -68,6 +80,16 @@ public class RuleController {
         ruleService.save(ruleEntity);
 
         return ApiResponse.ofSuccess();
+    }
+
+    /**
+     * 解析规则信息
+     */
+    @GetMapping("/info/{ruleId:[1-9]+}")
+    public String info(@PathVariable Long ruleId, Model model){
+        model.addAttribute("rule", ruleService.findById(ruleId));
+
+        return "admin/data/rule/ruleInfo";
     }
 
     /**
@@ -102,8 +124,7 @@ public class RuleController {
     @ModelAttribute
     private void customModelAttribute(@RequestParam(value = "ruleId", required = false) Long ruleId, Model model) {
         if (ruleId != null) {
-            RuleEntity ruleEntity = ruleService.findByRuleId(ruleId);
-            model.addAttribute("rule", ruleEntity);
+            model.addAttribute("rule", ruleService.findById(ruleId));
         }
     }
 }

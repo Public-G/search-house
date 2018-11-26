@@ -3,90 +3,51 @@ package com.github.modules.search.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.print.attribute.standard.MediaSize;
 import java.io.Serializable;
+import java.util.Date;
 
-public class HouseDTO implements Serializable {
+public class HouseDTO extends HouseListDTO implements Serializable {
     private static final long serialVersionUID = 243243453L;
 
-    private String id;
-
-    @JsonProperty(value = "cityCnName")
-    private String city_cn_name;
-
-    @JsonProperty(value = "regionCnName")
-    private String region_cn_name;
+    private String city;
 
     private String title;
 
-    private Double area;
+    private Integer square;
 
-    private Double price;
-
-    @JsonProperty(value = "houseType")
-    private String house_type;
-
-    @JsonProperty(value = "rentWay")
-    private String rent_way;
-
-    private String community;
+    private String rentWay;
 
     private String address;
 
+    private String sourceUrl;
+
     private String description;
 
-    @JsonProperty(value = "sourceUrl")
-    private String source_url;
-
-    @JsonProperty(value = "imgHref")
-    private String img_href;
-
-    @JsonProperty(value = "createTime")
-    private String create_time;
 
     public HouseDTO() {
-
+        super();
     }
 
-    public HouseDTO(String id, String city_cn_name, String region_cn_name, String title, Double area, Double price, String house_type, String rent_way, String community, String address, String description, String source_url, String img_href, String create_time) {
-        this.id = id;
-        this.city_cn_name = city_cn_name;
-        this.region_cn_name = region_cn_name;
-        this.title = title;
-        this.area = area;
-        this.price = price;
-        this.house_type = house_type;
-        this.rent_way = rent_way;
-        this.community = community;
+    public HouseDTO(String sourceUrlId, String title, String imgHref, String region, String community, Integer price, String houseType, String updateTime, String city, String title1, Integer square, String rentWay, String address, String sourceUrl, String description1) {
+        super(sourceUrlId, title, imgHref, region, community, price, houseType, updateTime);
+        this.city = city;
+        this.title = title1;
+        this.square = square;
+        this.rentWay = rentWay;
         this.address = address;
-        this.description = description;
-        this.source_url = source_url;
-        this.img_href = img_href;
-        this.create_time = create_time;
+        this.sourceUrl = sourceUrl;
+        this.description = description1;
     }
 
-    public String getId() {
-        return id;
+    public String getCity() {
+        return city;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getCity_cn_name() {
-        return city_cn_name;
-    }
-
-    public void setCity_cn_name(String city_cn_name) {
-        this.city_cn_name = city_cn_name;
-    }
-
-    public String getRegion_cn_name() {
-        return region_cn_name;
-    }
-
-    public void setRegion_cn_name(String region_cn_name) {
-        this.region_cn_name = region_cn_name;
-    }
 
     public String getTitle() {
         return title;
@@ -96,44 +57,20 @@ public class HouseDTO implements Serializable {
         this.title = title;
     }
 
-    public Double getArea() {
-        return area;
+    public Integer getSquare() {
+        return square;
     }
 
-    public void setArea(Double area) {
-        this.area = area;
+    public void setSquare(Integer square) {
+        this.square = square;
     }
 
-    public Double getPrice() {
-        return price;
+    public String getRentWay() {
+        return rentWay;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getHouse_type() {
-        return house_type;
-    }
-
-    public void setHouse_type(String house_type) {
-        this.house_type = house_type;
-    }
-
-    public String getRent_way() {
-        return rent_way;
-    }
-
-    public void setRent_way(String rent_way) {
-        this.rent_way = rent_way;
-    }
-
-    public String getCommunity() {
-        return community;
-    }
-
-    public void setCommunity(String community) {
-        this.community = community;
+    public void setRentWay(String rentWay) {
+        this.rentWay = rentWay;
     }
 
     public String getAddress() {
@@ -144,35 +81,19 @@ public class HouseDTO implements Serializable {
         this.address = address;
     }
 
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getSource_url() {
-        return source_url;
-    }
-
-    public void setSource_url(String source_url) {
-        this.source_url = source_url;
-    }
-
-    public String getImg_href() {
-        return img_href;
-    }
-
-    public void setImg_href(String img_href) {
-        this.img_href = img_href;
-    }
-
-    public String getCreate_time() {
-        return create_time;
-    }
-
-    public void setCreate_time(String create_time) {
-        this.create_time = create_time;
     }
 }

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">参数名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="settingName" lay-verify="required|settingName" autocomplete="off" placeholder="参数名称" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">cookies</label>
+        <div class="layui-input-block">
+            <input type="radio" name="cookiesEnabled" value="0" title="开启">
+            <input type="radio" name="cookiesEnabled" value="1" title="禁用" checked="">
+        </div>
+    </div>
+
+    <div class="layui-row">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">并发请求数</label>
+            <div class="layui-input-block">
+                <input type="number" min="1" max="32" class="layui-input" name="concurrentRequests" placeholder="并发请求数">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">域名并发数</label>
+            <div class="layui-input-block">
+                <input type="number" min="1" max="16" class="layui-input" name="concurrentRequestsPerDomain" placeholder="域名并发数">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">自动限速</label>
+        <div class="layui-input-block">
+            <input type="radio" name="autothrottleEnabled" value="0" title="开启" checked="">
+            <input type="radio" name="autothrottleEnabled" value="1" title="禁用">
+        </div>
+    </div>
+
+    <div class="layui-row">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">最小下载延迟</label>
+            <div class="layui-input-block">
+                <input type="number" min="1" class="layui-input" name="downloadDelay" placeholder="最小下载延迟（单位：秒）">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">最大下载延迟</label>
+            <div class="layui-input-block">
+                <input type="number" min="1" class="layui-input" name="autothrottleMaxDelay" placeholder="最大下载延迟（单位：秒）">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="layui-row">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">初始下载延迟</label>
+            <div class="layui-input-block">
+                <input type="number" min="1" class="layui-input" name="autothrottleStartDelay" placeholder="初始下载延迟（单位：秒）">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">并行请求平均数</label>
+            <div class="layui-input-block">
+                <input type="number" min="1" class="layui-input" name="autothrottleTargetConcurrency" placeholder="并行请求平均数">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">爬取深度</label>
+        <div class="layui-input-block">
+            <input type="number" min="0" name="depthLimit" autocomplete="off" placeholder="爬取深度（0代表）" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">爬取策略</label>
+        <div class="layui-input-block">
+            <input type="radio" name="depthPriority" value="0" title="深度优先" checked="">
+            <input type="radio" name="depthPriority" value="1" title="广度优先">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="setting_submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<div th:replace="~{admin/common/common :: script}"></div>
+</body>
+</html>
+<script type="text/javascript">
+    form.verify({
+        settingName: function (value) {
+            var msg = '';
+            $.ajax({
+                url: "/data/setting/verify",
+                type: "GET",
+                async: false,
+                data: {
+                    settingName: value
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.code === code_fail) {
+                        msg = data.msg;
+                    }
+                }
+            });
+            return msg;
+        }
+    });
+
+    layui.formSubmit('setting_submit', '/data/setting/save');
+
+</script>

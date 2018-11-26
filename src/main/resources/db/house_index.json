@@ -15,7 +15,7 @@
         },
         "title": {
           "type": "text",
-          "analyzer": "ik_max_word"
+          "analyzer": "ik_smart"
         },
         "price": {
           "type": "integer"
@@ -24,8 +24,10 @@
           "type": "integer"
         },
         "houseType": {
-          "type": "text",
-          "analyzer": "ik_smart"
+          "type": "keyword"
+        },
+        "roomNum":{
+          "type":"short"
         },
         "rentWay": {
           "type": "short"
@@ -45,7 +47,7 @@
         },
         "description": {
           "type": "text",
-          "analyzer": "ik_max_word"
+          "analyzer": "ik_smart"
         },
         "imgHref": {
           "type": "keyword"
@@ -61,7 +63,7 @@
         },
         "updateTime": {
           "type": "date",
-          "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+          "format": "yyyy-MM-dd||epoch_millis"
         },
         "createTime": {
           "type": "date",

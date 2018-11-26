@@ -15,13 +15,13 @@ import java.util.Date;
 public class HouseForm extends PageForm implements Serializable {
     private static final long serialVersionUID = 113452159L;
 
-    private String cityCnName = SysConstant.DEFAULT_CITY;
+    private String city = SysConstant.DEFAULT_CITY;
 
-    private String regionCnName;
+    private String region;
 
     private String priceBlock;
 
-    private String areaBlock;
+    private String squareBlock;
 
     private String houseType;
 
@@ -33,46 +33,46 @@ public class HouseForm extends PageForm implements Serializable {
 
     }
 
-    public HouseForm(String cityCnName) {
-        this.cityCnName = cityCnName;
+    public HouseForm(String city) {
+        this.city = city;
     }
 
-    public HouseForm(int curr, int limit, String cityCnName, String regionCnName, String priceBlock, String areaBlock, String houseType, String rentWay, String sourceWebsite) {
+    public HouseForm(int curr, int limit, String city, String region, String priceBlock, String squareBlock, String houseType, String rentWay, String sourceWebsite) {
         super(curr, limit);
-        this.cityCnName = cityCnName;
-        this.regionCnName = regionCnName;
+        this.city = city;
+        this.region = region;
         this.priceBlock = priceBlock;
-        this.areaBlock = areaBlock;
+        this.squareBlock = squareBlock;
         this.houseType = houseType;
         this.rentWay = rentWay;
         this.sourceWebsite = sourceWebsite;
     }
 
-    public HouseForm(int curr, int limit, String keyword, String cityCnName, String regionCnName, String priceBlock, String areaBlock, String houseType, String rentWay, String sourceWebsite) {
+    public HouseForm(int curr, int limit, String keyword, String city, String region, String priceBlock, String squareBlock, String houseType, String rentWay, String sourceWebsite) {
         super(curr, limit, keyword);
-        this.cityCnName = cityCnName;
-        this.regionCnName = regionCnName;
+        this.city = city;
+        this.region = region;
         this.priceBlock = priceBlock;
-        this.areaBlock = areaBlock;
+        this.squareBlock = squareBlock;
         this.houseType = houseType;
         this.rentWay = rentWay;
         this.sourceWebsite = sourceWebsite;
     }
 
-    public String getCityCnName() {
-        return cityCnName;
+    public String getCity() {
+        return city;
     }
 
-    public void setCityCnName(String cityCnName) {
-        this.cityCnName = cityCnName;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getRegionCnName() {
-        return regionCnName;
+    public String getRegion() {
+        return region;
     }
 
-    public void setRegionCnName(String regionCnName) {
-        this.regionCnName = regionCnName;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String getPriceBlock() {
@@ -83,12 +83,12 @@ public class HouseForm extends PageForm implements Serializable {
         this.priceBlock = priceBlock;
     }
 
-    public String getAreaBlock() {
-        return areaBlock;
+    public String getSquareBlock() {
+        return squareBlock;
     }
 
-    public void setAreaBlock(String areaBlock) {
-        this.areaBlock = areaBlock;
+    public void setSquareBlock(String squareBlock) {
+        this.squareBlock = squareBlock;
     }
 
     public String getHouseType() {

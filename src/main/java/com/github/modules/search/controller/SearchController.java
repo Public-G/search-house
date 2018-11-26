@@ -15,24 +15,26 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 房源搜索
  *
  * @author ZEALER
- * @date 2018-11-4
+ * @date 2018-11-04
  */
+@RequestMapping("/rent")
 @Controller
 public class SearchController {
 
@@ -49,31 +51,57 @@ public class SearchController {
         return ApiResponse.ofSuccess().put("data", allCity);
     }
 
-    @GetMapping("/condition")
+//    @GetMapping("/condition")
+//    @ResponseBody
+//    public ApiResponse getCondition() {
+//        Map<String, ConditionRangeUtils> priceBlock = ConditionRangeUtils.PRICE_BLOCK;
+//        Map<String, ConditionRangeUtils> areaBlock  = ConditionRangeUtils.AREA_BLOCK;
+//        return ApiResponse.ofSuccess()
+//                .put("priceBlock", priceBlock)
+//                .put("areaBlock", areaBlock);
+//    }
+
+    /**
+     * 搜索建议
+     *
+     * @param prefix
+     * @return
+     */
+    @GetMapping("/autocomplete")
     @ResponseBody
-    public ApiResponse getCondition() {
-        Map<String, ConditionRangeUtils> priceBlock = ConditionRangeUtils.PRICE_BLOCK;
-        Map<String, ConditionRangeUtils> areaBlock  = ConditionRangeUtils.AREA_BLOCK;
-        return ApiResponse.ofSuccess()
-                .put("priceBlock", priceBlock)
-                .put("areaBlock", areaBlock);
+    public ApiResponse autocomplete(@RequestParam String prefix) {
+        if (StringUtils.isBlank(prefix)) {
+            return ApiResponse.ofStatus(ApiResponse.ResponseStatus.BAD_REQUEST);
+        }
+
+        Set<String> suggest = searchService.suggest(prefix);
+        return ApiResponse.ofSuccess().put("data", suggest);
     }
 
-    @GetMapping("/search")
-    public String rent(HouseForm houseForm, Model model) {
 
-        List<String> regions = supportAreaService.findRegionByCity(houseForm.getCityCnName());
-        model.addAttribute("regions", regions);
+    /**
+     * 房源搜索
+     *
+     * @param houseForm
+     * @param model
+     * @return
+     */
+    @GetMapping("/search")
+    public String search(@Valid HouseForm houseForm, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.getErrorCount() > 0) {
+            return "error/404";
+        }
 
         PageUtils pageBean = searchService.query(houseForm);
         model.addAttribute("houses", pageBean);
 
-        if (StringUtils.isBlank(houseForm.getRegionCnName())) {
-            houseForm.setRegionCnName("*");
+        if (StringUtils.isBlank(houseForm.getRegion())) {
+            houseForm.setRegion("*");
         }
         houseForm.setLimit(pageBean.getData().size());
         houseForm.setPriceBlock(ConditionRangeUtils.matchPrice( houseForm.getPriceBlock() ).getKey() );
-        houseForm.setAreaBlock(ConditionRangeUtils.matchArea( houseForm.getAreaBlock() ).getKey() );
+        houseForm.setSquareBlock(ConditionRangeUtils.matchArea( houseForm.getSquareBlock() ).getKey() );
 
         model.addAttribute("searchBody", houseForm);
 

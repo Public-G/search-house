@@ -40,19 +40,10 @@ public class SpiderEntity implements Serializable {
     private String startUrls;
 
     /**
-     * 爬取深度(爬取深度不是必须的，空字符串转换Integer为null，而无法转换为int)
+     * 城市名
      */
-    @Column(name = "depth_limit")
-    @Min(value = 1)
-    @Max(value = Integer.MAX_VALUE)
-    private Integer depthLimit;
-
-    /**
-     * 城市ID，逻辑外键
-     */
-    @Column(name = "city_id")
-    @NotNull(message = "城市不能为空")
-    private Long cityId;
+    @NotBlank(message = "城市不能为空")
+    private String city;
 
     /**
      * 规则ID，逻辑外键
@@ -60,6 +51,18 @@ public class SpiderEntity implements Serializable {
     @Column(name = "rule_id")
     @NotNull(message = "解析规则不能为空")
     private Long ruleId;
+
+    @Transient
+    private String ruleName;
+
+    /**
+     * 参数ID，逻辑外键
+     */
+    @Column(name = "setting_id")
+    private Long settingId;
+
+    @Transient
+    private String settingName;
 
     /**
      * 备注
@@ -81,13 +84,14 @@ public class SpiderEntity implements Serializable {
     public SpiderEntity() {
     }
 
-    public SpiderEntity(Long spiderId, String spiderName, String startUrls, Integer depthLimit, Long cityId, Long ruleId, String remark, Date createTime, Date updateTime) {
-        this.spiderId = spiderId;
+    public SpiderEntity(String spiderName, String startUrls, String city, Long ruleId, String ruleName, Long settingId, String settingName, String remark, Date createTime, Date updateTime) {
         this.spiderName = spiderName;
         this.startUrls = startUrls;
-        this.depthLimit = depthLimit;
-        this.cityId = cityId;
+        this.city = city;
         this.ruleId = ruleId;
+        this.ruleName = ruleName;
+        this.settingId = settingId;
+        this.settingName = settingName;
         this.remark = remark;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -117,20 +121,12 @@ public class SpiderEntity implements Serializable {
         this.startUrls = startUrls;
     }
 
-    public Integer getDepthLimit() {
-        return depthLimit;
+    public String getCity() {
+        return city;
     }
 
-    public void setDepthLimit(Integer depthLimit) {
-        this.depthLimit = depthLimit;
-    }
-
-    public Long getCityId() {
-        return cityId;
-    }
-
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public Long getRuleId() {
@@ -139,6 +135,30 @@ public class SpiderEntity implements Serializable {
 
     public void setRuleId(Long ruleId) {
         this.ruleId = ruleId;
+    }
+
+    public String getRuleName() {
+        return ruleName;
+    }
+
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
+    }
+
+    public Long getSettingId() {
+        return settingId;
+    }
+
+    public void setSettingId(Long settingId) {
+        this.settingId = settingId;
+    }
+
+    public String getSettingName() {
+        return settingName;
+    }
+
+    public void setSettingName(String settingName) {
+        this.settingName = settingName;
     }
 
     public String getRemark() {

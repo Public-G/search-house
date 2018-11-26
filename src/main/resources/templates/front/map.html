@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <!-- 适应移动端页面展示 -->
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+    <style type="text/css">
+        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+    <title>地图找房</title>
+</head>
+<body>
+    <div id="allmap" class="wrapper"></div>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WOelgx1d1R4mLIWsj6Q2lOYQB4FLC0WE"></script>
+    <script type="text/javascript" th:src="@{/lib/js/plugin/jquery-3.3.1.min.js}"></script>
+    <!-- 加载百度地图样式信息窗口 -->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+    <script type="text/javascript" th:src="@{/lib/js/front/map.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/front/area.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        var city = [[${city}]],
+            aggData = [[${aggData}]];
+
+        load(city, aggData);
+    </script>
+</body>
+</html>

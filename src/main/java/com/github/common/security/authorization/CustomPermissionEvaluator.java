@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 自定义 hasPermission() 表达式授权逻辑
@@ -29,7 +30,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
         if (principal instanceof SysUserEntity) {
             SysUserEntity sysUserEntity = (SysUserEntity) principal;
             //系统管理员，拥有最高权限
-            if (SysConstant.SUPER_ADMIN == sysUserEntity.getUserId()) {
+            if (Objects.equals(SysConstant.SUPER_ADMIN, sysUserEntity.getUserId())) {
                 hasPermission = true;
             } else {
                 Collection<? extends GrantedAuthority> authorities = sysUserEntity.getAuthorities();

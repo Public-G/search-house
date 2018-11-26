@@ -1,4 +1,4 @@
-package com.github.modules.data.pojo;
+package com.github.modules.base.pojo;
 
 import java.util.List;
 import java.util.Set;

@@ -116,6 +116,25 @@ public class RuleEntity implements Serializable {
     private String rentWay;
 
     /**
+     * 来源网站
+     */
+    @Column(name = "website_name")
+    @NotBlank(message="来源网站不能为空", groups = {AddGroup.class, UpdateGroup.class})
+    private String websiteName;
+
+    /**
+     * 类型 0：个人  1：中介  2：使用分类器
+     */
+    @NotNull(message = "属性不能为空",  groups = {AddGroup.class, UpdateGroup.class})
+    private int attribute;
+
+    /**
+     * 发布时间
+     */
+    @Column(name = "release_time")
+    private String releaseTime;
+
+    /**
      * 创建时间
      */
     @Column(name = "create_time")
@@ -127,18 +146,10 @@ public class RuleEntity implements Serializable {
     @Column(name = "update_time")
     private Date updateTime;
 
-    /**
-     * 城市ID，逻辑外键
-     */
-    @Column(name = "website_name")
-    @NotNull(message="来源网站不能为空", groups = {AddGroup.class, UpdateGroup.class})
-    private String websiteName;
-
     public RuleEntity() {
     }
 
-    public RuleEntity(Long ruleId, String ruleName, String allowedDomains, String loopStart, String nextUrl, String detailUrl, String region, String title, String community, String address, String price, String square, String description, String imgHref, String houseType, String rentWay, Date createTime, Date updateTime, String websiteName) {
-        this.ruleId = ruleId;
+    public RuleEntity(String ruleName, String allowedDomains, String loopStart, String nextUrl, String detailUrl, String region, String title, String community, String address, String price, String square, String description, String imgHref, String houseType, String rentWay, String websiteName, int attribute, String releaseTime, Date createTime, Date updateTime) {
         this.ruleName = ruleName;
         this.allowedDomains = allowedDomains;
         this.loopStart = loopStart;
@@ -154,9 +165,11 @@ public class RuleEntity implements Serializable {
         this.imgHref = imgHref;
         this.houseType = houseType;
         this.rentWay = rentWay;
+        this.websiteName = websiteName;
+        this.attribute = attribute;
+        this.releaseTime = releaseTime;
         this.createTime = createTime;
         this.updateTime = updateTime;
-        this.websiteName = websiteName;
     }
 
     public Long getRuleId() {
@@ -287,6 +300,30 @@ public class RuleEntity implements Serializable {
         this.rentWay = rentWay;
     }
 
+    public String getWebsiteName() {
+        return websiteName;
+    }
+
+    public void setWebsiteName(String websiteName) {
+        this.websiteName = websiteName;
+    }
+
+    public int getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(int attribute) {
+        this.attribute = attribute;
+    }
+
+    public String getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(String releaseTime) {
+        this.releaseTime = releaseTime;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -301,13 +338,5 @@ public class RuleEntity implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String getWebsiteName() {
-        return websiteName;
-    }
-
-    public void setWebsiteName(String websiteName) {
-        this.websiteName = websiteName;
     }
 }

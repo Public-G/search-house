@@ -167,8 +167,7 @@
                 <table class="locations">
                     <tr>
                         <td>
-                            <!-- &nbsp[[*{city_cn_name}]]&nbsp[[*{region_cn_name}]] -->
-                            <h1><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp[[*{address}]]</h1>
+                            <h1><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp[[*{city}]]&nbsp[[*{region}]]&nbsp[[*{address}]]</h1>
                         </td>
                     </tr>
                 </table>
@@ -177,7 +176,7 @@
                     <table class="allHouseCondition1">
                         <tr>
                             <td>户型：</td>
-                            <td>[[*{house_type}]]</td>
+                            <td>[[*{houseType}]]</td>
                             <!--<td>1厅</td>-->
                             <!--<td>1厨</td>-->
                             <!--<td>1卫</td>-->
@@ -186,7 +185,7 @@
                     <table class="allHouseCondition2">
                         <tr>
                             <td>面积：</td>
-                            <td>[[*{area}]]</td>
+                            <td>[[*{square}]]</td>
                             <td>m<sup>2</sup></td>
                             <!--<td>/</td>-->
                             <!--<td>15</td>-->
@@ -196,7 +195,7 @@
                     <table class="allHouseCondition3">
                         <tr>
                             <td>出租：</td>
-                            <td>[[*{rent_way}]]</td>
+                            <td>[[*{rentWay} == '0' ? '整租' : '合租']]</td>
                             <!--<td class="roomSubDetailItem">朝北</td>-->
                         </tr>
                     </table>
@@ -217,7 +216,7 @@
                         </tr>
                         <tr>
                             <td>发布核查时间：</td>
-                            <td>2018年11月01日</td>
+                            <td>[[*{updateTime}]]</td>
                         </tr>
                     </table>
                 </div>
@@ -288,8 +287,8 @@
                 <div class="community">
                     <div class="community_top">
                         <div><span>小区名称:</span><a href="javascript:void(0);">[[*{community}]]</a></div>
-                        <div><span>所属范围:</span><a href="javascript:void(0);">[[*{city_cn_name}]]</a><a href="javascript:void(0);">[[*{region_cn_name}]]</a></div>
-                        <!--<div><span>小区地址:</span><span>[[*{city_cn_name}]] [[*{region_cn_name}]] [[*{address}]]</span></div>-->
+                        <div><span>所属范围:</span><a href="javascript:void(0);">[[*{city}]]</a><a href="javascript:void(0);">[[*{region}]]</a></div>
+                        <!--<div><span>小区地址:</span><span>[[*{city}]] [[*{region}]] [[*{address}]]</span></div>-->
                         <!--<div class="clearfix" style="display: none;"><span class="fl">附近小区:</span>-->
                             <!--<p class="fl pp">-->
                             <!--<p>-->

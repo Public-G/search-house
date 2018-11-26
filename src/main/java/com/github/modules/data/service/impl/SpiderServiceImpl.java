@@ -2,8 +2,12 @@ package com.github.modules.data.service.impl;
 
 import com.github.common.utils.PageUtils;
 import com.github.modules.base.form.PageForm;
+import com.github.modules.data.entity.RuleEntity;
+import com.github.modules.data.entity.SettingEntity;
 import com.github.modules.data.entity.SpiderEntity;
 import com.github.modules.data.repository.SpiderRepository;
+import com.github.modules.data.service.RuleService;
+import com.github.modules.data.service.SettingService;
 import com.github.modules.data.service.SpiderService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,12 @@ public class SpiderServiceImpl implements SpiderService {
 
     @Autowired
     private SpiderRepository spiderRepository;
+
+    @Autowired
+    private RuleService ruleService;
+
+    @Autowired
+    private SettingService settingService;
 
     @Override
     public PageUtils findPage(PageForm pageForm) {
@@ -49,7 +59,29 @@ public class SpiderServiceImpl implements SpiderService {
             spiderEntityPage = spiderRepository.findAll(pageable);
         }
 
+        for (SpiderEntity spiderEntity : spiderEntityPage.getContent()) {
+            if (spiderEntity.getRuleId() != null) {
+                RuleEntity ruleEntity = ruleService.findById(spiderEntity.getRuleId());
+                spiderEntity.setRuleName(ruleEntity.getRuleName());
+            }
+
+            if (spiderEntity.getSettingId() != null) {
+                SettingEntity settingEntity = settingService.findById(spiderEntity.getSettingId());
+                spiderEntity.setSettingName(settingEntity.getSettingName());
+            }
+        }
+
         return new PageUtils(spiderEntityPage);
+    }
+
+    @Override
+    public SpiderEntity findById(Long spiderId) {
+        return spiderRepository.findOne(spiderId);
+    }
+
+    @Override
+    public SpiderEntity findByName(String name) {
+        return spiderRepository.findBySpiderName(name);
     }
 
     @Transactional
@@ -66,14 +98,25 @@ public class SpiderServiceImpl implements SpiderService {
         spiderRepository.save(spiderEntity);
     }
 
-    @Override
-    public SpiderEntity findBySpiderId(Long spiderId) {
-        return spiderRepository.findOne(spiderId);
-    }
-
     @Transactional
     @Override
     public void deleteBatch(Long[] spiderIds) {
         spiderRepository.deleteBySpiderIdIn(spiderIds);
+    }
+
+    /**
+     * 在调用端的事务中运行
+     */
+    @Override
+    public void deleteRuleBatch(Long[] ruleIds) {
+        spiderRepository.deleteRuleBatch(ruleIds);
+    }
+
+    /**
+     * 在调用端的事务中运行
+     */
+    @Override
+    public void deleteSettingBatch(Long[] settingIds) {
+        spiderRepository.deleteSettingBatch(settingIds);
     }
 }

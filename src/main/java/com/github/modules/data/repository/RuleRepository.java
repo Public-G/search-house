@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface RuleRepository extends JpaRepository<RuleEntity, Long>, JpaSpecificationExecutor<RuleEntity> {
 
     void deleteByRuleIdIn(Long[] ruleIds);
+
+    RuleEntity findByRuleName(String ruleName);
 }

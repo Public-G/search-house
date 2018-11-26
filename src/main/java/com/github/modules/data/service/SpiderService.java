@@ -1,7 +1,6 @@
 package com.github.modules.data.service;
 
-import com.github.common.utils.PageUtils;
-import com.github.modules.base.form.PageForm;
+import com.github.modules.base.service.BaseService;
 import com.github.modules.data.entity.SpiderEntity;
 
 /**
@@ -10,27 +9,9 @@ import com.github.modules.data.entity.SpiderEntity;
  * @author ZEALER
  * @date 2018-11-12
  */
-public interface SpiderService {
+public interface SpiderService extends BaseService<SpiderEntity> {
 
-    PageUtils findPage(PageForm pageForm);
+    void deleteRuleBatch(Long[] ruleIds);
 
-    /**
-     * 保存爬虫项目
-     */
-    void save(SpiderEntity spiderEntity);
-
-    /**
-     * 修改爬虫项目
-     */
-    void update(SpiderEntity spiderEntity);
-
-    /**
-     * 根据ID查询爬虫项目
-     */
-    SpiderEntity findBySpiderId(Long spiderId);
-
-    /**
-     * 批量删除爬虫项目
-     */
-    void deleteBatch(Long[] spiderIds);
+    void deleteSettingBatch(Long[] settingIds);
 }

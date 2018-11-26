@@ -92,7 +92,7 @@ public class SysConstant {
     }
 
     /**
-     * 菜单类型
+     * 任务状态
      *
      * @author ZEALER
      * @date 2018-11-08

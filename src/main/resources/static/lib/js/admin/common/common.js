@@ -69,9 +69,6 @@ layui.define(['layer', 'table', 'form'], function(exports){
                         }, loadingTime);
                     } else {
                         var msg = data.msg;
-                        // if (msg == null || msg == '' || msg == undefined) {
-                        //     msg = '操作失败，请稍后重试';
-                        // }
                         layer.msg(msg, function () {
                             //关闭后的操作
                             submitBtn.removeClass("layui-btn-disabled");

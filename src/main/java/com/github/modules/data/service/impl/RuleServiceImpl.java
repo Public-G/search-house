@@ -6,6 +6,7 @@ import com.github.modules.data.entity.RuleEntity;
 import com.github.modules.data.entity.SupportAreaEntity;
 import com.github.modules.data.repository.RuleRepository;
 import com.github.modules.data.service.RuleService;
+import com.github.modules.data.service.SpiderService;
 import com.github.modules.data.service.SupportAreaService;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +28,9 @@ public class RuleServiceImpl implements RuleService {
 
     @Autowired
     private RuleRepository ruleRepository;
+
+    @Autowired
+    private SpiderService spiderService;
 
     @Override
     public PageUtils findPage(PageForm pageForm) {
@@ -58,6 +62,7 @@ public class RuleServiceImpl implements RuleService {
         return new PageUtils(ruleEntityPage);
     }
 
+
     @Transactional
     @Override
     public void save(RuleEntity ruleEntity) {
@@ -72,19 +77,28 @@ public class RuleServiceImpl implements RuleService {
         ruleRepository.save(ruleEntity);
     }
 
-    @Override
-    public RuleEntity findByRuleId(Long ruleId) {
-        return ruleRepository.findOne(ruleId);
-    }
 
     @Transactional
     @Override
     public void deleteBatch(Long[] ruleIds) {
         ruleRepository.deleteByRuleIdIn(ruleIds);
+
+        // 删除规则与项目关联
+        spiderService.deleteRuleBatch(ruleIds);
     }
 
     @Override
     public List<RuleEntity> findAll() {
         return ruleRepository.findAll();
+    }
+
+    @Override
+    public RuleEntity findById(Long ruleId) {
+        return ruleRepository.findOne(ruleId);
+    }
+
+    @Override
+    public RuleEntity findByName(String ruleName) {
+        return ruleRepository.findByRuleName(ruleName);
     }
 }

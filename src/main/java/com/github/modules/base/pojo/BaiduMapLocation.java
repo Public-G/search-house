@@ -1,4 +1,4 @@
-package com.github.modules.data.pojo;
+package com.github.modules.base.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

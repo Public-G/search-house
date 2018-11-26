@@ -8,9 +8,11 @@ import com.github.common.validator.group.AddGroup;
 import com.github.common.validator.group.UpdateGroup;
 import com.github.modules.base.form.PageForm;
 import com.github.modules.data.entity.RuleEntity;
+import com.github.modules.data.entity.SettingEntity;
 import com.github.modules.data.entity.SpiderEntity;
 import com.github.modules.data.entity.SupportAreaEntity;
 import com.github.modules.data.service.RuleService;
+import com.github.modules.data.service.SettingService;
 import com.github.modules.data.service.SpiderService;
 import com.github.modules.data.service.SupportAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +36,10 @@ public class SpiderController {
     private SpiderService spiderService;
 
     @Autowired
-    private SupportAreaService supportAreaService;
+    private RuleService ruleService;
 
     @Autowired
-    private RuleService ruleService;
+    private SettingService settingService;
 
     /**
      * 列表/添加 页面的跳转
@@ -78,11 +80,25 @@ public class SpiderController {
     }
 
     /**
+     * 唯一性校验
+     */
+    @GetMapping("/verify")
+    @ResponseBody
+    public ApiResponse verify(@RequestParam String spiderName) {
+        SpiderEntity spiderEntity = spiderService.findByName(spiderName);
+        if (spiderEntity == null) {
+            return ApiResponse.ofSuccess();
+        }
+
+        return ApiResponse.ofFail("项目名已存在");
+    }
+
+    /**
      * 爬虫项目信息
      */
     @GetMapping("/info/{spiderId:[1-9]+}")
     public String info(@PathVariable Long spiderId, Model model) {
-        SpiderEntity spider = spiderService.findBySpiderId(spiderId);
+        SpiderEntity spider = spiderService.findById(spiderId);
         model.addAttribute("spider", spider);
 
         reference(model);
@@ -120,17 +136,16 @@ public class SpiderController {
     }
 
     private void reference(Model model) {
-        List<SupportAreaEntity> allCity = supportAreaService.findByLevel(SysConstant.AreaLevel.CITY.getValue());
-        List<RuleEntity>        allRule = ruleService.findAll();
-        model.addAttribute("city", allCity);
+        List<RuleEntity>    allRule    = ruleService.findAll();
+        List<SettingEntity> allSetting = settingService.findAll();
         model.addAttribute("rule", allRule);
+        model.addAttribute("setting", allSetting);
     }
 
     @ModelAttribute
     private void customModelAttribute(@RequestParam(value = "spiderId", required = false) Long spiderId, Model model) {
         if (spiderId != null) {
-            SpiderEntity spiderEntity = spiderService.findBySpiderId(spiderId);
-            model.addAttribute("spider", spiderEntity);
+            model.addAttribute("spider", spiderService.findById(spiderId));
         }
     }
 

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote quoteBox">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input searchVal" placeholder="请输入参数名称"/>
+        </div>
+        <a class="search_btn layui-btn" data-type="reload" id="keywordRefresh">搜索</a>
+    </div>
+    <div class="layui-inline">
+        <a id="settingAdd" class="layui-btn layui-btn-normal">新增</a>
+    </div>
+    <div class="layui-inline">
+        <a id="settingDelete" class="layui-btn layui-btn-danger">批量删除</a>
+    </div>
+</blockquote>
+
+<table id="settingList" lay-filter="settingList"></table>
+
+<div th:replace="~{admin/common/common :: script}"></div>
+
+<!-- cookies -->
+<script type="text/html" id="cookiesEnabled">
+    {{#  if(d.cookiesEnabled == 0){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-xs">开启</span>
+    {{#  } else if(d.cookiesEnabled == 1){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-danger layui-btn-xs">禁用</span>
+    {{#  }}}
+</script>
+
+<!-- 自动限速 -->
+<script type="text/html" id="autothrottleEnabled">
+    {{#  if(d.autothrottleEnabled == 0){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-xs">开启</span>
+    {{#  } else if(d.autothrottleEnabled == 1){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-danger layui-btn-xs">禁用</span>
+    {{#  }}}
+</script>
+
+<!-- 爬取深度 -->
+<script type="text/html" id="depthPriority">
+    {{#  if(d.depthPriority == 0){ }}
+    <span>深度优先</span>
+    {{#  } else if(d.depthPriority == 1){ }}
+    <span>广度优先</span>
+    {{#  }}}
+</script>
+
+<!-- 爬取策略 -->
+<script type="text/html" id="depthLimit">
+    {{#  if(d.depthLimit == 0){ }}
+    <span>无限制</span>
+    {{#  } else if (d.depthLimit != null){ }}
+    <span>{{d.depthLimit}}</span>
+    {{#  }}}
+</script>
+
+<!-- 操作 -->
+<script type="text/html" id="settingListBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
+</script>
+</body>
+</html>
+<script type="text/javascript">
+    var cols = [
+        [
+            {field: 'settingId', checkbox: true, fixed: 'left', width: 50}
+            , {field: 'settingName', title: '参数名称', align: 'center', width: 140}
+            , {field: 'cookiesEnabled', title: 'cookies', align: 'center', width: 100, templet: '#cookiesEnabled'}
+            , {field: 'concurrentRequests', title: '并发请求数', align: 'center', width: 100}
+            , {field: 'concurrentRequestsPerDomain', title: '域名并发数', align: 'center', width: 100}
+            , {field: 'autothrottleEnabled', title: '自动限速', align: 'center', width: 100, templet: '#autothrottleEnabled'}
+            , {field: 'autothrottleStartDelay', title: '初始下载延迟（单位：秒）', align: 'center', width: 150}
+            , {field: 'downloadDelay', title: '最小下载延迟（单位：秒）', align: 'center', width: 150}
+            , {field: 'autothrottleMaxDelay', title: '最大下载延迟（单位：秒）', align: 'center', width: 150}
+            , {field: 'autothrottleTargetConcurrency', title: '并行请求平均数', align: 'center', width: 140}
+            , {field: 'depthLimit', title: '爬取深度', align: 'center', width: 100, templet: '#depthLimit'}
+            , {field: 'depthPriority', title: '爬取策略', align: 'center', width: 120, templet: '#depthPriority'}
+            , {field: 'createTime', title: '创建时间', align: 'center', width: 160, templet: function (d) {
+            return d.createTime != undefined ? moment(d.createTime).format("YYYY-MM-DD HH:mm:ss") : '';
+                }
+              }
+            , {field: 'updateTime', title: '更新时间', align: 'center', width: 160, templet: function (d) {
+            return d.updateTime != undefined ? moment(d.updateTime).format("YYYY-MM-DD HH:mm:ss") : '';
+                }
+              }
+            , {title: '操作', width: 160, toolbar: '#settingListBar', fixed: "right", align: "center"}
+        ]
+    ];
+
+    layui.renderTable('#settingList', 'settingListTable', '/data/setting/list', cols);
+
+    keywordSearch('settingListTable');
+
+    $("#settingAdd").click(function () {
+        alertByFull("新增参数", "/data/setting/forward/Add");
+    });
+
+    $("#settingDelete").click(function () {
+        layer.confirm('确认删除所选参数?', {icon: 3, title: '提示'}, function (index) {
+            var checkStatusData = table.checkStatus('settingListTable').data; //获取表格选中行
+            var selectIds = [];
+            checkStatusData.forEach(function (val, index) {
+                selectIds.push(val.settingId);
+            });
+
+            doBatch(selectIds, "/data/setting/delete", "DELETE");
+            layer.close(index);
+        });
+    });
+
+    //监听工具条
+    table.on('tool(settingList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+        if (layEvent === 'edit') { //修改
+            alertByFull("修改参数", "/data/setting/info/" + data.settingId);
+        } else if (layEvent === 'delete') { //删除
+            layer.confirm('确认删除参数?', {icon: 3, title: '提示'}, function (index) {
+                var selectIds = [];
+                selectIds.push(data.settingId);
+
+                doBatch(selectIds, "/data/setting/delete", "DELETE");
+                layer.close(index);
+            });
+        }
+    });
+</script>

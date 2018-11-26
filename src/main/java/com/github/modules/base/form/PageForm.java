@@ -1,5 +1,7 @@
 package com.github.modules.base.form;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

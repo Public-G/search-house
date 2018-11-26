@@ -26,7 +26,7 @@ public final class ConditionRangeUtils {
     /**
      * 面积区间定义
      */
-    public static final Map<String, ConditionRangeUtils> AREA_BLOCK;
+    public static final Map<String, ConditionRangeUtils> SQUARE_BLOCK;
 
     /**
      * 无限制区间
@@ -44,7 +44,7 @@ public final class ConditionRangeUtils {
                 .put("8000-*", new ConditionRangeUtils("8000-*", 8000, -1))
                 .build();
 
-        AREA_BLOCK = ImmutableMap.<String, ConditionRangeUtils>builder()
+        SQUARE_BLOCK = ImmutableMap.<String, ConditionRangeUtils>builder()
                 .put("*-30", new ConditionRangeUtils("*-30", -1, 30))
                 .put("30-50", new ConditionRangeUtils("30-50", 30, 50))
                 .put("50-100", new ConditionRangeUtils("50-100", 50, 100))
@@ -79,7 +79,7 @@ public final class ConditionRangeUtils {
             return ALL;
         }
 
-        ConditionRangeUtils areaRange = AREA_BLOCK.get(key);
+        ConditionRangeUtils areaRange = SQUARE_BLOCK.get(key);
 
         return wrapperCondition(areaRange, key);
     }

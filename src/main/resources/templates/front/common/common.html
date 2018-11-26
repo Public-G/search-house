@@ -191,7 +191,7 @@
     userData['visibleName'] = "";
 
     $(function () {
-        $.get('/city', function (data) {
+        $.get('/rent/city', function (data) {
             if(data.code === 0){
                 $(".citytabnr").append(parseCity(data.data));
             }

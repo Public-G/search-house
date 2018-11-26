@@ -4,6 +4,9 @@ import com.github.common.utils.PageUtils;
 import com.github.modules.search.dto.HouseDTO;
 import com.github.modules.search.form.HouseForm;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * 房源搜索
  *
@@ -11,6 +14,11 @@ import com.github.modules.search.form.HouseForm;
  * @date 2018-11-4
  */
 public interface SearchService {
+
+    /**
+     * 获取补全建议关键词
+     */
+    Set<String> suggest(String prefix);
 
     /**
      * 查询房源接口
@@ -27,4 +35,6 @@ public interface SearchService {
      * @return
      */
     HouseDTO queryById(String id);
+
+
 }

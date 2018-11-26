@@ -520,45 +520,45 @@ willSign.on('click',function(){
 });
 
 // 页面加载统计账户已收藏房源
-$.ajax({
-    type:'get',
-    url:'/house/getInterest',
-    data:{'date':Date.parse(new Date())},
-    dataType:'json'
-}).done(function(data){
-    if(data.status == -1){
-        willSign.on('click',function(){
-            $('.signLogin').show();
-        });
-    }else{
-        willSign.attr('href','/contactHouse');
-        signNum.css({'display':'inline-block'});
-        signNum.html(data.onlineHouses.length+data.offlineHouses.length);
-        for (var i = data.onlineHouses.length - 1; i >= 0; i--) {
-            for (var j = favor.length - 1; j >= 0; j--){
-                if(favor.eq(j).attr('roomId') == data.onlineHouses[i].houseListItem.roomId && data.onlineHouses[i].houseListItem.rentType == 1){
-                    favor.eq(j).attr('flag','true');
-                    favor.eq(j).attr('src','/static/image/icon/house-search/favored.png');
-                }else if(favor.eq(j).attr('houseId') == data.onlineHouses[i].houseListItem.id){
-                    favor.eq(j).attr('flag','true');
-                    favor.eq(j).attr('src','/static/image/icon/house-search/favored.png');
-                }
-            }
-        }
-
-        for (var i = data.offlineHouses.length - 1; i >= 0; i--) {
-            for (var j = favor.length - 1; j >= 0; j--){
-                if(data.offlineHouses[i].rentType == 1 && favor.eq(j).attr('roomId') == data.offlineHouses[i].roomId){
-                    favor.eq(j).attr('flag','true');
-                    favor.eq(j).attr('src','/static/image/icon/house-search/favored.png');
-                }else if(data.offlineHouses[i].rentType == 2 && favor.eq(j).attr('houseId') == data.offlineHouses[i].id){
-                    favor.eq(j).attr('flag','true');
-                    favor.eq(j).attr('src','/static/image/icon/house-search/favored.png');
-                }
-            }
-        }
-    }
-});
+// $.ajax({
+//     type:'get',
+//     url:'/house/getInterest',
+//     data:{'date':Date.parse(new Date())},
+//     dataType:'json'
+// }).done(function(data){
+//     if(data.status == -1){
+//         willSign.on('click',function(){
+//             $('.signLogin').show();
+//         });
+//     }else{
+//         willSign.attr('href','/contactHouse');
+//         signNum.css({'display':'inline-block'});
+//         signNum.html(data.onlineHouses.length+data.offlineHouses.length);
+//         for (var i = data.onlineHouses.length - 1; i >= 0; i--) {
+//             for (var j = favor.length - 1; j >= 0; j--){
+//                 if(favor.eq(j).attr('roomId') == data.onlineHouses[i].houseListItem.roomId && data.onlineHouses[i].houseListItem.rentType == 1){
+//                     favor.eq(j).attr('flag','true');
+//                     favor.eq(j).attr('src','/static/image/icon/house-search/favored.png');
+//                 }else if(favor.eq(j).attr('houseId') == data.onlineHouses[i].houseListItem.id){
+//                     favor.eq(j).attr('flag','true');
+//                     favor.eq(j).attr('src','/static/image/icon/house-search/favored.png');
+//                 }
+//             }
+//         }
+//
+//         for (var i = data.offlineHouses.length - 1; i >= 0; i--) {
+//             for (var j = favor.length - 1; j >= 0; j--){
+//                 if(data.offlineHouses[i].rentType == 1 && favor.eq(j).attr('roomId') == data.offlineHouses[i].roomId){
+//                     favor.eq(j).attr('flag','true');
+//                     favor.eq(j).attr('src','/static/image/icon/house-search/favored.png');
+//                 }else if(data.offlineHouses[i].rentType == 2 && favor.eq(j).attr('houseId') == data.offlineHouses[i].id){
+//                     favor.eq(j).attr('flag','true');
+//                     favor.eq(j).attr('src','/static/image/icon/house-search/favored.png');
+//                 }
+//             }
+//         }
+//     }
+// });
 
 // 加收藏
 favor.on('click',function(){

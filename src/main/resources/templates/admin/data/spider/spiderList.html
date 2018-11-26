@@ -23,8 +23,9 @@
 
 <!-- 操作 -->
 <script type="text/html" id="spiderListBar">
-    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 配置</a>
-    <a class="layui-btn layui-btn-xs" lay-event="upload"><i class="fa fa-cloud-upload"></i> 部署</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>修改</a>
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="upload"><i class="layui-icon">&#xe67c;</i>部署</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
 </script>
 </body>
 </html>
@@ -33,22 +34,20 @@
         [
             {field: 'spiderId', checkbox: true, fixed: 'left', width: 50}
             , {field: 'spiderName', title: '项目名称', align: 'center'}
-            , {field: 'cityCnName', title: '城市', align: 'center'}
-            , {field: 'ruleName', title: '解析规则', align: 'center'}
             , {field: 'startUrls', title: '起始链接', align: 'center'}
-            , {field: 'depthLimit', title: '爬取深度', align: 'center'}
+            , {field: 'city', title: '城市', align: 'center'}
+            , {field: 'ruleName', title: '解析规则', align: 'center'}
+            , {field: 'settingName', title: '爬虫参数', align: 'center'}
             , {field: 'remark', title: '备注', align: 'center'}
-            , {
-            field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
+            , {field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
                     return d.createTime != undefined ? moment(d.createTime).format("YYYY-MM-DD HH:mm:ss") : '';
                 }
               }
-            , {
-            field: 'updateTime', title: '更新时间', align: 'center', templet: function (d) {
+            , {field: 'updateTime', title: '更新时间', align: 'center', templet: function (d) {
                     return d.updateTime != undefined ? moment(d.updateTime).format("YYYY-MM-DD HH:mm:ss") : '';
                 }
               }
-            , {title: '操作', width: 180, toolbar: '#spiderListBar', fixed: "right", align: "center"}
+            , {title: '操作', width: 220, toolbar: '#spiderListBar', fixed: "right", align: "center"}
         ]
     ];
 
@@ -61,7 +60,7 @@
     });
 
     $("#spiderDelete").click(function () {
-        layer.confirm('确认删除项目?', {icon: 3, title: '提示'}, function (index) {
+        layer.confirm('确认删除所选项目?', {icon: 3, title: '提示'}, function (index) {
             var checkStatusData = table.checkStatus('spiderListTable').data; //获取表格选中行
             var selectIds = [];
             checkStatusData.forEach(function (val, index) {
@@ -79,8 +78,16 @@
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 
         if (layEvent === 'edit') { //修改
-            alert(data.spiderId);
-//            alertByFull("修改定时任务", "/data/rule/info/" + data.ruleId);
+            alertByFull("修改项目", "/data/spider/info/" + data.spiderId);
+        } else if (layEvent === 'upload') {
+
+        } else if (layEvent === 'delete') { // 删除
+            layer.confirm('确认删除项目?', {icon: 3, title: '提示'}, function (index) {
+                var selectIds = [];
+                selectIds.push(data.spiderId);
+                doBatch(selectIds, "/data/spider/delete", "DELETE");
+                layer.close(index);
+            });
         }
     });
 </script>

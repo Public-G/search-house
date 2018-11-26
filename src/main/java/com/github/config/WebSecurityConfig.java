@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/lib/**").permitAll() // 静态资源
+                .antMatchers("/**/*.jpg").permitAll()
                 .antMatchers("/captcha/*").permitAll() // 验证码
                 .antMatchers("/admin/login").permitAll() // 管理员登录
                 .antMatchers("/user/login").permitAll() // 普通用户登录
@@ -61,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .failureHandler(authenticationFailureHandler)
                 .and()
                 .logout()
-                    .logoutUrl("/logout")
+                    .logoutUrl("/sys/logout")
                     .logoutSuccessHandler(logoutSuccessHandler)
                     .deleteCookies("JSESSIONID") // 删除JSESSIONID
                     .invalidateHttpSession(true) //使session失效

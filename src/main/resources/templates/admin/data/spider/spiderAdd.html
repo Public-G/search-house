@@ -4,39 +4,10 @@
 <body class="childrenBody">
 <form class="layui-form" style="width:80%;">
 
-    <div class="layui-row">
-        <div class="magb15 layui-col-md6">
-            <label class="layui-form-label">项目名称</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="spiderName" lay-verify="required" placeholder="项目名称">
-            </div>
-        </div>
-        <div class="magb15 layui-col-md6">
-            <label class="layui-form-label">爬取深度</label>
-            <div class="layui-input-block">
-                <input type="number" min="1" class="layui-input" name="depthLimit" placeholder="爬取深度">
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-row">
-        <div class="magb15 layui-col-md6">
-            <label class="layui-form-label">城市</label>
-            <div class="layui-input-block">
-                <select name="cityId" lay-verify="required">
-                    <option value=""></option>
-                    <option th:each="item:${city}" th:if="${city!=null}" th:value="${item.areaId}">[[${item.cnName}]]</option>
-                </select>
-            </div>
-        </div>
-        <div class="magb15 layui-col-md6">
-            <label class="layui-form-label">解析规则</label>
-            <div class="layui-input-block">
-                <select name="ruleId" lay-verify="required">
-                    <option value=""></option>
-                    <option th:each="item:${rule}" th:if="${rule!=null}" th:value="${item.ruleId}">[[${item.ruleName}]]</option>
-                </select>
-            </div>
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">项目名称</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="spiderName" lay-verify="required|spiderName" placeholder="项目名称">
         </div>
     </div>
 
@@ -46,6 +17,46 @@
             <textarea class="layui-textarea" name="startUrls" lay-verify="required" placeholder="起始链接，多个请用逗号分隔，例如：x.a.com,y.a.com"></textarea>
         </div>
     </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">解析规则</label>
+        <div class="layui-input-block">
+            <select name="ruleId" lay-verify="required">
+                <option value=""></option>
+                <option th:if="${rule!=null}" th:each="ruleItem:${rule}" th:value="${ruleItem.ruleId}">[[${ruleItem.ruleName}]]</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">爬虫参数</label>
+        <div class="layui-input-block">
+            <select name="settingId">
+                <option value=""></option>
+                <option th:if="${setting!=null}" th:each="settingItem:${setting}" th:value="${settingItem.settingId}">[[${settingItem.settingName}]]</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item layui-row layui-col-md8">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">区域</label>
+            <div class="layui-input-block" >
+                <select id="province" lay-verify="required" lay-filter="province">
+                    <option value="">请选择省份</option>
+                </select>
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <div class="layui-input-block">
+                <select id="city" name="city" lay-verify="required">
+                    <option value="">请选择城市</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
 
     <div class="layui-form-item layui-row layui-col-xs8">
         <label class="layui-form-label">备注</label>
@@ -66,5 +77,65 @@
 </body>
 </html>
 <script type="text/javascript">
+    $.ajax({
+        url: "/lib/json/province_city.json",
+        type: "GET",
+        async: true,
+        success: function (data) {
+            $.each(data, function (index, item) {
+                if (item.level == 0) {
+                    $("#province").append('<option value="'+item.id+'">'+item.name+'</option>')
+                }
+            });
+
+            form.render('select'); //刷新select选择框渲染
+        }
+    });
+
+    // 监听省份选择
+    form.on('select(province)', function(data){
+        console.log(data.value); //得到被选中的值
+
+        $("#city > option:gt(0)").remove(); //删除第一个option之后的
+
+        if (data.value.length > 0) {
+            $.ajax({
+                url: "/lib/json/province_city.json",
+                type: "GET",
+                async: false,
+                success: function (area) {
+                    $.each(area, function (index, item) {
+                        if (item.parentId == data.value) {
+                            $("#city").append('<option value="'+item.name+'">'+item.name+'</option>')
+                        }
+                    });
+                }
+            });
+        }
+
+        form.render('select'); //刷新select选择框渲染
+    });
+
+    form.verify({
+        spiderName: function (value) {
+            var msg = '';
+            $.ajax({
+                url: "/data/spider/verify",
+                type: "GET",
+                async: false,
+                data: {
+                    spiderName: value
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.code === code_fail) {
+                        msg = data.msg;
+                    }
+                }
+            });
+            return msg;
+        }
+    });
+
     layui.formSubmit('spider_submit', '/data/spider/save');
 </script>
