@@ -83,7 +83,7 @@ public class ElasticSearchConfig {
                      */
                     @Override
                     public void afterBulk(long executionId, BulkRequest request, BulkResponse response) {
-                        logger.debug(" flush是否有失败 : {}", response.hasFailures());
+                        logger.debug(" flush是否有失败 : {}，消息：{}", response.hasFailures(), response.buildFailureMessage());
                     }
 
                     /**

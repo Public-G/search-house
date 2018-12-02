@@ -1,7 +1,7 @@
 package com.github.modules.data.service;
 
 import com.github.common.utils.PageUtils;
-import com.github.modules.base.pojo.HouseIndexTemplate;
+import com.github.modules.data.pojo.HouseIndexTemplate;
 
 import java.util.Map;
 

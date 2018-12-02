@@ -1,6 +1,6 @@
 package com.github.modules.data.service;
 
-import com.github.modules.base.pojo.BaiduMapLocation;
+import com.github.modules.data.pojo.BaiduMapLocation;
 
 /**
  * 百度地图相关接口

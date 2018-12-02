@@ -1,4 +1,4 @@
-package com.github.modules.base.pojo;
+package com.github.modules.data.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.NotBlank;
@@ -57,7 +57,7 @@ public class HouseIndexTemplate {
     private int attribute;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updateTime;
+    private Date releaseTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
@@ -69,7 +69,7 @@ public class HouseIndexTemplate {
     public HouseIndexTemplate() {
     }
 
-    public HouseIndexTemplate(String city, String region, String title, Integer price, Integer square, String houseType, Integer roomNum, int rentWay, String community, String address, String description, String imgHref, String sourceUrlId, String sourceUrl, Long website, int attribute, Date updateTime, Date createTime, List<HouseSuggest> suggest, BaiduMapLocation location) {
+    public HouseIndexTemplate(String city, String region, String title, Integer price, Integer square, String houseType, Integer roomNum, int rentWay, String community, String address, String description, String imgHref, String sourceUrlId, String sourceUrl, Long website, int attribute, Date releaseTime, Date createTime, List<HouseSuggest> suggest, BaiduMapLocation location) {
         this.city = city;
         this.region = region;
         this.title = title;
@@ -86,13 +86,13 @@ public class HouseIndexTemplate {
         this.sourceUrl = sourceUrl;
         this.website = website;
         this.attribute = attribute;
-        this.updateTime = updateTime;
+        this.releaseTime = releaseTime;
         this.createTime = createTime;
         this.suggest = suggest;
         this.location = location;
     }
 
-    public HouseIndexTemplate(String city, String region, String title, Integer price, Integer square, String houseType, Integer roomNum, int rentWay, String community, String address, String description, String imgHref, String sourceUrlId, String sourceUrl, Long website, int attribute, Date updateTime, Date createTime) {
+    public HouseIndexTemplate(String city, String region, String title, Integer price, Integer square, String houseType, Integer roomNum, int rentWay, String community, String address, String description, String imgHref, String sourceUrlId, String sourceUrl, Long website, int attribute, Date releaseTime, Date createTime) {
         this.city = city;
         this.region = region;
         this.title = title;
@@ -109,7 +109,7 @@ public class HouseIndexTemplate {
         this.sourceUrl = sourceUrl;
         this.website = website;
         this.attribute = attribute;
-        this.updateTime = updateTime;
+        this.releaseTime = releaseTime;
         this.createTime = createTime;
     }
 
@@ -241,12 +241,12 @@ public class HouseIndexTemplate {
         this.attribute = attribute;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getReleaseTime() {
+        return releaseTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setReleaseTime(Date releaseTime) {
+        this.releaseTime = releaseTime;
     }
 
     public Date getCreateTime() {

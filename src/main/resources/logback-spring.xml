@@ -6,7 +6,7 @@
 -->
 <configuration scan="false" scanPeriod="60 seconds" debug="false">
     <!-- 定义日志的根目录 -->
-    <property name="LOG_HOME" value="D:/app/log" />
+    <property name="LOG_HOME" value="~/logs" />
     <!-- 定义日志文件名称 -->
     <property name="appName" value="search-house"></property>
     <!-- ch.qos.logback.core.ConsoleAppender 表示控制台输出 -->

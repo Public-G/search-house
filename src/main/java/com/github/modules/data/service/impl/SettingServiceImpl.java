@@ -92,9 +92,6 @@ public class SettingServiceImpl implements SettingService {
     @Override
     public void deleteBatch(Long[] settingIds) {
         settingRepository.deleteBySettingIdIn(settingIds);
-
-        // 删除参数与项目关联
-        spiderService.deleteSettingBatch(settingIds);
     }
 
 }

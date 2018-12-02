@@ -4,11 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.common.utils.PageUtils;
-import com.github.modules.base.pojo.BaiduMapLocation;
-import com.github.modules.base.pojo.HouseIndexTemplate;
-import com.github.modules.base.pojo.HouseSuggest;
+import com.github.modules.data.pojo.BaiduMapLocation;
+import com.github.modules.data.pojo.HouseIndexTemplate;
+import com.github.modules.data.pojo.HouseSuggest;
 import com.github.modules.data.service.BaiduMapService;
-import com.github.modules.data.service.SupportAreaService;
 import com.github.modules.search.constant.HouseIndexConstant;
 import com.github.modules.search.dto.HouseDTO;
 import com.github.modules.data.service.HouseService;
@@ -21,6 +20,7 @@ import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.search.SearchHit;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -63,7 +63,7 @@ public class HouseServiceImpl implements HouseService {
         formatRegion(houseIndexTemplate);
 
         // 获取搜索建议词条
-        fetchSuggest(houseIndexTemplate);
+//        fetchSuggest(houseIndexTemplate);
 
         // 获取百度经纬度
         BaiduMapLocation baiduMapLocation =
@@ -75,11 +75,12 @@ public class HouseServiceImpl implements HouseService {
             String json = objectMapper.writeValueAsString(houseIndexTemplate);
 
             // 加入bulkProcessor
-            bulkProcessor.add(new IndexRequest(HouseIndexConstant.INDEX_NAME, HouseIndexConstant.TYPE_NAME).source(json));
+            bulkProcessor.add(new IndexRequest(HouseIndexConstant.INDEX_NAME, HouseIndexConstant.TYPE_NAME)
+                    .source(json, XContentType.JSON));
 
             // 上传LBS(单独上传，批量上传受限)
-            baiduMapService.uploadLBS(baiduMapLocation, houseIndexTemplate.getTitle(), houseIndexTemplate.getAddress(),
-                    houseIndexTemplate.getSourceUrlId(), houseIndexTemplate.getPrice(), houseIndexTemplate.getSquare());
+//            baiduMapService.uploadLBS(baiduMapLocation, houseIndexTemplate.getTitle(), houseIndexTemplate.getAddress(),
+//                    houseIndexTemplate.getSourceUrlId(), houseIndexTemplate.getPrice(), houseIndexTemplate.getSquare());
 
         } catch (JsonProcessingException e) {
             logger.error("ElasticSearch批量操作失败", e);
@@ -95,6 +96,9 @@ public class HouseServiceImpl implements HouseService {
 
         // 这里的分词器要和 索引/搜索 时使用的分词器一致，否则可能按照搜索建议搜索反而搜索不到内容
         analyzeRequestBuilder.setAnalyzer("ik_smart");
+
+        logger.debug(analyzeRequestBuilder.toString());
+
         AnalyzeResponse analyzeTokens = analyzeRequestBuilder.get();
 
         List<AnalyzeResponse.AnalyzeToken> tokens = analyzeTokens.getTokens();

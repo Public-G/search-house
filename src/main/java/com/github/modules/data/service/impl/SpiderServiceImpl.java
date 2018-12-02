@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
 import java.util.Date;
+import java.util.List;
 
 @Service("spiderService")
 public class SpiderServiceImpl implements SpiderService {
@@ -104,19 +105,13 @@ public class SpiderServiceImpl implements SpiderService {
         spiderRepository.deleteBySpiderIdIn(spiderIds);
     }
 
-    /**
-     * 在调用端的事务中运行
-     */
     @Override
-    public void deleteRuleBatch(Long[] ruleIds) {
-        spiderRepository.deleteRuleBatch(ruleIds);
+    public List<SpiderEntity> findByRuleIdIn(Long[] ruleIds) {
+        return spiderRepository.findByRuleIdIn(ruleIds);
     }
 
-    /**
-     * 在调用端的事务中运行
-     */
     @Override
-    public void deleteSettingBatch(Long[] settingIds) {
-        spiderRepository.deleteSettingBatch(settingIds);
+    public List<SpiderEntity> findBySettingIdIn(Long[] settingIds) {
+        return spiderRepository.findBySettingIdIn(settingIds);
     }
 }

@@ -1,9 +1,5 @@
 package com.github.common.constant;
 
-import com.github.common.utils.PageUtils;
-
-import javax.persistence.Transient;
-
 /**
  * 系统常量
  *
@@ -16,6 +12,16 @@ public class SysConstant {
      * 超级管理员ID
      */
     public static final Long SUPER_ADMIN = 1L;
+
+    /**
+     * 成功状态
+     */
+    public static final int SUCCESS_CODE = 0;
+
+    /**
+     * 失败状态码
+     */
+    public static final int FAIL_CODE = 1;
 
     /**
      * 响应类型
@@ -41,16 +47,6 @@ public class SysConstant {
      * 默认城市
      */
     public static final String DEFAULT_CITY = "北京";
-
-    /**
-     * RabbitMQ处理数据的Queue名
-     */
-    public static final String RABBITMQ_HOUSE_QUEUE = "house_queue";
-
-    /**
-     * RabbitMQ处理通信的Queue名
-     */
-    public static final String RABBITMQ_COMMAND_QUEUE = "command_queue";
 
     /**
      * 菜单类型
@@ -98,10 +94,12 @@ public class SysConstant {
      * @date 2018-11-08
      */
     public enum ScheduleStatus {
+
         /**
          * 正常
          */
         NORMAL(0),
+
         /**
          * 暂停
          */

@@ -1,6 +1,7 @@
 package com.github.modules.data.controller;
 
 import com.github.common.constant.SysConstant;
+import com.github.common.exception.SHException;
 import com.github.common.utils.ApiResponse;
 import com.github.common.utils.PageUtils;
 import com.github.common.validator.ValidatorUtils;
@@ -9,8 +10,10 @@ import com.github.common.validator.group.UpdateGroup;
 import com.github.modules.base.form.PageForm;
 import com.github.modules.data.entity.RuleEntity;
 import com.github.modules.data.entity.ScheduleJobEntity;
+import com.github.modules.data.entity.SpiderEntity;
 import com.github.modules.data.entity.SupportAreaEntity;
 import com.github.modules.data.service.RuleService;
+import com.github.modules.data.service.SpiderService;
 import com.github.modules.data.service.SupportAreaService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,9 @@ public class RuleController {
 
     @Autowired
     private RuleService ruleService;
+
+    @Autowired
+    private SpiderService spiderService;
 
     /**
      * 列表/添加 页面的跳转
@@ -116,6 +122,11 @@ public class RuleController {
     @DeleteMapping("/delete")
     @ResponseBody
     public ApiResponse delete(@RequestParam("selectIds") Long[] ruleIds) {
+        List<SpiderEntity> spiderEntities = spiderService.findByRuleIdIn(ruleIds);
+        if (null != spiderEntities && spiderEntities.size() > 0) {
+            throw new SHException("项目中已使用，请先删除关联");
+        }
+
         ruleService.deleteBatch(ruleIds);
 
         return ApiResponse.ofSuccess();

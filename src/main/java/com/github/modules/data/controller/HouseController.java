@@ -1,16 +1,19 @@
 package com.github.modules.data.controller;
 
-import com.github.common.constant.SysConstant;
 import com.github.common.exception.SHException;
 import com.github.common.utils.ApiResponse;
 import com.github.common.utils.PageUtils;
 import com.github.common.validator.ValidatorUtils;
-import com.github.modules.base.pojo.HouseIndexTemplate;
+import com.github.modules.data.pojo.HouseIndexTemplate;
+import com.github.modules.data.constant.CommunicateConstant;
 import com.github.modules.data.service.HouseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.Headers;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,13 +33,19 @@ public class HouseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * 具有缓存功能的线程池
+     */
     private ExecutorService executor = Executors.newCachedThreadPool();
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
     private HouseService houseService;
 
-    @RabbitListener(queues = SysConstant.RABBITMQ_HOUSE_QUEUE)
-    public void listener(HouseIndexTemplate houseIndexTemplate) {
+    @RabbitListener(queues = CommunicateConstant.RABBITMQ_HOUSE_QUEUE)
+    public void listener(@Payload HouseIndexTemplate houseIndexTemplate, @Headers Map<String, Object> headers) {
         //任务开始时间
         long startTime = System.currentTimeMillis();
 
@@ -45,7 +54,11 @@ public class HouseController {
             try {
                 ValidatorUtils.validateEntity(houseIndexTemplate);
 
-                houseService.saveOrUpdate(houseIndexTemplate);
+//                houseService.saveOrUpdate(houseIndexTemplate);
+
+                // 消息推送
+
+                simpMessagingTemplate.convertAndSend("/topic/realTime", headers);
             } catch (SHException e) {
                 logger.warn("房源数据 : {} 校验不通过, 原因 : {}", houseIndexTemplate.getSourceUrl(), e.getMsg());
             }
@@ -80,5 +93,4 @@ public class HouseController {
         PageUtils pageBean = houseService.findPage(params);
         return ApiResponse.ofSuccess().put("pageBean", pageBean);
     }
-
 }

@@ -67,8 +67,8 @@ public class SHErrorController implements ErrorController {
         int status = getStatus(request);
         String message = ApiResponse.ResponseStatus.ofApiReason(status);
 
-        return ApiResponse.ofMessage(status, message.equals("") ?
-                String.valueOf(attributes.getOrDefault("message", "error")) : message );
+        return ApiResponse.ofMessage(status,
+                message.equals("") ? String.valueOf(attributes.getOrDefault("message", "error")) : message );
     }
 
     private int getStatus(HttpServletRequest request) {

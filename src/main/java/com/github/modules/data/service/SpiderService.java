@@ -3,6 +3,8 @@ package com.github.modules.data.service;
 import com.github.modules.base.service.BaseService;
 import com.github.modules.data.entity.SpiderEntity;
 
+import java.util.List;
+
 /**
  * 爬虫项目管理
  *
@@ -11,7 +13,13 @@ import com.github.modules.data.entity.SpiderEntity;
  */
 public interface SpiderService extends BaseService<SpiderEntity> {
 
-    void deleteRuleBatch(Long[] ruleIds);
+    /**
+     * 根据规则ID查询项目
+     */
+    List<SpiderEntity> findByRuleIdIn(Long[] ruleIds);
 
-    void deleteSettingBatch(Long[] settingIds);
+    /**
+     * 根据参数ID查询项目
+     */
+    List<SpiderEntity> findBySettingIdIn(Long[] settingIds);
 }

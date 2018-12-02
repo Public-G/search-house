@@ -28,14 +28,14 @@
         <modelmapper.version>2.3.0</modelmapper.version>
         <quartz.version>2.3.0</quartz.version>
         <druid.version>1.1.8</druid.version>
-        <mysql.version>8.0.11</mysql.version>
+        <mysql.version>8.0.12</mysql.version>
         <!-- 布局功能的支持程序  thymeleaf3主程序对应layout2以上版本 -->
         <!-- thymeleaf2   layout1-->
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
         <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
         <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
         <spring.social.version>1.1.4.RELEASE</spring.social.version>
-        <elasticsearch.version>5.2.2</elasticsearch.version>
+        <elasticsearch.version>5.6.1</elasticsearch.version>
     </properties>
 
     <dependencies>
@@ -56,6 +56,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- RabbitMQ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
@@ -65,6 +66,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- WebSocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
         <!-- SpringSession -->

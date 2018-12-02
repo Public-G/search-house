@@ -38,6 +38,9 @@ public class PageUtils implements Serializable {
         this.data = data;
     }
 
+    public PageUtils(List<?> data) {
+        this.data = data;
+    }
 
     public Long getCount() {
         return count;

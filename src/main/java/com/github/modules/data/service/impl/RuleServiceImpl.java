@@ -29,9 +29,6 @@ public class RuleServiceImpl implements RuleService {
     @Autowired
     private RuleRepository ruleRepository;
 
-    @Autowired
-    private SpiderService spiderService;
-
     @Override
     public PageUtils findPage(PageForm pageForm) {
         PageRequest pageable = new PageRequest(pageForm.getCurr() - 1, pageForm.getLimit());
@@ -82,9 +79,6 @@ public class RuleServiceImpl implements RuleService {
     @Override
     public void deleteBatch(Long[] ruleIds) {
         ruleRepository.deleteByRuleIdIn(ruleIds);
-
-        // 删除规则与项目关联
-        spiderService.deleteRuleBatch(ruleIds);
     }
 
     @Override

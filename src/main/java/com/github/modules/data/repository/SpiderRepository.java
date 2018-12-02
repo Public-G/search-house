@@ -6,17 +6,23 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface SpiderRepository extends JpaRepository<SpiderEntity, Long>, JpaSpecificationExecutor<SpiderEntity> {
 
     void deleteBySpiderIdIn(Long[] spiderIds);
 
     SpiderEntity findBySpiderName(String spiderName);
 
-    @Modifying
-    @Query("UPDATE SpiderEntity spider SET spider.ruleId = null WHERE spider.ruleId in ?1")
-    void deleteRuleBatch(Long[] ruleIds);
+    List<SpiderEntity> findByRuleIdIn(Long[] ruleIds);
 
-    @Modifying
-    @Query("UPDATE SpiderEntity spider SET spider.settingId = null WHERE spider.settingId in ?1")
-    void deleteSettingBatch(Long[] settingIds);
+    List<SpiderEntity> findBySettingIdIn(Long[] settingIds);
+
+//    @Modifying
+//    @Query("UPDATE SpiderEntity spider SET spider.ruleId = null WHERE spider.ruleId in ?1")
+//    void deleteRuleBatch(Long[] ruleIds);
+//
+//    @Modifying
+//    @Query("UPDATE SpiderEntity spider SET spider.settingId = null WHERE spider.settingId in ?1")
+//    void deleteSettingBatch(Long[] settingIds);
 }

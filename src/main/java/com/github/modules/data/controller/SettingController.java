@@ -1,5 +1,6 @@
 package com.github.modules.data.controller;
 
+import com.github.common.exception.SHException;
 import com.github.common.utils.ApiResponse;
 import com.github.common.utils.PageUtils;
 import com.github.common.validator.ValidatorUtils;
@@ -8,11 +9,15 @@ import com.github.common.validator.group.UpdateGroup;
 import com.github.modules.base.form.PageForm;
 import com.github.modules.data.entity.RuleEntity;
 import com.github.modules.data.entity.SettingEntity;
+import com.github.modules.data.entity.SpiderEntity;
 import com.github.modules.data.service.SettingService;
+import com.github.modules.data.service.SpiderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 爬虫参数设置
@@ -26,6 +31,10 @@ public class SettingController {
 
     @Autowired
     private SettingService settingService;
+
+    @Autowired
+    private SpiderService spiderService;
+
 
     /**
      * 列表/添加 页面的跳转
@@ -108,8 +117,13 @@ public class SettingController {
      */
     @DeleteMapping("/delete")
     @ResponseBody
-    public ApiResponse delete(@RequestParam("selectIds") Long[] ruleIds) {
-        settingService.deleteBatch(ruleIds);
+    public ApiResponse delete(@RequestParam("selectIds") Long[] settingIds) {
+        List<SpiderEntity> spiderEntities = spiderService.findBySettingIdIn(settingIds);
+        if (null != spiderEntities && spiderEntities.size() > 0) {
+            throw new SHException("项目中已使用，请先删除关联");
+        }
+
+        settingService.deleteBatch(settingIds);
 
         return ApiResponse.ofSuccess();
     }

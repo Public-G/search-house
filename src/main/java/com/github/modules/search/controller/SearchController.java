@@ -128,19 +128,4 @@ public class SearchController {
 //        return ApiResponse.ofSuccess().put("data", houseResult.substring(houseResult.indexOf("<body>") + 6, houseResult.indexOf("</body>")));
 //    }
 
-    /**
-     * 将渲染后的html返回
-     *
-     * @param request
-     * @param response
-     * @return
-     * @throws ServletException
-     * @throws IOException
-     */
-    private String getHtmlOutput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CustomResponseWrapper wrapper = new CustomResponseWrapper(response);
-        request.getRequestDispatcher("/template/houseResult").include(request, wrapper);
-        return wrapper.getContent();
-    }
-
 }

@@ -61,7 +61,7 @@
         "attribute": {
           "type": "short"
         },
-        "updateTime": {
+        "releaseTime": {
           "type": "date",
           "format": "yyyy-MM-dd||epoch_millis"
         },
