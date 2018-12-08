@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:fragment="head">
     <meta charset="UTF-8">
     <meta name="keywords" content="house search rent"/>
@@ -11,14 +12,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <link rel="shortcut icon" th:href="@{/lib/images/front/icon/favicon.ico}" type="image/ico">
     <link rel="stylesheet" type="text/css" th:href="@{'/lib/font/css/font-awesome.min.css?v='+1}" media="all"/>
-    <link rel="stylesheet" type="text/css" th:href="@{'/lib/layui/css/layui.css?v='+3}" media="all"/>
     <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/main-0.3.1.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/components-0.6.23.css}">
-    <script type="text/javascript" th:src="@{'/lib/layui/layui.js?v='+3}"></script>
-    <script type="text/javascript" th:src="@{/lib/js/plugin/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/plugin/jquery-1.9.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/js/plugin/jquery.mousewheel.min.js}"></script>
     <script type="text/javascript" th:src="@{/lib/js/front/common.js}"></script>
     <script type="text/javascript" th:src="@{/lib/js/front/main-0.3.1.js}"></script>
+    <script type="text/javascript" th:src="@{'/lib/layui/layui.js?v='+3}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/plugin/jquery.cookie.min.js}"></script>
     <title>rent</title>
 
     <script type="text/javascript" th:inline="javascript">
@@ -132,36 +133,44 @@
 
     <ul class="userstatus">
         <a class="indexpage" href="/"><img class="logofrog" src="http://s107.107room.com/static/image/logo-frog.png"
-                                           alt="107间[ 北京租房｜北京租房子｜北京租房网｜北京房屋出租｜个人房源｜个人租房]"/></a>
-        <li class="fourstatus"><span class="loginbutton">登录｜</span><span class="verify2">认证｜</span><span
-                class="logout1">退出</span><span class="regist"><a href="/user/auth/register">注册</a></span></li>
-        <!--<li><img class="frog" src="/static/image/userinfo/default-favicon-66.png"/><span class="headTel"></span></li>-->
-        <li class="wallet"><a href="/account/manage">钱包</a></li>
-        <li class="news1"><a href="/personal/message">消息</a></li>
+                                           alt="爬虫房源"/></a>
+        <li class="fourstatus">
+            <span class="loginbutton" sec:authorize="anonymous">免密登录</span>
+            <span sec:authorize="authenticated">
+                 <img class="frog" src="http://www.107room.com/static/image/userinfo/default-favicon-66.png"/>
+                 <span class="headTel" sec:authentication="name"></span>
+                 <span>｜</span>
+                 <span class="logout1">退出</span>
+            </span>
+
+            <!--<span class="regist"><a href="/user/auth/register">注册</a></span>-->
+        </li>
+        <!--<li sec:authorize="authenticated">-->
+
+            <!--<span class="headTel" sec:authentication="name">1</span>-->
+        <!--</li>-->
+        <!--<li class="wallet"><a href="/account/manage">钱包</a></li>-->
+        <!--<li class="news1"><a href="/personal/message">消息</a></li>-->
+
     </ul>
 </div>
-
 
 <div class="navwrap" th:fragment="navwrap">
         <ul class="navbottom1">
             <div class="s2" onMouseOver="this.className='s2 on'" onMouseOut="this.className='s2'">
                 <div class="city">
-                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    <!--<span class="icon-15" style="margin-right: 5px"></span>-->
-                    <a target="_blank" href="/">北京租房</a>
                 </div>
                 <div class="citytab">
                     <div class="citytabnr">
-                        <a target="_blank" href="http://www.107room.com" style="font-weight: 700;">北京</a>
-                        <a target="_blank" href="http://sh.107room.com" style="font-weight: 700;">上海</a>
-                        <a target="_blank" href="http://sz.107room.com" style="font-weight: 700;">深圳</a>
-                        <a target="_blank" href="http://gz.107room.com" style="font-weight: 700;">广州</a>
+                        <a href="javascript:void(0);" data-bind="北京" style="font-weight: 700;">北京</a>
+                        <a href="javascript:void(0);" data-bind="上海" style="font-weight: 700;">上海</a>
+                        <a href="javascript:void(0);" data-bind="深圳" style="font-weight: 700;">深圳</a>
+                        <a href="javascript:void(0);" data-bind="广州" style="font-weight: 700;">广州</a>
+
                     </div>
                 </div>
             </div>
             <li class="biaoyu">
-                <span>&nbsp></span>&nbsp<a href="/z2_a1_1">北京找房</a>
-                <!--<span>&nbsp></span>&nbsp<a href="/z2_a1-b1chaoyang_1">朝阳租房</a>-->
                 <!--<span>&nbsp></span>&nbsp&nbsp<a href="#">潘家园松榆西里租房</a>-->
             </li>
         </ul>
@@ -170,10 +179,10 @@
 <script type="text/javascript" th:fragment="navScript">
     var frog = $('.frog');
     var loginbutton = $('.loginbutton');
-    var verify = $('.verify2');
+//    var verify = $('.verify2');
     var news1 = $('.news1');
     var wallet = $('.wallet');
-    var logout1 = $('.logout1');
+//    var logout1 = $('.logout1');
     var regist = $('.regist');
     var tel = $('.headTel');
     var waitsign = $('.waitsign');
@@ -182,128 +191,102 @@
     var nowweb = $('.nowweb');
     var publishHouse = $('.publishHouse');
 
-    userData['verifyStatus'] = "";
-    userData['auth'] = 0;
-    userData['userType'] = ("" == "") ? 0 : parseInt("");
-    userData['faviconUrl'] = "";
-    userData['name'] = "";
-    userData['username'] = "";
-    userData['visibleName'] = "";
+//    userData['verifyStatus'] = "";
+//    userData['auth'] = 0;
+//    userData['userType'] = ("" == "") ? 0 : parseInt("");
+//    userData['faviconUrl'] = "";
+//    userData['name'] = "";
+//    userData['username'] = "";
+//    userData['visibleName'] = "";
 
-    $(function () {
-        $.get('/rent/city', function (data) {
-            if(data.code === 0){
-                $(".citytabnr").append(parseCity(data.data));
-            }
-        }, "json");
-    });
-    
-    function parseCity(data) {
-        var cityHtml = '';
-        if(data !== undefined && data !== null){
-            $.each(data, function () {
-                cityHtml += '<br/><span class="initals">'+this.cnName+'</span>';
-                if (this.childCity !== undefined && this.childCity !== null ) {
-                    var cityList = this.childCity;
-                    $.each(cityList, function () {
-                        cityHtml += '<a target="_blank" href="http://bd.107room.com/">'+this.cnName+'</a>';
-                    });
-                }
-            });
-        } else {
-            cityHtml = '';
-        }
-        return cityHtml;
-    }
+//    loginbutton.on('click', function () {
+//        $('.signLogin').show();
+//        $.ajax({
+//            type: 'post',
+//            url: '/user/login',
+//            data: {'embedded': 'true'},
+//            dataType: 'json'
+//        }).done(function (data) {
+//        })
+//    });
 
-    loginbutton.on('click', function () {
-        $('.signLogin').show();
-        $.ajax({
-            type: 'post',
-            url: '/user/login',
-            data: {'embedded': 'true'},
-            dataType: 'json'
-        }).done(function (data) {
-        })
-    });
+//    logout1.on('click', function () {
+//        window.location.href = '/user/logout';
+//    });
 
-    logout1.on('click', function () {
-        window.location.href = '/user/logout';
-    });
+//    $('.publishHouse a:nth-child(1)').on('click', function () {
+//        window.open('/addHouseLeader');
+//    });
 
-    $('.publishHouse a:nth-child(1)').on('click', function () {
-        window.open('/addHouseLeader');
-    });
+//    if (userData.visibleName != '') {
+//        if (userData.faviconUrl.split('?')[0] != '') {
+//            frog.attr('src', userData.faviconUrl.split('?')[0]).show();
+//        } else {
+//            frog.show();
+//        }
+//
+//        tel.html(userData.visibleName).show();
+//        logout1.show();
+//        verify.show();
+//        if (userData.verifyStatus > 0) {
+//            verify.hide();
+//        }
+//
+//        waitsign.attr('href', '/contactHouse');
+//        regist.hide();
+//        loginbutton.hide();
+//        news1.show();
+//        wallet.show();
+//    } else {
+//        waitsign.on('click', function () {
+//            $('.signLogin').show();
+//        });
+//        logout1.hide();
+//        verify.hide();
+//        regist.show();
+//        loginbutton.show();
+//        news1.hide();
+//        wallet.hide();
+//    }
 
-    if (userData.visibleName != '') {
-        if (userData.faviconUrl.split('?')[0] != '') {
-            frog.attr('src', userData.faviconUrl.split('?')[0]).show();
-        } else {
-            frog.show();
-        }
+//    verify.on('click', function () {
+//        window.location.href = '/user/auth/verify';
+//    });
 
-        tel.html(userData.visibleName).show();
-        logout1.show();
-        verify.show();
-        if (userData.verifyStatus > 0) {
-            verify.hide();
-        }
+//    var substr = nowweb.html();
+//    if (substr != undefined) {
+//        if (substr.length > 20) {
+//            var str = substr.substring(0, 20) + '...';
+//            nowweb.html(str);
+//        }
+//    }
 
-        waitsign.attr('href', '/contactHouse');
-        regist.hide();
-        loginbutton.hide();
-        news1.show();
-        wallet.show();
-    } else {
-        waitsign.on('click', function () {
-            $('.signLogin').show();
-        });
-        logout1.hide();
-        verify.hide();
-        regist.show();
-        loginbutton.show();
-        news1.hide();
-        wallet.hide();
-    }
+//    function getCookie(name) {
+//        var arr = document.cookie.split('; ');
+//        var i = 0;
+//        for (i = 0; i < arr.length; i++) {
+//            var arr2 = arr[i].split('=');
+//
+//            if (arr2[0] == name) {
+//                var getC = decodeURIComponent(arr2[1]);
+//                return getC;
+//            }
+//        }
+//        return false;
+//    }
 
-    verify.on('click', function () {
-        window.location.href = '/user/auth/verify';
-    });
+//    function substr1(dom) {
+//        var houseDescibtion = dom;
+//        for (var i = houseDescibtion.length - 1; i >= 0; i--) {
+//            var substr = houseDescibtion.eq(i).html();
+//            if (substr.length > 40) {
+//                var str = substr.substring(0, 40) + '...';
+//                houseDescibtion.eq(i).html(str);
+//            }
+//        }
+//    }
 
-    var substr = nowweb.html();
-    if (substr != undefined) {
-        if (substr.length > 20) {
-            var str = substr.substring(0, 20) + '...';
-            nowweb.html(str);
-        }
-    }
-
-    function getCookie(name) {
-        var arr = document.cookie.split('; ');
-        var i = 0;
-        for (i = 0; i < arr.length; i++) {
-            var arr2 = arr[i].split('=');
-
-            if (arr2[0] == name) {
-                var getC = decodeURIComponent(arr2[1]);
-                return getC;
-            }
-        }
-        return false;
-    }
-
-    function substr1(dom) {
-        var houseDescibtion = dom;
-        for (var i = houseDescibtion.length - 1; i >= 0; i--) {
-            var substr = houseDescibtion.eq(i).html();
-            if (substr.length > 40) {
-                var str = substr.substring(0, 40) + '...';
-                houseDescibtion.eq(i).html(str);
-            }
-        }
-    }
-
-    substr1($('.biaoyu a'));
+//    substr1($('.biaoyu a'));
 </script>
 
 <div th:fragment="signLogin">
@@ -311,37 +294,43 @@
     <div class="signLogin">
         <div class="lightLogin">
             <span class="closedButton">X</span>
-            <li class="username"><input style="border:none" type="text" placeholder="手机号/用户名" name="username"></li>
-            <li class="password"><input style="border:none" type="password" placeholder="密码" name="password"></li>
-            <li class="warning">用户名与密码不匹配</li>
+            <li class="username"><input style="border:none" type="text" placeholder="手机号" name="mobile"></li>
+            <li class="password">
+                <input style="border:none" type="text" placeholder="验证码" name="smsCaptcha">
+            </li>
+            <button class="sendverify">发送验证码</button>
+            <!--<li class="password"><input style="border:none" type="password" placeholder="密码" name="password"></li>-->
+            <!--<li class="warning">用户名与密码不匹配</li>-->
             <li class="submitlogin">登录</li>
             <li class="otherlogin">其他登录方式</li>
             <li class="logintype">
-                <a class="douban"
-                   href="https://www.douban.com/service/auth2/auth?client_id=0ac8dc20b45866d8205a94621d093488&redirect_uri=http://107room.com/user/oauth/douban/response&response_type=code"><img
-                        src=""></a>
-                <a class="xinlang"
-                   href="https://api.weibo.com/oauth2/authorize?client_id=1692960071&redirect_uri=http://107room.com/user/oauth/weibo/response&response_type=code"><img
-                        src=""></a>
-                <a class="tengxun" style="margin:0"
-                   href="https://graph.qq.com/oauth/show?which=Login&display=pc&client_id=101215955&redirect_uri=http://107room.com/user/oauth/qq/response&response_type=code"><img
-                        src=""></a>
+                <a class="douban">
+                    <img src="">
+                </a>
+                <a class="xinlang">
+                    <img src="">
+                </a>
+                <a class="tengxun" style="margin:0" >
+                    <img src="">
+                </a>
             </li>
-            <li class="helpyou"><span class="register">马上注册</span> | <span class="lostpassword">忘记密码</span></li>
+            <!--<li class="helpyou"><span class="register">马上注册</span> | <span class="lostpassword">忘记密码</span></li>-->
         </div>
-        <div class="lostpasswordpage">
-            <span class="closedButton">X</span>
-            <input class="telnumber" placeholder="手机号"/>
-            <input class="verifycode" placeholder="验证码"/>
-            <span class="sendverify">发送验证码</span>
-            <input type="password" class="setnewpwd" placeholder="设置新密码"/>
-            <li class="errorpromp"></li>
-            <li class="sendnewdata">重置密码</li>
-            <li class="condition1">未绑定手机号的用户请使用注册邮箱将</li>
-            <li class="condition2"><span>用户名</span>手机号发送至<span>support@107room.com</span></li>
-        </div>
+        <!--lostpasswordpage-->
+        <!--<div class="lostpasswordpage">-->
+            <!--<span class="closedButton">X</span>-->
+            <!--<input class="telnumber" placeholder="手机号"/>-->
+            <!--<input class="verifycode" placeholder="验证码"/>-->
+            <!--<span class="sendverify">发送验证码</span>-->
+            <!--<input type="password" class="setnewpwd" placeholder="设置新密码"/>-->
+            <!--<li class="errorpromp"></li>-->
+            <!--<li class="sendnewdata">重置密码</li>-->
+            <!--<li class="condition1">未绑定手机号的用户请使用注册邮箱将</li>-->
+            <!--<li class="condition2"><span>用户名</span>手机号发送至<span>support@107room.com</span></li>-->
+        <!--</div>-->
     </div>
-    <script type="text/javascript" th:src="@{/lib/js/front/userLoginJs-0.6.23.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/front/common/custom-common.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/front/userLoginJs.js}"></script>
 </div>
 
 
@@ -376,13 +365,13 @@
     </div>
     <script type="text/javascript">
         var userData = {};
-        room107.verifyStatus = "";
-        room107.auth = 0;
-        room107.userType = ("" == "") ? 0 : parseInt("");
-        room107.faviconUrl = "";
-        room107.name = "";
-        room107.username = "";
-        room107.visibleName = "";
+//        room107.verifyStatus = "";
+//        room107.auth = 0;
+//        room107.userType = ("" == "") ? 0 : parseInt("");
+//        room107.faviconUrl = "";
+//        room107.name = "";
+//        room107.username = "";
+//        room107.visibleName = "";
 
         // init navs
         ReactDOM.render(React.createElement(components.HeaderNavigation), $('[role="navs"]')[0]);
@@ -390,54 +379,54 @@
         // it will be done within `loginHandler`
 
         //webheader里我的租房是否现实
-        if (room107.userType > 1) {
-            var a = '<a href="/house/landlord" style="margin-top:3px;">出房宝</a>';
-            publishHouse.append(a);
-        }
+//        if (room107.userType > 1) {
+//            var a = '<a href="/house/landlord" style="margin-top:3px;">出房宝</a>';
+//            publishHouse.append(a);
+//        }
 
-        $(document).on('room107.refreshLoginStatus', function (event, data) {
-            ReactDOM.render(React.createElement(components.HeaderNavigation, {
-                name: data.name,
-                username: data.username,
-                visibleName: data.visibleName,
-                faviconUrl: data.faviconUrl,
-                auth: data.auth,
-                userType: data.userType
-            }), $('[role="navs"]')[0]);
-        });
+//        $(document).on('room107.refreshLoginStatus', function (event, data) {
+//            ReactDOM.render(React.createElement(components.HeaderNavigation, {
+//                name: data.name,
+//                username: data.username,
+//                visibleName: data.visibleName,
+//                faviconUrl: data.faviconUrl,
+//                auth: data.auth,
+//                userType: data.userType
+//            }), $('[role="navs"]')[0]);
+//        });
 
-        refreshLoginStatus(room107.name, room107.username, room107.faviconUrl, room107.visibleName);
+//        refreshLoginStatus(room107.name, room107.username, room107.faviconUrl, room107.visibleName);
 
-        (function () {
-            var verifyStatus = parseInt('');
-            // inform redux the user info
-            _bridge.updateAccount({
-                name: room107.name,
-                username: room107.username,
-                faviconUrl: room107.faviconUrl,
-                type: room107.userType,
-                verifyStatus: (isNaN(verifyStatus)) ? null : verifyStatus
-            });
-        })();
+//        (function () {
+//            var verifyStatus = parseInt('');
+//            // inform redux the user info
+//            _bridge.updateAccount({
+//                name: room107.name,
+//                username: room107.username,
+//                faviconUrl: room107.faviconUrl,
+//                type: room107.userType,
+//                verifyStatus: (isNaN(verifyStatus)) ? null : verifyStatus
+//            });
+//        })();
 
-        $("#lightboxClose").click(Lightbox.close);
-        $(".loginLightbox").click(UI.showLogin);
-        $(".navItem").hover(function () {
-            var icon = $(this).children(".icon");
-            icon.css("background-position", -icon.width());
-        }, function () {
-            var icon = $(this).children(".icon");
-            icon.css("background-position", 0);
-        });
-        $("body").mousewheel(function () {
-            return room107.enableScroll;
-        });
-        $(function () {
-            PlaceHolder.init();
-            $(':input').attr('spellcheck', 'false');
-            Input.bindValidate();
-            Input.bindNumberInput($('input.numberInput'));
-        });
+//        $("#lightboxClose").click(Lightbox.close);
+//        $(".loginLightbox").click(UI.showLogin);
+//        $(".navItem").hover(function () {
+//            var icon = $(this).children(".icon");
+//            icon.css("background-position", -icon.width());
+//        }, function () {
+//            var icon = $(this).children(".icon");
+//            icon.css("background-position", 0);
+//        });
+//        $("body").mousewheel(function () {
+//            return room107.enableScroll;
+//        });
+//        $(function () {
+//            PlaceHolder.init();
+//            $(':input').attr('spellcheck', 'false');
+//            Input.bindValidate();
+//            Input.bindNumberInput($('input.numberInput'));
+//        });
     </script>
 </div>
 

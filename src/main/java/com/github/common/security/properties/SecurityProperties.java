@@ -11,13 +11,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "search.house.security")
 public class SecurityProperties {
 
-    private ValidateCaptchaProperties captcha = new ValidateCaptchaProperties();
+    private CaptchaProperties captcha = new CaptchaProperties();
 
-    public ValidateCaptchaProperties getCaptcha() {
+    public CaptchaProperties getCaptcha() {
         return captcha;
     }
 
-    public void setCaptcha(ValidateCaptchaProperties captcha) {
+    public void setCaptcha(CaptchaProperties captcha) {
         this.captcha = captcha;
     }
 }

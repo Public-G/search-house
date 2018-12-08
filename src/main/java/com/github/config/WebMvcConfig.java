@@ -20,9 +20,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
+        //设置默认首页
+//        registry.addViewController("/").setViewName("front/index");
+
         registry.addViewController("/admin/login").setViewName("admin/login");
         registry.addViewController("/admin/index").setViewName("admin/index");
         registry.addViewController("/admin/main").setViewName("admin/main");
+
+//        registry.addViewController("/user/auth/register").setViewName("front/register");
 
         registry.addViewController("/template/spiderUploadList")
                 .setViewName("admin/data/spider/spiderUploadList");

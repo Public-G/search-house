@@ -6,7 +6,7 @@ package com.github.common.security.properties;
  * @author ZEALER
  * @date 2018-10-25
  */
-public class ValidateCaptchaProperties {
+public class CaptchaProperties {
 
     private ImageCaptchaProperties image = new ImageCaptchaProperties();
 

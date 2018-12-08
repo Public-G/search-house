@@ -3,6 +3,7 @@ package com.github.modules.data.entity;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
@@ -38,7 +39,7 @@ public class SettingEntity implements Serializable {
      * 并发请求数，最大32，默认16
      */
     @Column(name = "concurrent_requests")
-    @Min(message = "并发请求数不能小于1", value = 1)
+    @Min(message = "并发请求数不能小于0", value = 0)
     @Max(message = "并发请求数不能大于32",value = 32)
     private Integer concurrentRequests;
 
@@ -46,7 +47,7 @@ public class SettingEntity implements Serializable {
      * 针对每个域名限制n个并发，最大为16个
      */
     @Column(name = "concurrent_requests_per_domain")
-    @Min(message = "域名限制最小1个并发", value = 1)
+    @Min(message = "域名限制最小0个并发", value = 0)
     @Max(message = "域名限制最大16个并发",value = 32)
     private Integer concurrentRequestsPerDomain;
 
@@ -60,29 +61,29 @@ public class SettingEntity implements Serializable {
      * 初始下载延迟
      */
     @Column(name = "autothrottle_start_delay")
-    @Min(message = "初始下载延迟最小值不能小于1", value = 1)
+    @Min(message = "初始下载延迟最小值不能小于0", value = 0)
     private Integer autothrottleStartDelay;
 
     /**
      * 最小下载延迟秒数，限制频繁访问
      */
     @Column(name = "download_delay")
-    @Min(message = "下载延迟秒数最小值不能小于1", value = 1)
+    @Min(message = "下载延迟秒数最小值不能小于0", value = 0)
     private Integer downloadDelay;
 
     /**
      * 最大下载延迟秒数
      */
     @Column(name = "autothrottle_max_delay")
-    @Min(message = "最大下载延迟秒数不能小于1", value = 1)
+    @Min(message = "最大下载延迟秒数不能小于0", value = 0)
     private Integer autothrottleMaxDelay;
 
     /**
      * Scrapy请求的平均数量应该并行发送每个远程服务器
      */
     @Column(name = "autothrottle_target_concurrency")
-    @Min(message = "并行的请求的平均数量不能小于1", value = 1)
-    private Integer autothrottleTargetConcurrency;
+    @Min(message = "并行的请求的平均数量不能小于0", value = 0)
+    private Float autothrottleTargetConcurrency;
 
     /**
      * 爬虫允许的最大深度，0表示无限制(爬取深度不是必须的，空字符串转换Integer为null，而无法转换为int)
@@ -96,6 +97,12 @@ public class SettingEntity implements Serializable {
      */
     @Column(name = "depth_priority")
     private Integer depthPriority;
+
+    /**
+     * 缓存 0：开启，1：关闭
+     */
+    @Column(name = "httpcache_enabled")
+    private Integer httpcacheEnabled;
 
     /**
      * 创建时间
@@ -112,7 +119,7 @@ public class SettingEntity implements Serializable {
     public SettingEntity() {
     }
 
-    public SettingEntity(String settingName, Integer cookiesEnabled, Integer concurrentRequests, Integer concurrentRequestsPerDomain, Integer autothrottleEnabled, Integer autothrottleStartDelay, Integer downloadDelay, Integer autothrottleMaxDelay, Integer autothrottleTargetConcurrency, Integer depthLimit, Integer depthPriority, Date createTime, Date updateTime) {
+    public SettingEntity(String settingName, Integer cookiesEnabled, Integer concurrentRequests, Integer concurrentRequestsPerDomain, Integer autothrottleEnabled, Integer autothrottleStartDelay, Integer downloadDelay, Integer autothrottleMaxDelay, Float autothrottleTargetConcurrency, Integer depthLimit, Integer depthPriority, Integer httpcacheEnabled, Date createTime, Date updateTime) {
         this.settingName = settingName;
         this.cookiesEnabled = cookiesEnabled;
         this.concurrentRequests = concurrentRequests;
@@ -124,6 +131,7 @@ public class SettingEntity implements Serializable {
         this.autothrottleTargetConcurrency = autothrottleTargetConcurrency;
         this.depthLimit = depthLimit;
         this.depthPriority = depthPriority;
+        this.httpcacheEnabled = httpcacheEnabled;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
@@ -200,11 +208,11 @@ public class SettingEntity implements Serializable {
         this.autothrottleMaxDelay = autothrottleMaxDelay;
     }
 
-    public Integer getAutothrottleTargetConcurrency() {
+    public Float getAutothrottleTargetConcurrency() {
         return autothrottleTargetConcurrency;
     }
 
-    public void setAutothrottleTargetConcurrency(Integer autothrottleTargetConcurrency) {
+    public void setAutothrottleTargetConcurrency(Float autothrottleTargetConcurrency) {
         this.autothrottleTargetConcurrency = autothrottleTargetConcurrency;
     }
 
@@ -222,6 +230,14 @@ public class SettingEntity implements Serializable {
 
     public void setDepthPriority(Integer depthPriority) {
         this.depthPriority = depthPriority;
+    }
+
+    public Integer getHttpcacheEnabled() {
+        return httpcacheEnabled;
+    }
+
+    public void setHttpcacheEnabled(Integer httpcacheEnabled) {
+        this.httpcacheEnabled = httpcacheEnabled;
     }
 
     public Date getCreateTime() {

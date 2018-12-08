@@ -22,13 +22,13 @@
         <div class="magb15 layui-col-md6">
             <label class="layui-form-label">并发请求数</label>
             <div class="layui-input-block">
-                <input type="number" min="1" max="32" class="layui-input" name="concurrentRequests" placeholder="并发请求数">
+                <input type="number" min="0" max="32" class="layui-input" name="concurrentRequests" placeholder="并发请求数">
             </div>
         </div>
         <div class="magb15 layui-col-md6">
             <label class="layui-form-label">域名并发数</label>
             <div class="layui-input-block">
-                <input type="number" min="1" max="16" class="layui-input" name="concurrentRequestsPerDomain" placeholder="域名并发数">
+                <input type="number" min="0" max="16" class="layui-input" name="concurrentRequestsPerDomain" placeholder="域名并发数">
             </div>
         </div>
     </div>
@@ -45,13 +45,13 @@
         <div class="magb15 layui-col-md6">
             <label class="layui-form-label">最小下载延迟</label>
             <div class="layui-input-block">
-                <input type="number" min="1" class="layui-input" name="downloadDelay" placeholder="最小下载延迟（单位：秒）">
+                <input type="number" min="0" class="layui-input" name="downloadDelay" placeholder="最小下载延迟（单位：秒）">
             </div>
         </div>
         <div class="magb15 layui-col-md6">
             <label class="layui-form-label">最大下载延迟</label>
             <div class="layui-input-block">
-                <input type="number" min="1" class="layui-input" name="autothrottleMaxDelay" placeholder="最大下载延迟（单位：秒）">
+                <input type="number" min="0" class="layui-input" name="autothrottleMaxDelay" placeholder="最大下载延迟（单位：秒）">
             </div>
         </div>
     </div>
@@ -61,13 +61,13 @@
         <div class="magb15 layui-col-md6">
             <label class="layui-form-label">初始下载延迟</label>
             <div class="layui-input-block">
-                <input type="number" min="1" class="layui-input" name="autothrottleStartDelay" placeholder="初始下载延迟（单位：秒）">
+                <input type="number" min="0" class="layui-input" name="autothrottleStartDelay" placeholder="初始下载延迟（单位：秒）">
             </div>
         </div>
         <div class="magb15 layui-col-md6">
             <label class="layui-form-label">并行请求平均数</label>
             <div class="layui-input-block">
-                <input type="number" min="1" class="layui-input" name="autothrottleTargetConcurrency" placeholder="并行请求平均数">
+                <input type="number" min="0" class="layui-input" name="autothrottleTargetConcurrency" placeholder="并行请求平均数">
             </div>
         </div>
     </div>
@@ -75,7 +75,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">爬取深度</label>
         <div class="layui-input-block">
-            <input type="number" min="0" name="depthLimit" autocomplete="off" placeholder="爬取深度（0代表）" class="layui-input">
+            <input type="number" min="0" name="depthLimit" autocomplete="off" placeholder="爬取深度（0代表无限制）" class="layui-input">
         </div>
     </div>
 
@@ -84,6 +84,14 @@
         <div class="layui-input-block">
             <input type="radio" name="depthPriority" value="0" title="深度优先" checked="">
             <input type="radio" name="depthPriority" value="1" title="广度优先">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">缓存</label>
+        <div class="layui-input-block">
+            <input type="radio" name="httpcacheEnabled" value="0" title="开启">
+            <input type="radio" name="httpcacheEnabled" value="1" title="禁用" checked="">
         </div>
     </div>
 

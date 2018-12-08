@@ -19,6 +19,11 @@ public interface SecurityConstant {
     public static final String DEFAULT_PARAMETER_NAME_CODE_IMAGE = "imageCaptcha";
 
     /**
+     * 发送短信验证码 或 验证短信验证码时，传递手机号的参数的名称
+     */
+    public static final String DEFAULT_PARAMETER_NAME_MOBILE = "mobile";
+
+    /**
      * 默认的用户名密码登录请求处理url
      */
     public static final String DEFAULT_LOGIN_PROCESSING_URL_FORM = "/sys/login";
@@ -26,5 +31,5 @@ public interface SecurityConstant {
     /**
      * 默认的手机验证码登录请求处理url
      */
-    public static final String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/mobile/login";
+    public static final String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/user/auth/login";
 }

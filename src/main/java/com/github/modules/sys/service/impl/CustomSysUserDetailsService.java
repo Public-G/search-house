@@ -3,8 +3,6 @@ package com.github.modules.sys.service.impl;
 import com.github.common.constant.SysConstant;
 import com.github.modules.sys.entity.SysMenuEntity;
 import com.github.modules.sys.entity.SysUserEntity;
-import com.github.modules.sys.repository.SysMenuRepository;
-import com.github.modules.sys.repository.SysUserRepository;
 import com.github.modules.sys.service.SysMenuService;
 import com.github.modules.sys.service.SysUserService;
 import org.apache.commons.lang.StringUtils;
@@ -26,10 +24,10 @@ import java.util.*;
  * @author ZEALER
  * @date 2018-10-26
  */
-@Service("userDetailsService")
-public class CustomUserDetailsService implements UserDetailsService {
+@Service("sysUserDetailsService")
+public class CustomSysUserDetailsService implements UserDetailsService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomSysUserDetailsService.class);
 
     @Autowired
     private SysUserService sysUserService;

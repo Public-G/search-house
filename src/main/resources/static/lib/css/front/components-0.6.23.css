@@ -1750,14 +1750,6 @@
     margin-right: 90px
 }
 
-/*.r7-app-download-region .r7-line-btn.hovered .icon.ios, .r7-app-download-region .r7-line-btn:hover .icon.ios {*/
-    /*background-image: url(/lib/images/front/icon/index-flat/app/ios.png)*/
-/*}*/
-
-/*.r7-app-download-region .r7-line-btn.hovered .icon.android, .r7-app-download-region .r7-line-btn:hover .icon.android {*/
-    /*background-image: url(/static/image/icon/index-flat/app/android.png)*/
-/*}*/
-
 .r7-app-download-region .r7-line-btn span {
     vertical-align: middle
 }
@@ -1770,11 +1762,11 @@
 }
 
 /*.r7-app-download-region .r7-line-btn .icon.ios {*/
-    /*background-image: url(/static/image/icon/index-flat/app/ios-white.png)*/
+/*background-image: url(/static/image/icon/index-flat/app/ios-white.png)*/
 /*}*/
 
 /*.r7-app-download-region .r7-line-btn .icon.android {*/
-    /*background-image: url(/static/image/icon/index-flat/app/android-white.png)*/
+/*background-image: url(/static/image/icon/index-flat/app/android-white.png)*/
 /*}*/
 
 .r7-app-download-region .qrcode-region {
@@ -1961,7 +1953,6 @@
 
 .r7-id-card-verify .back {
     cursor: pointer;
-    background: url(/static/image/icon/undo.png) center top no-repeat;
     line-height: 1pc;
     display: block;
     font-size: 15px;
@@ -2035,12 +2026,12 @@
 
 .r7-id-card-verify .verifyCredentialDiv #p2 p {
     margin-bottom: 1pc;
-    color: $ mainColor;
+    /*color: $ mainColor;*/
     font-size: 1pc
 }
 
 .r7-id-card-verify .verifyCredentialDiv #p2 .verify-code {
-    color: $ secondColor;
+    /*color: $ secondColor;*/
     font-size: 50px
 }
 
@@ -3260,11 +3251,11 @@ img.r7-Gender {
     color: #fff
 }
 
-.r7-header-navigation.reverse .login-panel .logout {
+.r7-header-navigation.reverse .login-panel .logout1 {
     color: #fff
 }
 
-.r7-header-navigation.reverse .login-panel .logout:hover {
+.r7-header-navigation.reverse .login-panel .logout1:hover {
     opacity: .7;
     color: #fff
 }
@@ -3314,11 +3305,11 @@ img.r7-Gender {
     margin: 0 4px
 }
 
-.r7-header-navigation .login-panel a.logout {
+.r7-header-navigation .login-panel a.logout1 {
     color: #c9c9c9
 }
 
-.r7-header-navigation .login-panel a.logout:hover {
+.r7-header-navigation .login-panel a.logout1:hover {
     color: #00ac97
 }
 
@@ -17687,7 +17678,6 @@ img.r7-Gender {
 .show-data .group .item .title a {
     margin-left: 10px;
     color: #ebac40;
-    text-decoration-style: none
 }
 
 .show-data .group .item .content {
@@ -18535,7 +18525,6 @@ img.r7-Gender {
     display: inline-block;
     width: 20px;
     height: 20px;
-    background-image: url(/static/image/new-icon/check-main.png);
     vertical-align: middle;
     cursor: pointer
 }
@@ -18544,9 +18533,6 @@ img.r7-Gender {
     color: #c9c9c9
 }
 
-#prevpay .inner .right > div:nth-child(3) .no-use .img {
-    background-image: url(/static/image/new-icon/check-default.png)
-}
 
 #prevpay .inner .right > div:nth-child(4) {
     text-align: center;

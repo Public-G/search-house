@@ -20,12 +20,12 @@ public class HouseListDTO implements Serializable {
 
     private String houseType;
 
-    private String updateTime;
+    private String releaseTime;
 
     public HouseListDTO() {
     }
 
-    public HouseListDTO(String sourceUrlId, String title, String imgHref, String region, String community, Integer price, String houseType, String updateTime) {
+    public HouseListDTO(String sourceUrlId, String title, String imgHref, String region, String community, Integer price, String houseType, String releaseTime) {
         this.sourceUrlId = sourceUrlId;
         this.title = title;
         this.imgHref = imgHref;
@@ -33,7 +33,7 @@ public class HouseListDTO implements Serializable {
         this.community = community;
         this.price = price;
         this.houseType = houseType;
-        this.updateTime = updateTime;
+        this.releaseTime = releaseTime;
     }
 
     public String getSourceUrlId() {
@@ -92,11 +92,11 @@ public class HouseListDTO implements Serializable {
         this.houseType = houseType;
     }
 
-    public String getUpdateTime() {
-        return updateTime;
+    public String getReleaseTime() {
+        return releaseTime;
     }
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
+    public void setReleaseTime(String releaseTime) {
+        this.releaseTime = releaseTime;
     }
 }

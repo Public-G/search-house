@@ -22,4 +22,9 @@ public interface SpiderService extends BaseService<SpiderEntity> {
      * 根据参数ID查询项目
      */
     List<SpiderEntity> findBySettingIdIn(Long[] settingIds);
+
+    /**
+     * 查询所有城市
+     */
+    List<String> findCity();
 }

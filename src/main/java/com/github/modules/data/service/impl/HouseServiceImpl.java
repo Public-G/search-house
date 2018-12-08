@@ -63,7 +63,7 @@ public class HouseServiceImpl implements HouseService {
         formatRegion(houseIndexTemplate);
 
         // 获取搜索建议词条
-//        fetchSuggest(houseIndexTemplate);
+        fetchSuggest(houseIndexTemplate);
 
         // 获取百度经纬度
         BaiduMapLocation baiduMapLocation =

@@ -21,21 +21,21 @@ import javax.xml.bind.ValidationException;
 @Controller
 public class SysLoginController {
 
-    @Autowired
-    private ValidateCaptchaProcessorHolder captchaProcessorHolder;
-
-    /**
-     * 验证码，根据验证码类型不同，调用不同的 {@link CaptchaProcessor}接口实现
-     *
-     * @param request
-     * @param response
-     * @param captchaType
-     * @throws ValidationException
-     */
-    @GetMapping("/captcha/{captchaType}")
-    public void createCaptcha(HttpServletRequest request, HttpServletResponse response, @PathVariable String captchaType)
-            throws ValidationException {
-        captchaProcessorHolder.findCaptchaProcessor(captchaType)
-                .createCaptcha(new ServletWebRequest(request, response));
-    }
+//    @Autowired
+//    private ValidateCaptchaProcessorHolder captchaProcessorHolder;
+//
+//    /**
+//     * 验证码，根据验证码类型不同，调用不同的 {@link CaptchaProcessor}接口实现
+//     *
+//     * @param request
+//     * @param response
+//     * @param captchaType
+//     * @throws ValidationException
+//     */
+//    @GetMapping("/captcha/{captchaType}")
+//    public void createCaptcha(HttpServletRequest request, HttpServletResponse response, @PathVariable String captchaType)
+//            throws ValidationException {
+//        captchaProcessorHolder.findCaptchaProcessor(captchaType)
+//                .createCaptcha(new ServletWebRequest(request, response));
+//    }
 }

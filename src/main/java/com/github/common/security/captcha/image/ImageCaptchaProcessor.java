@@ -23,13 +23,11 @@ import java.io.IOException;
 @Component
 public class ImageCaptchaProcessor extends AbstractCaptchaProcessor<ImageCaptcha> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ImageCaptchaProcessor.class);
-
     /**
      * 发送图形验证码，将其写到响应中
+     *
      * @param request
      * @param imageCaptcha
-     * @throws ValidationException
      */
     @Override
     protected void sendCaptcha(ServletWebRequest request, ImageCaptcha imageCaptcha) {

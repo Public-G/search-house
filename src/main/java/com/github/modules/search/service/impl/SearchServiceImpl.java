@@ -219,7 +219,7 @@ public class SearchServiceImpl implements SearchService {
         SearchResponse searchResponse = searchRequestBuilder.get();
         SearchHit[]    hits           = searchResponse.getHits().getHits();
 
-        if (hits == null) {
+        if (hits.length <= 0) {
             logger.warn(String.format("id=%s 没有查询到数据", id));
         } else {
             return modelMapper.map(hits[0].getSource(), HouseDTO.class);

@@ -1,0 +1,637 @@
+#contentContainer #content{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+#contentContainer #content .index-page-wrapper{
+    width: 100%;
+}
+.r7-card{
+    background: #fff;
+}
+.publishHouse,.rentlist{
+    left: -20px;
+    background-color: transparent;
+}
+.publishHouse a,.rentlist a{
+    width: 70px;
+    border-bottom: 1px solid #fff;
+}
+.adminNav .rentlist a:hover,.adminNav .rentman a:hover{
+    color: #fff;
+    opacity: 0.6 !important;
+}
+.adminNav .rentperson:hover p:nth-child(1),.adminNav .rentman:hover p:nth-child(1){
+    color: #fff;
+    opacity: 0.6 !important;
+}
+.userstatus p,.userstatus span{
+    color: #fff;
+}
+.r7-background-popup{
+    display: none !important;
+}
+.adminNav .indexpage{
+    display: none;
+}
+.adminNav a{
+    color: #fff;
+}
+.adminNav .renthouselog a:hover,.adminNav .news1 a:hover,.adminNav .wallet a:hover,
+.regist a:hover,.adminNav .verify:hover,.adminNav .logout1:hover, .adminNav .loginbutton:hover{
+    opacity: 0.6 !important;
+    color: #fff;
+}
+.adminNav .userstatus{
+    width: 1065px;
+    height: 0px;
+    margin: 0 auto;
+    /*text-align: none;*/
+    position: absolute;
+    z-index: 10000;
+    right: 20px;
+    top: 10px;
+    color: white;
+}
+.adminNav{
+    border-top:0;
+    padding-top:0;
+    background-color:transparent !important;
+    display: block;
+}
+li{
+    float: none;
+    list-style: none;
+}
+.adminNav,.navwrap{
+    display: none;
+}
+.nullDiv{
+    background: #00ac97;
+}
+.header{
+    position: absolute;
+    display: block !important;
+    right: 40px;
+    z-index: 1;
+    top:28px;
+}
+.header li{
+    float: left;
+}
+.header .Information{
+    color: #fff;
+    margin-right: 50px;
+    font-size: 15px;
+}
+.header li:hover .Information{
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+.middle{
+    position: relative;
+    /*overflow: hidden;*/
+    background: #00ac97;
+    height: 1008px;
+}
+.bg-index{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.leftFrog{
+    position: fixed;
+    top:350px;
+    left: 0;
+    z-index: 5;
+}
+.leftFrog:hover{
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+.rightFrog{
+    position: fixed;
+    top:350px;
+    right: 0;
+    z-index: 5;
+}
+.rightFrog:hover{
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+.logo{
+    position: absolute;
+    z-index: 10;
+    top: 25px;
+    left: 40px;
+}
+.searchBox{
+    display: none;
+    width: 580px;
+    position: absolute;
+}
+#search{
+    width: 522px;
+    height: 38px;
+    border: 1px solid #fff;
+    background-color:transparent;
+    font-color: #fff;
+    text-align: center;
+    font-size: 14px;
+    float: left;
+    color: #fff;
+}
+#search::-webkit-input-placeholder{
+    color: #fff !important;
+}
+.searchIndex{
+    list-style: none;
+    overflow: hidden;
+    display: inline-block;
+}
+.searchLabel{
+    text-align: center;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    float: left;
+    display: table;
+    background: #fff;
+}
+.searchBg{
+    cursor: pointer;
+    margin-top: 5px;
+}
+.searchBox h1{
+    margin-bottom: 50px;
+    width: 595px;
+    /*width: 597px;*/
+    display: inline-block;
+    font-size: 35px;
+    /*font-size: 45px;*/
+    text-align: center;
+    color: #fff;
+    letter-spacing: 15px;
+    /*letter-spacing: 22px;*/
+}
+.userNeed{
+    text-align: center;
+    margin-top: 60px;
+}
+.userNeed li{
+    overflow: hidden;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid #fff;
+    width: 140px;
+    height: 48px;
+    line-height: 48px;
+    margin-left: 35px;
+}
+.userNeed li:nth-child(1){
+    margin: 0;
+}
+.userNeed a{
+    width: 100%;
+    display: inline-block;
+    cursor: pointer;
+    text-align:center;
+    color: #fff;
+}
+.userNeed a:hover{
+    transition: all 0.2s ease-in;
+    background: #fff;
+    color: #00ac97;
+}
+.houseData{
+    position: absolute;
+    display: inline-block;
+    bottom:30px;
+    width: 1008px;
+    left: 50%;
+    text-align: center;
+    margin-left:-504px;
+}
+.houseData ul{
+    display:inline-block;
+    color: #fff;
+    width:150px;
+    margin-left: 200px;
+}
+.houseData ul:hover{
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+.houseData ul:nth-child(1){
+    margin-left: 0;
+}
+.houseData ul h1{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color: #fff;
+    font-size: 16px;
+}
+.houseData ul li{
+    color: #fff;
+    font-size: 32px;
+}
+.desc-region{
+    position: relative;
+    height: 475px;
+    background: #00ac97;
+}
+.desc-region h1{
+    color: #fff;
+    padding-bottom: 50px;
+    padding-top: 60px;
+    letter-spacing:3px;
+}
+.desc-region img{
+    marker-start: 100px;
+}
+.houseType{
+    background: #fff;
+}
+.houseType .content .left h1,
+.houseType .content .right h1{
+    border-bottom: 1px solid #00ac97;
+    padding-bottom: 10px;
+    text-align: left;
+    color: #00ac97;
+    margin-top: 50px;
+}
+.houseType .content .left h1 span,
+.houseType .content .right h1 span{
+    margin-right: 20px;
+}
+.houseType .content .right li label,.houseType .content .left li label{
+    font-size: 14px;
+}
+.houseType .content .left{
+    margin-right: 155px;
+    float: left;
+}
+.houseType .content{
+    padding-top: 100px;
+    overflow: hidden;
+    width: 850px;
+    margin: 0 auto;
+}
+.houseType .content li{
+    text-align: left;
+    margin-top: 30px;
+}
+.houseType .content li span{
+    color: #00ac97;
+    margin-right: 20px;
+    font-size: 30px;
+}
+.houseType .content .left{
+    float: left;
+}
+
+
+
+.buttonBottom {
+    margin-top: 50px;
+    text-align: center;
+    padding-bottom: 80px;
+}
+.buttonBottom li{
+    color: #00ac97;
+    width: 160px;
+    height: 48px;
+    line-height: 48px;
+    margin-left: 80px;
+    margin-right: 30px;
+    display: inline-block;
+    border:1px solid #00ac97;
+}
+.buttonBottom li a{
+    display: inline-block;
+    width: 160px;
+    height: 48px;
+    color: #00ac97;
+}
+.buttonBottom li:hover{
+    transition: all 0.2s ease-in;
+    background: #00ac97;
+    color: #fff;
+}
+.buttonBottom li:hover a{
+    transition: all 0.2s ease-in;
+    color: #fff;
+}
+.buttonBottom li:nth-child(1){
+    margin: 0;
+}
+.app-region{
+    width: 100%;
+    height: 534px;
+    background: url(static/lib/images/front/icon/shading.png) center center repeat;
+}
+.app-region .center{
+    height: 400px;
+    width: 1008px;
+    margin: 0 auto;
+}
+.iphoneImg{
+    float: left;
+    margin-left: -30px;
+    margin-top: 20px;
+}
+.imgData{
+    margin-right: 30px;
+    margin-top: 30px;
+    float: right;
+}
+.iphoneSmall{
+    margin-left: -90px;
+}
+.imgData h1{
+    margin-top: 60px;
+    color: #fff;
+    font-size: 36px;
+}
+.iconIos{
+    vertical-align:middle;
+    display: inline-block;
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    /*background: url(/static/image/icon/ios-white.png);*/
+}
+.icons a:hover .iconIos{
+    transition: all 0.2s ease-in;
+    /*background: url(/static/image/icon/ios.png);*/
+}
+.icons a:hover{
+    transition: all 0.2s ease-in;
+    background: #fff;
+    color: #00ac97;
+}
+.icons a:hover .iconAndroid{
+    transition: all 0.2s ease-in;
+    /*background: url(/static/image/icon/android.png);*/
+}
+.iconAndroid{
+    vertical-align:middle;
+    display: inline-block;
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    /*background: url(/static/image/icon/android-white.png);*/
+}
+.imgData li a{
+    color: #fff;
+    display: inline-block;
+    width: 142px;
+    height: 48px;
+    line-height: 48px;
+    border:1px solid #fff;
+}
+.imgData li a:nth-child(1){
+    margin-right: 80px;
+}
+.imgData .icons{
+    margin-top: 60px;
+}
+.imgData .qrcode span:nth-child(1){
+    display: inline-block;
+    padding-top: 5px;
+    width: 140px;
+    height: 135px;
+    background: #fff;
+    margin-top: 50px;
+    margin-right: 85px;
+}
+.imgData .qrcode span:nth-child(2){
+    display: inline-block;
+    padding-top: 5px;
+    width: 140px;
+    height: 135px;
+    background: #fff;
+}
+.region-top .ceo{
+    display: inline-block;
+    margin-bottom: 15px;
+    margin-left: 25px;
+}
+.region-wrap{
+    text-align: left;
+    width: 1008px;
+    margin: 0 auto;
+}
+.region-wrap .ceoimg{
+    margin-top: 60px;
+    border-radius: 50%;
+    border: 2px solid #00ac97;
+}
+.region-top p{
+    display: inline-block;
+    font-size: 12px;
+}
+.region-top .ceoMotto{
+    display: inline-block;
+    width: 250px;
+    margin-top: 100px;
+    margin-right: 0px;
+    color: #00ac97;
+}
+.region-top .right{
+    display: inline-block;
+}
+.region-top .engMotto{
+    text-align: center;
+    margin-top: 90px;
+}
+.engMotto .peoname{
+    margin-left: 750px;
+    font-size: 20px;
+    color: #00ac97;
+    font-style: normal;
+}
+.region-top .engMotto .top{
+    color: #00ac97;
+}
+.region-top .Mottomiddle{
+    font-size: 25px;
+    color: #00ac97;
+}
+.region-top .Mottotop{
+    font-style: italic;
+    font-family: TimesNewRoman,'Times New Roman',Times,Baskerville,Georgia,serif;
+    font-size: 50px;
+    color: #00ac97;
+}
+.footer{
+    width: 100%;
+    background-color: #00ac97;
+    padding-top: 30px;
+}
+.footer .nav a{
+    display: inline-block;
+    margin-right: 60px;
+    font-size: 14px;
+    color: #fff;
+    font-family: "冬青黑体简体中文", "Microsoft YaHei", "微软雅黑", "Hiragino Sans GB", "黑体", "verdana", Arial, sans-serif;
+}
+.footer .nav a:hover{
+    opacity: 0.6;
+}
+.bodyContent{
+    overflow: hidden;
+    width: 1070px;
+    margin: 0 auto;
+}
+.bodyContent .leftContent{
+    float: left;
+}
+.bodyContent .leftContent .police{
+    color: #fff !important;
+}
+.bodyContent .rightContent{
+    width: 150px;
+}
+.bodyContent .downloadApp{
+    margin-top: 30px;
+    display: inline-block;
+    width: 100%;
+    height: 46px;
+    text-align: center;
+    line-height: 46px;
+    color: #fff;
+    border: 1px solid #fff;
+}
+.bodyContent .downloadApp:hover{
+    transition: all linear 0.2s;
+    background-color: #fff;
+    color: #00ac97;
+}
+.bodyContent .APPimg{
+    margin-top: 30px;
+    display: inline-block;
+    padding-top: 5px;
+    width: 150px;
+    height: 145px;
+    background: #fff;
+    line-height: 160px;
+    text-align: center;
+}
+.weUrlList .webURl a,.weUrlList .webURl h3{
+    color: #fff;
+}
+.navwrap{
+    display: none !important;
+}
+.newHouse:hover{
+    opacity: 0.6;
+}
+
+.newHouseList{
+    padding-top: 40px;
+    width: 1070px;
+    height: 530px;
+    margin: 0 auto;
+}
+.newHouseList h1{
+    font-size: 36px;
+    color: #00ac97;
+    font-weight: bold;
+}
+.cityList {
+    margin-top: 40px;
+}
+.cityList a{
+    margin-left: 20px;
+}
+.cityList a:hover{
+    color: #00ac97;
+}
+.houses{
+    width: 1070px;
+    clear: both;
+    margin-top: 40px;
+}
+.newHouse{
+    margin-left: 90px;
+    float: left;
+}
+.newHouse:nth-child(1){
+    margin-left: 0;
+}
+.coverImgs{
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+.coverImgs .onenewImg{
+    width: 200px;
+    height: 200px;
+}
+.newposition{
+    margin-top: 10px;
+    font-size: 16px;
+    color: #494949;
+    text-align: left;
+}
+.monthPrice{
+    margin-top: 10px;
+    color: #494949;
+    text-align: left;
+    font-size: 12px;
+}
+.newHousePrice{
+    color: #494949;
+    font-size: 36px;
+}
+.detailPostion{
+    color: #494949;
+    margin-top: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 200px;
+    text-align: left;
+}
+.newHouseListBg{
+    background: #f1f1f1;
+}
+
+.newHouseListBgmeta{
+    background: #fbfbfb;
+}
+.hotHouseList{
+    padding-top: 40px;
+    width: 1070px;
+    height: 530px;
+    margin: 0 auto;
+}
+.hotHouseList h1{
+    font-size: 36px;
+    color: #ebac40;
+    font-weight: bold;
+}
+.hotHouseList .cityList a:hover{
+    color: #ebac40
+}
+
+.s2 {float:left;height:35px;line-height:20px;padding-top:15px;padding-left:5px;padding-right:5px;font-size:14px;color:#fff;position:relative;
+    z-index:1000;_width:40px;left: 210px; top: 44px;}
+.s2 a{color:#fff;text-decoration:none}
+.s2 .city{height:20px;line-height:20px;}
+.s2.on .city{opacity:0.6; }
+.s2 .citytab{display:none;width:300px;height:160px;background-color:rgba(255, 255, 255, 0.2);position: absolute; z-index:1000;left:0;top:50px;left:0;text-align:left;padding:5px 12px 5px 5px;}
+.s2.on .citytab{display:block;}
+.citytabnr{width:300px; height:148px;margin:5px;overflow-y:auto;}
+.citytab .citytabnr a{padding:4px;color:#fff; text-align:left;font-size:12px;}
+.citytab .citytabnr a:hover{opacity:0.6; }
+.citytab .citytabnr span{display: inline-block;padding:4px;color:#fff; text-align:left;font-size:12px;text-transform:uppercase;margin-top: 5px;}
+.s2   ::-webkit-scrollbar
+{width: 14px;height:14px;}
+.s2  ::-webkit-scrollbar-track
+{background-color: rgba(255, 255, 255, 0.2);}
+.s2 ::-webkit-scrollbar-thumb
+{background-color: rgba(255, 255, 255, 0.8);}

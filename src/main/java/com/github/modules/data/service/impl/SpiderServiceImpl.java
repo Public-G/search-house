@@ -114,4 +114,9 @@ public class SpiderServiceImpl implements SpiderService {
     public List<SpiderEntity> findBySettingIdIn(Long[] settingIds) {
         return spiderRepository.findBySettingIdIn(settingIds);
     }
+
+    @Override
+    public List<String> findCity() {
+        return spiderRepository.findCity();
+    }
 }

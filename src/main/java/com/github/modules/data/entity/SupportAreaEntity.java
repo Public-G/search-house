@@ -30,7 +30,7 @@ public class SupportAreaEntity implements Serializable {
     private String cnName;
 
     /**
-     * 行政级别 区域拼音首字母-0 市-1 区/县-2
+     * 行政级别 省份-0 市-1
      */
     private int level;
 

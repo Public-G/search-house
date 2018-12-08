@@ -23,7 +23,7 @@
 
 .lightLogin {
     width: 400px;
-    height: 400px;
+    height: 390px;
     margin-left: -200px;
     margin-top: -200px;
     background-color: #fff
@@ -38,7 +38,8 @@
 }
 
 .lightLogin li:last-child {
-    text-align: right;
+    text-align: center;
+    /*text-align: right;*/
     font-size: 14px;
     color: #00AC97
 }
@@ -49,7 +50,7 @@
     width: 290px;
     height: 39px;
     border: 1px solid #CCC !important;
-    background: url(/static/image/icon/user_16x16.png) 260px 12px no-repeat
+    /*background: url(/lib/images/front/icon/user_16x16.png) 260px 12px no-repeat*/
 }
 
 .lightLogin .username input {
@@ -60,25 +61,30 @@
 
 .lightLogin .username:hover {
     border: 1px solid #00AC97 !important;
-    background: url(/static/image/icon/user_h_16x16.png) 260px 12px no-repeat
+    /*background: url(/lib/images/front/icon/user_h_16x16.png) 260px 12px no-repeat*/
 }
 
 .lightLogin .password {
-    margin-top: 40px;
+    margin-top: 32px;
+    margin-right: 150px;
+    /*position: relative;*/
+    /*right: 49px;*/
     padding-left: 5px;
-    width: 292px;
+    width: 192px;
+    /*width: 292px;*/
     border: 1px solid #CCC !important;
     height: 39px;
-    background: url(/static/image/icon/password_16x16.png) 260px 12px no-repeat
+    /*background: url(/lib/images/front/icon/password_16x16.png) 260px 12px no-repeat*/
 }
 
 .lightLogin .password:hover {
     border: 1px solid #00AC97 !important;
-    background: url(/static/image/icon/password_h_16x16.png) 260px 12px no-repeat
+    /*background: url(/lib/images/front/icon/password_h_16x16.png) 260px 12px no-repeat*/
 }
 
 .lightLogin input {
-    width: 250px;
+    width: 160px;
+    /*width: 250px;*/
     height: 100%;
     float: left;
     color: #939393 !important
@@ -137,7 +143,7 @@ input:-webkit-autofill {
 }
 
 .lightLogin .douban {
-    background: url(/static/image/icon/oauth/oauth-login.png) no-repeat
+    background: url(/lib/images/front/icon/oauth/oauth-login.png) no-repeat
 }
 
 .lightLogin .douban:hover {
@@ -147,7 +153,7 @@ input:-webkit-autofill {
 .lightLogin .xinlang {
     width: 52px;
     height: 50px;
-    background: url(/static/image/icon/oauth/oauth-login.png) -98px 0 no-repeat
+    background: url(/lib/images/front/icon/oauth/oauth-login.png) -98px 0 no-repeat
 }
 
 .lightLogin .xinlang:hover {
@@ -155,7 +161,7 @@ input:-webkit-autofill {
 }
 
 .lightLogin .tengxun {
-    background: url(/static/image/icon/oauth/oauth-login.png) -49px 0 no-repeat
+    background: url(/lib/images/front/icon/oauth/oauth-login.png) -49px 0 no-repeat
 }
 
 .lightLogin .tengxun:hover {
@@ -195,14 +201,17 @@ input:-webkit-autofill {
 
 .sendverify {
     width: 80px;
-    height: 39px;
+    height: 40px;
+    /*height: 39px;*/
     background-color: #EBAC40;
     font-size: 12px;
     line-height: 39px;
     position: absolute;
     text-align: center;
-    left: 265px;
-    top: 125px;
+    left: 266px;
+    /*left: 265px;*/
+    top: 123px;
+    /*top: 125px;*/
     border: 1px solid #ccc
 }
 

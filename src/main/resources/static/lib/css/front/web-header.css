@@ -68,17 +68,22 @@
     font-size: 14px;
     color: #fff;
 }
-.userstatus .news1,.verify2,.logout1{
-    display: none;
+.logout1{
     cursor: pointer;
 }
+
+/*.userstatus .news1,.logout1{*/
+    /*display: none;*/
+    /*cursor: pointer;*/
+/*}*/
+
 .userstatus .wallet{
     display: none;
     cursor: pointer;
     margin-left:43px;
 }
 .headTel,.frog{
-    display: none;
+    /*display: none;*/
 }
 .navwrap li{
     display: inline-block;
@@ -139,7 +144,7 @@
     color: #c9c9c9;
 }
 .renthouselog a:hover,.news1 a:hover,.wallet a:hover,
-.regist a:hover,.verify2:hover,.logout1:hover,.loginbutton:hover{
+.regist a:hover,.logout1:hover,.loginbutton:hover{
     color: #00AC97;
 }
 .navbottom1 .help a,.navbottom1 .linkme a{

@@ -57,6 +57,15 @@
     {{#  }}}
 </script>
 
+<!-- 缓存 -->
+<script type="text/html" id="httpcacheEnabled">
+    {{#  if(d.httpcacheEnabled == 0){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-xs">开启</span>
+    {{#  } else if(d.httpcacheEnabled == 1){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-danger layui-btn-xs">关闭</span>
+    {{#  }}}
+</script>
+
 <!-- 操作 -->
 <script type="text/html" id="settingListBar">
     <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>修改</a>
@@ -79,6 +88,7 @@
             , {field: 'autothrottleTargetConcurrency', title: '并行请求平均数', align: 'center', width: 140}
             , {field: 'depthLimit', title: '爬取深度', align: 'center', width: 100, templet: '#depthLimit'}
             , {field: 'depthPriority', title: '爬取策略', align: 'center', width: 120, templet: '#depthPriority'}
+            , {field: 'httpcacheEnabled', title: '缓存', align: 'center', width: 100, templet: '#httpcacheEnabled'}
             , {field: 'createTime', title: '创建时间', align: 'center', width: 160, templet: function (d) {
             return d.createTime != undefined ? moment(d.createTime).format("YYYY-MM-DD HH:mm:ss") : '';
                 }

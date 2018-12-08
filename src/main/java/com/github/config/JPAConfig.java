@@ -20,7 +20,9 @@ import javax.sql.DataSource;
  * @author ZEALER
  * @date 2018-10-21
  */
-@EnableJpaRepositories(basePackages={"com.github.modules.sys.repository", "com.github.modules.data.repository"})
+@EnableJpaRepositories(basePackages={"com.github.modules.sys.repository",
+                                     "com.github.modules.data.repository",
+                                     "com.github.modules.search.repository"})
 @EnableTransactionManagement
 @Configuration
 public class JPAConfig {
@@ -40,7 +42,9 @@ public class JPAConfig {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource());
         entityManagerFactory.setJpaVendorAdapter(jpaVendor);
-        entityManagerFactory.setPackagesToScan("com.github.modules.sys.entity", "com.github.modules.data.entity");
+        entityManagerFactory.setPackagesToScan("com.github.modules.sys.entity",
+                                                "com.github.modules.data.entity",
+                                                "com.github.modules.search.entity");
 
         return entityManagerFactory;
     }

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{front/common/common :: head}"></div>
+<body>
+<div th:replace="~{front/common/common :: bodyStyle}"></div>
+
+<div th:replace="~{front/common/common :: adminNav}"></div>
+<div th:replace="~{front/common/common :: navScript}"></div>
+<div th:replace="~{front/common/common :: signLogin}"></div>
+<div th:replace="~{front/common/common :: header}"></div>
+
+<div id="contentContainer">
+    <div th:replace="~{front/common/common :: contentContainerCommon}"></div>
+    <div class="bottom"></div>
+    <div id="content" class="fixedWithContainer">
+        <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/index-printest.css}">
+        <script type="text/javascript" th:src="@{/lib/js/plugin/echarts.min.js}"></script>
+        <style>
+            .rentOverview{
+                padding-top: 40px;
+                background: #fff;
+                height:auto;
+                text-align:center;
+            }
+            .rentOverview h1{
+                font-size: 36px;
+                color: #00ac97;
+                font-weight: bold;
+            }
+            .rentOverview h2{
+                font-size: 28px;
+                font-weight: normal;
+                margin-top:40px;
+            }
+
+            .houseOverview{
+                padding-top: 40px;
+                padding-bottom: 40px;
+                background:#fbfbfb;
+                height:auto;
+                text-align:center;
+            }
+
+            .houseOverview h1{
+                font-size: 36px;
+                color: #00ac97;
+                font-weight: bold;
+            }
+            .houseOverview h2{
+                font-size: 28px;
+                font-weight: normal;
+                margin-top:30px;
+            }
+
+            .dataInText{
+                font-size: 36px;
+                color: #00ac97;
+                font-weight: bold;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
+            .dataInText_small{
+                font-size: 18px;
+                color: #00ac97;
+                font-weight: bold;
+                padding-left: 1px;
+                padding-right: 1px;
+            }
+
+            .dataInText_small_small{
+                font-size: 16px;
+                color: #00ac97;
+                font-weight: bold;
+            }
+
+            .twoBlockInOneLine{
+                padding-top: 25px;
+                margin-left:auto;
+                margin-right:auto;
+            }
+
+            .rentMovement{
+                text-align: left;
+                padding-top: 20px;
+                padding-right: 60px;
+                width: 500px;
+                display:inline-block;
+                vertical-align: top;
+            }
+
+            .houseDistribution{
+                text-align: left;
+                padding-top: 20px;
+                padding-left: 40px;
+                width: 400px;
+                display:inline-block;
+                vertical-align: top;
+            }
+
+            .dataContent{
+                padding-top: 10px;
+                font-size: 14px;
+            }
+
+            .rentCityRank{
+                text-align: left;
+                padding-top: 20px;
+                padding-left: 60px;
+                width: 500px;
+                display:inline-block;
+                vertical-align: top;
+            }
+
+            .clear{
+                clear:both;
+            }
+
+            .rentByHouseType{
+                padding-top: 40px;
+                margin-left:auto;
+                margin-right:auto;
+                width:1000px;
+                text-align:center;
+            }
+
+            .rentByHouseType_content{
+                float:left;
+                text-align: left;
+                padding-top: 10px;
+                padding-left: 10px;
+                display:inline-block;
+            }
+
+            .rentByDistrict{
+                padding-top: 20px;
+                margin-left:auto;
+                margin-right:auto;
+                text-align:center;
+            }
+
+            .rentByDistrict_content{
+                padding-top: 20px;
+                padding-left: 20px;
+                display:inline-block;
+            }
+
+            .rent_chart {
+                float: left;
+                width: 500px;
+                height: 300px;
+                margin-left: 10px;
+                margin-right: 80px;
+                margin-top: 20px;
+            }
+
+            .rank_chart {
+                float: left;
+                width: 500px;
+                height: 300px;
+                margin-left: 10px;
+                margin-top: 20px;
+            }
+
+            .district_chart {
+                width: 800px;
+                height: 300px;
+                display:inline-block;
+            }
+
+            .rent_bytype_chart {
+                width: 900px;
+                height: 400px;
+                margin-top: 20px;
+                display:inline-block;
+            }
+
+            .pie_chart {
+                float: left;
+                width: 350px;
+                height: 250px;
+                margin-left: 10px;
+                margin-right: 10px;
+                margin-top: 10px;
+            }
+
+            .imgData h1 {
+                margin-top: 60px;
+                color: #fff;
+                font-size: 36px;
+            }
+
+            .desc-region h1 {
+                color: #fff;
+                padding-bottom: 50px;
+                padding-top: 60px;
+                letter-spacing: 3px;
+            }
+
+        </style>
+
+        <!--<a href="/z2_a1_1?indexFrom=0&amp;count=50" target="_blank" style="display:none" id="link-seo"></a>-->
+        <div class="nullDiv" style="height: 1298.25px; min-height: 911px;">
+            <div class="middle" style="height: 911px;">
+                <img class="logo" src="http://s107.107room.com/static/image/logo-white-frog.png" alt="爬虫房源">
+                <div class="s2" onmouseover="this.className='s2 on'" onmouseout="this.className='s2'">
+                    <div class="city">
+
+                    </div>
+                    <div class="citytab">
+                        <div class="citytabnr">
+                            <a target="_blank" href="/?city=北京" data-bind="北京" style="font-weight: 700;">北京</a>
+                            <a target="_blank" href="/?city=上海" data-bind="上海" style="font-weight: 700;">上海</a>
+                            <a target="_blank" href="/?city=深圳" data-bind="深圳" style="font-weight: 700;">深圳</a>
+                            <a target="_blank" href="/?city=广州" data-bind="广州" style="font-weight: 700;">广州</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="header" style="display:none;">
+                    <li><span class="headlogin"></span></li>
+                </div>
+                <img class="bg-index" th:src="@{/lib/images/front/background/bg-flat.png}" style="top: 0px; height: 1270.25px;">
+                <div class="searchBox"
+                     style="left: 50%; margin-left: -283px; top: 50%; margin-top: -82px; display: block;">
+                    <h1>房子是租来的 而生活不是</h1>
+                    <li class="searchIndex">
+                        <input id="search" placeholder="可在此搜索区、地址、地铁／公交线路" spellcheck="false">
+                        <label for="search" class="searchLabel">
+                            <img class="searchBg" th:src="@{/lib/images/front/icon/index-flat/search.png}">
+                        </label>
+                    </li>
+                    <ul class="userNeed">
+                        <li><a href="javascript:void(0)">下载APP</a></li>
+                        <li><a href="javascript:void(0)">地图找房</a></li>
+                        <li><a href="javascript:void(0)">开始找房</a></li>
+                    </ul>
+                </div>
+                <div class="houseData">
+                    <ul>
+                        <!--<a href="http://107room.lofter.com/post/27e0bc_8aeaf03" target="_blank">-->
+                            <img src="http://s107.107room.com/static/image/icon/index-flat/T-Nega.png"
+                                 alt="中介识别系统_拦截中介_无中介">
+                            <h1>拦截北京租房中介</h1>
+                            <li>3072850</li>
+                        </a>
+                    </ul>
+                    <ul>
+                        <a href="javascript:void(0)" target="_blank">
+                            <img src="http://s107.107room.com/static/image/icon/index-flat/new-house.png"
+                                 alt="新房_新上线房子_无中介房源">
+                            <h1>本周新上线房源</h1>
+                            <li>89912</li>
+                        </a>
+                    </ul>
+                    <ul>
+                        <a href="javascript:void(0)" target="_blank">
+                            <img src="http://s107.107room.com/static/image/icon/index-flat/contract-white.png"
+                                 alt="线上签约">
+                            <h1>本周线上签约</h1>
+                            <li>564</li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="rentOverview">
+            <h1>北京租房实时数据</h1>
+            <h2>当前北京租金<span class="dataInText">6204</span>元/月 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;北京在全国城市租金排名第<span
+                    class="dataInText">1</span>位</h2>
+            <div class="twoBlockInOneLine">
+                <div class="rentMovement">
+                    <h3>北京租金走势</h3>
+                    <div class="dataContent">
+                        <li>2018年11月北京租金<span class="dataInText_small"> 6204 </span>元/月，10月北京租金<span
+                                class="dataInText_small"> 6200 </span>元/月，9月北京租金<span
+                                class="dataInText_small"> 6140 </span>元/月
+                        </li>
+                    </div>
+                    <div class="clear"></div>
+                    <div id="rent_chart" class="rent_chart"
+                         style="-webkit-tap-highlight-color: transparent; user-select: none;"
+                         _echarts_instance_="ec_1541267452194">
+                        <div style="position: relative; overflow: hidden; width: 500px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;">
+                            <canvas data-zr-dom-id="zr_0" width="500" height="300"
+                                    style="position: absolute; left: 0px; top: 0px; width: 500px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="rentCityRank">
+                    <h3>全国租金前10城市</h3>
+                    <div class="dataContent">
+                        <li>当前全国租金最高的城市为<span class="dataInText_small">北京</span>，租金6204元/月。其次为<span
+                                class="dataInText_small">深圳</span>，租金4220元/月。排名第3的城市是<span
+                                class="dataInText_small">广州</span>，租金3592元/月
+                        </li>
+                    </div>
+                    <div class="clear"></div>
+                    <div id="rank_chart" class="rank_chart"
+                         style="-webkit-tap-highlight-color: transparent; user-select: none;"
+                         _echarts_instance_="ec_1541267452195">
+                        <div style="position: relative; overflow: hidden; width: 500px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;">
+                            <canvas data-zr-dom-id="zr_0" width="500" height="300"
+                                    style="position: absolute; left: 0px; top: 0px; width: 500px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="clear"></div>
+            <div class="rentByHouseType">
+                <h3>北京各类型房源租金</h3>
+                <div class="rentByHouseType_content">
+                    <li>当前北京主卧租金<span class="dataInText_small">2615</span>元/月，
+                        次卧租金<span class="dataInText_small">2233</span>元/月，
+                        一居租金<span class="dataInText_small">5276</span>元/月，
+                        两居租金<span class="dataInText_small">6478</span>元/月，
+                        三居租金<span class="dataInText_small">11148</span>元/月
+                    </li>
+                    <div class="clear"></div>
+                    <div id="rent_bytype_chart" class="rent_bytype_chart"
+                         style="-webkit-tap-highlight-color: transparent; user-select: none;"
+                         _echarts_instance_="ec_1541267452200">
+                        <div style="position: relative; overflow: hidden; width: 900px; height: 400px; padding: 0px; margin: 0px; border-width: 0px;">
+                            <canvas data-zr-dom-id="zr_0" width="900" height="400"
+                                    style="position: absolute; left: 0px; top: 0px; width: 900px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="clear"></div>
+                <div class="rentByDistrict">
+                    <h3>北京各区房源租金</h3>
+                    <div class="dataContent">
+                        <li> 密云<span class="dataInText_small"> - </span>元/月 &nbsp; 海淀<span
+                                class="dataInText_small">6662 </span>元/月 &nbsp; 大兴<span
+                                class="dataInText_small">5199 </span>元/月 &nbsp; 宣武<span
+                                class="dataInText_small">8502 </span>元/月 &nbsp; 丰台<span
+                                class="dataInText_small">6048 </span>元/月 &nbsp; 崇文<span
+                                class="dataInText_small">7913 </span>元/月 &nbsp; 昌平<span
+                                class="dataInText_small">5623 </span>元/月 &nbsp; 门头沟<span
+                                class="dataInText_small">1500 </span>元/月 &nbsp; 平谷<span
+                                class="dataInText_small"> - </span>元/月 &nbsp; 通州<span
+                                class="dataInText_small">4576 </span>元/月 &nbsp; 怀柔<span
+                                class="dataInText_small"> - </span>元/月 &nbsp; 石景山<span
+                                class="dataInText_small">5703 </span>元/月 &nbsp; 朝阳<span
+                                class="dataInText_small">6990 </span>元/月 &nbsp; 东城<span
+                                class="dataInText_small">8420 </span>元/月 &nbsp; 延庆<span
+                                class="dataInText_small">2257 </span>元/月 &nbsp; 燕郊<span
+                                class="dataInText_small"> - </span>元/月 &nbsp; 顺义<span
+                                class="dataInText_small">3678 </span>元/月 &nbsp; 房山<span
+                                class="dataInText_small">2000 </span>元/月 &nbsp; 西城<span
+                                class="dataInText_small">7581 </span>元/月 &nbsp;
+                        </li>
+                    </div>
+
+                </div>
+                <div class="clear"></div>
+                <div id="district_chart" class="district_chart"
+                     style="-webkit-tap-highlight-color: transparent; user-select: none;"
+                     _echarts_instance_="ec_1541267452199">
+                    <div style="position: relative; overflow: hidden; width: 800px; height: 300px; padding: 0px; margin: 0px; border-width: 0px;">
+                        <canvas data-zr-dom-id="zr_0" width="800" height="300"
+                                style="position: absolute; left: 0px; top: 0px; width: 800px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="houseOverview">
+                <h1>北京租房房源数量及分布</h1>
+                <h2>当前北京待租房源总量 <span class="dataInText">53580</span>间</h2>
+                <div class="twoBlockInOneLine">
+                    <div class="houseDistribution">
+                        <h3>户型分布</h3>
+                        <div class="dataContent">
+                            <li>当前北京待租主卧<span class="dataInText_small">3769</span>间，
+                                次卧<span class="dataInText_small">5136</span>间，
+                                一居<span class="dataInText_small">12827</span>间，
+                                两居<span class="dataInText_small">23015</span>间，
+                                三居<span class="dataInText_small">7992</span>间
+                            </li>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div id="pie_chart_type" class="pie_chart"
+                             style="-webkit-tap-highlight-color: transparent; user-select: none;"
+                             _echarts_instance_="ec_1541267452196">
+                            <div style="position: relative; overflow: hidden; width: 350px; height: 250px; padding: 0px; margin: 0px; border-width: 0px;">
+                                <canvas data-zr-dom-id="zr_0" width="350" height="250"
+                                        style="position: absolute; left: 0px; top: 0px; width: 350px; height: 250px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="houseDistribution">
+                        <h3>租金分布</h3>
+                        <div class="dataContent">
+                            <li>当前北京租金0-1000区间房源<span class="dataInText_small">94</span>间，
+                                1000-2000<span class="dataInText_small">2761</span>间，
+                                2000-3000<span class="dataInText_small">3948</span>间，
+                                3000-5000<span class="dataInText_small">13562</span>间，
+                                5000-10000<span class="dataInText_small">32374</span>间
+                            </li>
+                        </div>
+                        <div class="clear"></div>
+                        <div id="pie_chart_rent" class="pie_chart"
+                             style="-webkit-tap-highlight-color: transparent; user-select: none;"
+                             _echarts_instance_="ec_1541267452197">
+                            <div style="position: relative; overflow: hidden; width: 350px; height: 250px; padding: 0px; margin: 0px; border-width: 0px;">
+                                <canvas data-zr-dom-id="zr_0" width="350" height="250"
+                                        style="position: absolute; left: 0px; top: 0px; width: 350px; height: 250px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="houseDistribution">
+                        <h3>区域分布</h3>
+                        <div class="dataContent">
+                            <li>北京各区待租房源量为：
+                                密云<span class="dataInText_small_small">0</span>间 &nbsp;
+                                海淀<span class="dataInText_small_small">6785</span>间 &nbsp;
+                                大兴<span class="dataInText_small_small">4467</span>间 &nbsp;
+                                宣武<span class="dataInText_small_small">970</span>间 &nbsp;
+                                丰台<span class="dataInText_small_small">7115</span>间 &nbsp;
+                                崇文<span class="dataInText_small_small">631</span>间 &nbsp;
+                                昌平<span class="dataInText_small_small">6757</span>间 &nbsp;
+                                门头沟<span class="dataInText_small_small">18</span>间 &nbsp;
+                                平谷<span class="dataInText_small_small">0</span>间 &nbsp;
+                                通州<span class="dataInText_small_small">6587</span>间 &nbsp;
+                                怀柔<span class="dataInText_small_small">0</span>间 &nbsp;
+                                石景山<span class="dataInText_small_small">1790</span>间 &nbsp;
+                                朝阳<span class="dataInText_small_small">15569</span>间 &nbsp;
+                                东城<span class="dataInText_small_small">753</span>间 &nbsp;
+                                延庆<span class="dataInText_small_small">37</span>间 &nbsp;
+                                燕郊<span class="dataInText_small_small">0</span>间 &nbsp;
+                                顺义<span class="dataInText_small_small">75</span>间 &nbsp;
+                                房山<span class="dataInText_small_small">65</span>间 &nbsp;
+                                西城<span class="dataInText_small_small">1112</span>间 &nbsp;
+                            </li>
+                        </div>
+                        <div class="clear"></div>
+                        <div id="pie_chart_district" class="pie_chart"
+                             style="-webkit-tap-highlight-color: transparent; user-select: none;"
+                             _echarts_instance_="ec_1541267452198">
+                            <div style="position: relative; overflow: hidden; width: 350px; height: 250px; padding: 0px; margin: 0px; border-width: 0px;">
+                                <canvas data-zr-dom-id="zr_0" width="350" height="250"
+                                        style="position: absolute; left: 0px; top: 0px; width: 350px; height: 250px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="desc-region">
+                <h1>汇聚海量房源北京租房真实信息</h1>
+                <img src="http://s107.107room.com/static/image/icon/index-flat/devices.png" alt="汇总海量房源_信息真实_0中介费_线上签约"
+                     ／="">
+            </div>
+            <div class="region-top">
+                <div class="region-wrap">
+                    <ul class="right">
+                        <li class="engMotto">
+            <span class="Mottotop">“<span>
+            <span class="Mottomiddle">We build too many walls and not enough bridges.<span
+                    class="Mottotop">”<span><br><span class="peoname">——Sir Issac Newton</span><span>
+          </span></span></span></span></span></span></li>
+                    </ul>
+                </div>
+                <!--<div class="organization">-->
+                <!--<img class="organizationimg" src="http://s107.107room.com/static/image/explanation/how-to/about-us-img2.png">-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+    <!--<script>-->
+        <!--ReactDOM.render(React.createElement(components.UserFeedback, {}), $('[role="contact"]')[0]);-->
+    <!--</script>-->
+
+    <script>
+        function charts(data, month) {
+            var myChart = echarts.init(document.getElementById('rent_chart'));
+            myChart.setOption({
+                color: ['#00ac97'],
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: month
+                },
+                tooltip: {},
+                yAxis: {
+                    type: 'value'
+                },
+                grid: {
+                    x: 40,
+                    y: 20,
+                    x2: 10,
+                    y2: 20
+                },
+                series: [{
+                    data: data,
+                    type: 'line',
+                    areaStyle: {}
+                }]
+            });
+        }
+
+        charts([6067, 6085, 6140, 6200, 6204], [2018.7, 2018.8, 2018.9, 2018.10, "当前"]);
+
+
+        function rankcharts(cities, data) {
+            var myChart = echarts.init(document.getElementById('rank_chart'));
+            myChart.setOption({
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01]
+                },
+                yAxis: {
+                    type: 'category',
+                    data: cities
+                },
+                series: [
+
+                    {
+                        name: '租金',
+                        type: 'bar',
+                        data: data
+                    }
+                ]
+            });
+        }
+
+        rankcharts(['杭州', '海口', '长沙', '郑州', '中山', '三亚', '上海', '广州', '深圳', '北京'], [2214, 2285, 2351, 2369, 2680, 2780, 3109, 3592, 4220, 6204]);
+
+
+        var myChart_type = echarts.init(document.getElementById('pie_chart_type'));
+        var myChart_rent = echarts.init(document.getElementById('pie_chart_rent'));
+        var myChart_district = echarts.init(document.getElementById('pie_chart_district'));
+
+        function pieDischarts(myChart, name, data) {
+            myChart.setOption({
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                series: [
+                    {
+                        name: name,
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['40%', '50%'],
+                        data: data,
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            });
+        }
+
+        function pieTypecharts(myChart, name) {
+            myChart.setOption({
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                series: [
+                    {
+                        name: name,
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['40%', '50%'],
+                        data: [{name: '主卧', value: 3769}, {name: '次卧', value: 5136}, {
+                            name: '一居',
+                            value: 12827
+                        }, {name: '两居', value: 23015}, {name: '三居', value: 7992}],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            });
+        }
+
+        function pieRentcharts(myChart, name) {
+            myChart.setOption({
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                series: [
+                    {
+                        name: name,
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['40%', '50%'],
+                        data: [{name: '0-1000', value: 94}, {name: '1000-2000', value: 2761}, {
+                            name: '2000-3000',
+                            value: 3948
+                        }, {name: '3000-5000', value: 13562}, {name: '5000-10000', value: 32374}],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            });
+        }
+
+        pieTypecharts(myChart_type, '户型分布');
+        pieRentcharts(myChart_rent, '租金分布');
+        pieDischarts(myChart_district, '区域分布', [{name: '密云', value: 0}, {name: '海淀', value: 6785}, {
+            name: '大兴',
+            value: 4467
+        }, {name: '宣武', value: 970}, {name: '丰台', value: 7115}, {name: '崇文', value: 631}, {
+            name: '昌平',
+            value: 6757
+        }, {name: '门头沟', value: 18}, {name: '平谷', value: 0}, {name: '通州', value: 6587}, {
+            name: '怀柔',
+            value: 0
+        }, {name: '石景山', value: 1790}, {name: '朝阳', value: 15569}, {name: '东城', value: 753}, {
+            name: '延庆',
+            value: 37
+        }, {name: '燕郊', value: 0}, {name: '顺义', value: 75}, {name: '房山', value: 65}, {name: '西城', value: 1112}]);
+
+        function districtcharts(district, rent) {
+            var myChart = echarts.init(document.getElementById('district_chart'));
+            myChart.setOption({
+                color: ['#3398DB'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: district,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    {
+                        name: '租金',
+                        type: 'bar',
+                        barWidth: '60%',
+                        data: rent
+                    }
+                ]
+            });
+        }
+
+        districtcharts(['密云', '海淀', '大兴', '宣武', '丰台', '崇文', '昌平', '门头沟', '平谷', '通州', '怀柔', '石景山', '朝阳', '东城', '延庆', '燕郊', '顺义', '房山', '西城'], [0, 6662, 5199, 8502, 6048, 7913, 5623, 1500, 0, 4576, 0, 5703, 6990, 8420, 2257, 0, 3678, 2000, 7581]);
+
+
+        function rentByTypeCharts() {
+            var myChart = echarts.init(document.getElementById('rent_bytype_chart'));
+            myChart.setOption({
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['主卧', '次卧', '一居', '两居', '三居']
+                },
+
+                calculable: true,
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: [2018.7, 2018.8, 2018.9, 2018.10, "当前"]
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    {
+                        name: '主卧',
+                        type: 'line',
+                        data: [2584, 2604, 2603, 2606, 2615]
+                    },
+                    {
+                        name: '次卧',
+                        type: 'line',
+                        data: [2193, 2227, 2223, 2239, 2233]
+                    },
+                    {
+                        name: '一居',
+                        type: 'line',
+                        data: [5238, 5220, 5282, 5281, 5276]
+                    },
+                    {
+                        name: '两居',
+                        type: 'line',
+                        data: [6418, 6394, 6454, 6488, 6478]
+                    },
+                    {
+                        name: '三居',
+                        type: 'line',
+                        data: [11183, 11171, 11153, 11191, 11148]
+                    }
+                ]
+            });
+        }
+
+        rentByTypeCharts();
+    </script>
+
+    <script type="text/javascript" th:src="@{/lib/js/plugin/jquery.lazyload.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/front/index-0.6.23.js}"></script>
+</div>
+
+
+<div th:replace="~{front/common/common :: footer}"></div>
+<script type="text/javascript" th:inline="javascript">
+    var city = [[${city}]];
+
+    $("div.city").append('<i class="fa fa-map-marker" aria-hidden="true"></i>' +
+        '<a target="_blank" href="/?city='+ city +'"> '+ city +'租房</a>');
+</script>
+</body>
+</html>

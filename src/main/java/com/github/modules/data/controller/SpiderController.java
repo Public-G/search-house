@@ -1,6 +1,5 @@
 package com.github.modules.data.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.common.constant.SysConstant;
 import com.github.common.exception.SHException;
@@ -9,8 +8,6 @@ import com.github.common.utils.CustomResponseWrapper;
 import com.github.common.utils.MapUtils;
 import com.github.common.utils.PageUtils;
 import com.github.common.validator.ValidatorUtils;
-import com.github.common.validator.group.AddGroup;
-import com.github.common.validator.group.UpdateGroup;
 import com.github.modules.base.form.PageForm;
 import com.github.modules.data.constant.CommunicateConstant;
 import com.github.modules.data.entity.RuleEntity;

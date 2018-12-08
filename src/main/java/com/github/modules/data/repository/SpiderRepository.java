@@ -18,6 +18,9 @@ public interface SpiderRepository extends JpaRepository<SpiderEntity, Long>, Jpa
 
     List<SpiderEntity> findBySettingIdIn(Long[] settingIds);
 
+    @Query(value = "SELECT DISTINCT city FROM tb_spider", nativeQuery = true)
+    List<String> findCity();
+
 //    @Modifying
 //    @Query("UPDATE SpiderEntity spider SET spider.ruleId = null WHERE spider.ruleId in ?1")
 //    void deleteRuleBatch(Long[] ruleIds);

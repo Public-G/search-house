@@ -28,7 +28,7 @@
         <modelmapper.version>2.3.0</modelmapper.version>
         <quartz.version>2.3.0</quartz.version>
         <druid.version>1.1.8</druid.version>
-        <mysql.version>8.0.12</mysql.version>
+        <mysql.version>8.0.11</mysql.version>
         <!-- 布局功能的支持程序  thymeleaf3主程序对应layout2以上版本 -->
         <!-- thymeleaf2   layout1-->
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>

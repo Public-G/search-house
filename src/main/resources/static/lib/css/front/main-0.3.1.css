@@ -1,4 +1,14 @@
 @charset "utf-8";
+div.layui-form-item input::-webkit-input-placeholder {
+    color: #939393;
+}
+div.layui-form-item input:-moz-placeholder {
+    color: #939393;
+}
+div.layui-form-item input:-ms-input-placeholder {
+    color: #939393;
+}
+
 * {
     margin: 0;
     padding: 0;

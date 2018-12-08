@@ -26,9 +26,10 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     private ObjectMapper objectMapper;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
+            throws IOException, ServletException {
         response.setContentType(SysConstant.CONTENT_TYPE_JSON);
-        response.getWriter().write(objectMapper.writeValueAsString(ApiResponse.ofMessage
-                (ApiResponse.ResponseStatus.AUTHENTICATION_FAILED.getCode(), exception.getMessage())));
+        response.getWriter().write(objectMapper.writeValueAsString(ApiResponse.ofMessage(
+                ApiResponse.ResponseStatus.AUTHENTICATION_FAILED.getCode(), exception.getMessage())));
     }
 }

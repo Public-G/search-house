@@ -216,16 +216,17 @@
                         </tr>
                         <tr>
                             <td>发布核查时间：</td>
-                            <td>[[*{updateTime}]]</td>
+                            <td>[[*{releaseTime}]]</td>
                         </tr>
                     </table>
                 </div>
             </div>
             <div class="houseRoom">
                 <div class="slick">
+                    <!--http://img.hb.aicdn.com/5ba59e65b878e7996c7bcd78e9ddf18baabe406a27e54-X9VM6W_fw658-->
                     <div class="allImage">
                         <img class="example-image"
-                             src="http://img.hb.aicdn.com/5ba59e65b878e7996c7bcd78e9ddf18baabe406a27e54-X9VM6W_fw658"
+                             th:src="*{imgHref}"
                              alt="朝阳潘家园松榆西里租房" >
                     </div>
 
@@ -317,13 +318,15 @@
             </div>
             <div class="rightContact">
                 <ul class="top">
-                    <li>
-                        <i class="fa fa-heart-o fa-lg" aria-hidden="true" ></i>
-                        <span class="addsign">收藏</span>
+                    <li id="collect">
+                        <i id="heart" class="fa fa-heart-o fa-lg" aria-hidden="true" ></i>
+                        <span class="addsign" data-bind="1">收藏</span>
                     </li>
-                    <li >
-                        <i class="fa fa-link fa-lg" aria-hidden="true"></i>
-                        <span class="addsign">来源</span>
+                    <li>
+                        <a th:href="*{sourceUrl}" target="_blank">
+                            <i class="fa fa-link fa-lg" aria-hidden="true"></i>
+                            <span class="addsign">来源</span>
+                        </a>
                         <!--<span class="Report"></span>-->
                     </li>
                 </ul>
@@ -371,5 +374,92 @@
 
 
 <div th:replace="~{front/common/common :: footer}"></div>
+<script type="text/javascript" th:inline="javascript">
+    var city = [[${house.city}]];
+    var region = [[${house.region}]];
+    var address = [[${house.address}]];
+    var sourceUrlId = [[${house.sourceUrlId}]];
+    $(function () {
+        var heart = $('#heart');
+        var addsign = $('ul li:first-child span.addsign');
+        var collect = $('#collect');
+
+        loadBiaoyu();
+
+       $.get('/rent/collect/' + sourceUrlId, function (data) {
+            if (data.code === 0) {
+                collect.css({'background-color': '#ebac40'});
+                heart.removeClass('fa-heart-o');
+                heart.addClass('fa-heart');
+                heart.css({'color': '#fff'});
+                addsign.css({'color': '#fff'}).html('已收藏');
+                addsign.data('bind', 0);
+            }
+       });
+
+        collect.on('click', function () {
+            console.log("addsign.data('bind') ====="+addsign.data('bind'));
+           if (addsign.data('bind') == 0) {
+               $.ajax({
+                   url: '/rent/collect/delete',
+                   type: "POST",
+                   data: {
+                       _method: 'DELETE',
+                       houseId: sourceUrlId
+                   },
+                   dataType: "json",
+                   success: function (data) {
+                       if (data.code === 0) {
+                           collect.css({'background-color': '#fff'});
+                           heart.removeClass('fa-heart');
+                           heart.addClass('fa-heart-o');
+                           heart.css({'color': '#ebac40'});
+                           addsign.css({'color': '#ebac40'}).html('收藏');
+                           addsign.data('bind', 1);
+                       }
+                   }
+               });
+           }
+
+            if (addsign.data('bind') == 1) {
+                $.post('/rent/collect/save', {
+                    houseId: sourceUrlId
+                }, function (data) {
+                    if (data.code === 401) {
+                        $('.signLogin').show();
+                    }
+
+                    if (data.code === 0) {
+                        collect.css({'background-color': '#ebac40'});
+                        heart.removeClass('fa-heart-o');
+                        heart.addClass('fa-heart');
+                        heart.css({'color': '#fff'});
+                        addsign.css({'color': '#fff'}).html('已收藏');
+                        addsign.data('bind', 0);
+                    }
+
+                    // 已收藏
+                    if (data.code === 1) {
+                        window.location.reload();
+                    }
+                });
+            }
+       });
+    });
+
+    function loadBiaoyu() {
+        var biaoyu = $("li.biaoyu");
+        // 设置当前城市
+        $("div.city").append('<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;' +
+            '<a target="_blank" href="/?city='+city+'">'+ city +'租房</a>');
+
+        // 设置标语
+        biaoyu.append('<span>&nbsp></span>&nbsp<a href="/rent/search?city='+city+'">' + city + '找房</a>');
+        // 区域标语
+        biaoyu.append('<span>&nbsp></span>&nbsp<a href="javascript:void(0)">'+ region +'</a>');
+        biaoyu.append('<span>&nbsp></span>&nbsp<a href="javascript:void(0)">'+ address +'租房</a>');
+    }
+
+</script>
 </body>
 </html>

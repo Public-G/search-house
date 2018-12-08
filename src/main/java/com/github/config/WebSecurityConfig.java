@@ -2,11 +2,12 @@ package com.github.config;
 
 import com.github.common.security.authentication.CustomAuthenticationFailureHandler;
 import com.github.common.security.authentication.CustomAuthenticationSuccessHandler;
+import com.github.common.security.config.SmsAuthenticationSecurityConfig;
 import com.github.common.security.handler.CustomLogoutSuccessHandler;
 import com.github.common.security.authentication.LoginUrlEntryPoint;
 import com.github.common.security.config.ValidateCaptchaSecurityConfig;
 import com.github.common.security.properties.SecurityProperties;
-import com.github.modules.sys.service.impl.CustomUserDetailsService;
+import com.github.modules.sys.service.impl.CustomSysUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -31,10 +32,13 @@ import org.springframework.social.connect.web.SessionStrategy;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private CustomSysUserDetailsService sysUserDetailsService;
 
     @Autowired
     private ValidateCaptchaSecurityConfig validateCaptchaSecurityConfig;
+
+    @Autowired
+    private SmsAuthenticationSecurityConfig smsAuthenticationSecurityConfig;
 
     @Autowired
     private CustomAuthenticationFailureHandler authenticationFailureHandler;
@@ -42,10 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomLogoutSuccessHandler logoutSuccessHandler;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.apply(validateCaptchaSecurityConfig);
 
         http.authorizeRequests()
                 .antMatchers("/lib/**").permitAll() // 静态资源
@@ -72,12 +75,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable(); // 禁用csrf
         http.headers().frameOptions().sameOrigin(); // 开启同源策略
+
+        http.apply(validateCaptchaSecurityConfig);
+        http.apply(smsAuthenticationSecurityConfig);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // 添加 UserDetailsService 使用的密码加密解密类
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(sysUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
     /**

@@ -1,12 +1,15 @@
 package com.github.common.security.captcha.support;
 
 import com.github.common.exception.SHException;
+import com.github.common.security.captcha.image.ImageCaptchaProcessor;
 import com.github.common.security.exception.ValidateCaptchaException;
 import com.github.common.security.captcha.CaptchaGenerator;
 import com.github.common.security.captcha.CaptchaProcessor;
 import com.github.common.security.captcha.CaptchaType;
 import com.github.common.security.captcha.bean.Captcha;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
@@ -25,6 +28,8 @@ import java.util.Map;
  * @date 2018-10-25
  */
 public abstract class AbstractCaptchaProcessor<C extends Captcha> implements CaptchaProcessor {
+
+    protected  Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 操作session的工具类
@@ -58,7 +63,7 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
      * @param captcha
      * @throws Exception
      */
-    protected abstract void sendCaptcha(ServletWebRequest request, C captcha);
+    protected abstract void sendCaptcha(ServletWebRequest request, C captcha) throws SHException;
 
     /**
      * 生成校验码
@@ -68,7 +73,7 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
      * @return
      */
     private C generateCaptcha(ServletWebRequest request) {
-        String type = getCaptchaType(request).toString().toLowerCase();
+        String type = getCaptchaType().toString().toLowerCase();
 
         // 根据处理器类名的前缀获取对应的处理器
         String generatorName = type + CaptchaGenerator.class.getSimpleName();
@@ -82,10 +87,9 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
     /**
      * 获取处理器类名的前缀，例如：ImageCaptchaProcessor --> Image
      *
-     * @param request
      * @return
      */
-    private CaptchaType getCaptchaType(ServletWebRequest request) {
+    private CaptchaType getCaptchaType() {
         String type = StringUtils.substringBefore(getClass().getSimpleName(), "CaptchaProcessor");
 
         //返回枚举类对象
@@ -102,17 +106,16 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
         // Session放到redis存储，ImageCode中的BufferedImage不能实现序列号接口
         // 但同时Image也不需要放到session中存储(放入验证码和过期时间就行)，这里重新包装下
         Captcha captcha = new Captcha(validateCaptcha.getCaptcha(), validateCaptcha.getExpireTime());
-        sessionStrategy.setAttribute(request, getSessionKey(request), captcha);
+        sessionStrategy.setAttribute(request, getSessionKey(), captcha);
     }
 
     /**
      * 构建验证码放入 session 时的 key
      *
-     * @param request
      * @return
      */
-    private String getSessionKey(ServletWebRequest request) {
-        return SESSION_KEY_PREFIX + getCaptchaType(request).toString().toUpperCase();
+    private String getSessionKey() {
+        return SESSION_KEY_PREFIX + getCaptchaType().toString().toUpperCase();
     }
 
     /**
@@ -121,10 +124,10 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
      * @param request
      */
     public void validateCaptcha(ServletWebRequest request){
-        CaptchaType captchaType = getCaptchaType(request);
+        CaptchaType captchaType = getCaptchaType();
 
         //从session中获取验证码类型的key：SESSION_KEY_FOR_CODE__SMS
-        String sessionKey = getSessionKey(request);
+        String sessionKey = getSessionKey();
 
         //从请求参数中获取输入的验证码
         C captchaInSession = (C) sessionStrategy.getAttribute(request, sessionKey);

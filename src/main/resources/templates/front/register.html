@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{front/common/common :: head}"></div>
+<body>
+    <div th:replace="~{front/common/common :: bodyStyle}"></div>
+    <div th:replace="~{front/common/common :: adminNav}"></div>
+    <div th:replace="~{front/common/common :: navwrap}"></div>
+    <div th:replace="~{front/common/common :: navScript}"></div>
+    <div th:replace="~{front/common/common :: signLogin}"></div>
+    <div th:replace="~{front/common/common :: header}"></div>
+    <div id="contentContainer">
+        <div th:replace="~{front/common/common :: contentContainerCommon}"></div>
+        <div id="content" class="fixedWithContainer" >
+            <link th:href="@{/lib/layui/css/layui.css}" rel="stylesheet">
+            <link th:href="@{/lib/css/admin/admin.css}" rel="stylesheet">
+            <link th:href="@{/lib/css/admin/login.css}" rel="stylesheet">
+
+            <div class="cardContainer">
+                <div id="registerCard" class="card r7-register-page">
+                    <div class="layadmin-user-login-main">
+                        <div class="layadmin-user-login-box layadmin-user-login-body layui-form" style="margin-top: 15%">
+                            <div class="layui-form-item">
+                                <label class="layadmin-user-login-icon" id="LAY-user-login-cellphone" for="LAY-user-login-cellphone">
+                                    <i class="layui-icon">&#xe678;</i>
+                                </label>
+                                <input type="text" name="mobile" lay-verify="mobile" placeholder="手机"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-row">
+                                    <div class="layui-col-xs7">
+                                        <label class="layadmin-user-login-icon" for="LAY-user-login-vercode">
+                                            <i class="layui-icon">&#xe679;</i>
+                                        </label>
+                                        <input type="text" name="smsCaptcha" id="LAY-user-login-vercode" lay-verify=""
+                                               autocomplete="off" placeholder="验证码" class="layui-input">
+                                    </div>
+                                    <div class="layui-col-xs5">
+                                        <div style="margin-left: 10px;">
+                                            <button class="layui-btn layui-btn-primary layui-btn-fluid" id="user-getsmscode"
+                                                    lay-submit="" lay-filter="user-getsmscode">获取验证码
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layadmin-user-login-icon" for="LAY-user-login-password">
+                                    <i class="layui-icon">&#xe673;</i>
+                                </label>
+                                <input type="password" name="password" id="LAY-user-login-password" lay-verify="" placeholder="密码"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layadmin-user-login-icon" for="LAY-user-login-repass">
+                                    <i class="layui-icon">&#xe673;</i>
+                                </label>
+                                <input type="password" name="repass" id="LAY-user-login-repass" lay-verify="repass" placeholder="确认密码"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-item">
+                                <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-reg-submit">注 册</button>
+                            </div>
+                            <div class="layui-trans layui-form-item layadmin-user-login-other">
+                                <label style="font-size: 9pt;">注册即表示同意<a href="https://www.baidu.com" target="_blank">
+                                    <span style="color: #00ac97;">用户协议</span></a>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div th:replace="~{front/common/common :: footer}"></div>
+    <script type="text/javascript" th:src="@{/lib/js/front/common/custom-common.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/js/plugin/jquery.cookie.min.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        var city = [[${city}]];
+
+        layui.use(['form', 'layer'], function () {
+            var form = layui.form
+                ,layer = layui.layer;
+
+            // cookie存在倒计时
+            if($.cookie("timer")!=undefined && $.cookie("timer")!='NaN' && $.cookie("timer")!='null'){
+                timekeeping();
+            }
+
+            // 获取验证码
+            form.on('submit(user-getsmscode)', function (data) {
+                var reg = /^1[3|4|5|7|8][0-9]{9}$/; //手机号验证规则
+                var smsCodeBtn = $(this);
+                if (!smsCodeBtn.hasClass("layui-btn-disabled")) {
+                    smsCodeBtn.addClass("layui-btn-disabled");
+                    var param = data.field;
+                    var mobile = param.mobile;
+                    if (reg.test(mobile)) {
+                        $.cookie("timer", 60);
+                        timekeeping();
+                        $.get('/captcha/sms', {
+                            mobile: mobile
+                        }, function (data) {
+//                           layer.msg(data.msg);
+                        });
+                    } else {
+                        layer.msg("请输入正确的手机号", {time: 1000, offset: '300px'}, function () {
+                            //关闭后的操作
+                            smsCodeBtn.removeClass("layui-btn-disabled");
+                        });
+                    }
+                }
+                return false;
+            });
+
+            $("div.city").append('<a target="_blank" href="/?city='+ city +'"> '+ city +'租房</a>');
+            // 设置标语
+            $("li.biaoyu").append('<span>&nbsp></span>&nbsp<a href="/user/auth/register?city='+city+'">&nbsp注册</a>');
+        });
+
+        function timekeeping(){
+            var smsCodeBtn = $('#user-getsmscode');
+            smsCodeBtn.addClass("layui-btn-disabled");
+            var interval=setInterval(function(){ //每秒读取一次cookie
+                var timer = $.cookie("timer"); //从cookie 中读取剩余倒计时
+                smsCodeBtn.text(timer + '秒后可重获');
+                timer--;
+                if(timer == 0){
+                    clearInterval(interval);  //清除定时器
+                    $.cookie("timer", timer, { expires: -1}); //删除cookie
+                    smsCodeBtn.removeClass("layui-btn-disabled");
+                    smsCodeBtn.text('重新获取验证码');
+                } else {
+                    $.cookie("timer", timer); //重新写入剩余倒计时
+                }
+            },1000);
+        }
+    </script>
+</body>
+</html>

@@ -95,14 +95,24 @@ a{
     background:url(/lib/images/front/icon/house-search/search.png) center center no-repeat #00ac97;;
     float: right;
 }
+
 .chooseType{
     display: inline-block;
-    /*background-color: #fff;*/
+    background-color: #fff;
     float: right;
     width: 400px;
-    height: 32px;
+    height: 30px;
     line-height: 20px;
 }
+
+/*.chooseType{*/
+    /*display: inline-block;*/
+    /*!*background-color: #fff;*!*/
+    /*float: right;*/
+    /*width: 400px;*/
+    /*height: 32px;*/
+    /*line-height: 20px;*/
+/*}*/
 .chooseType .signNum{
     display: none;
     font-size: 12px;
@@ -123,8 +133,16 @@ a{
     line-height: 28px;
     border: 1px solid #00ac97;
     text-align: center;
-    float: right;
 }
+/*.allResults{*/
+    /*display: inline-block;*/
+    /*width: 49%;*/
+    /*height: 30px;*/
+    /*line-height: 28px;*/
+    /*border: 1px solid #00ac97;*/
+    /*text-align: center;*/
+    /*float: right;*/
+/*}*/
 .willSign{
     display: inline-block;
     height: 30px;
@@ -139,8 +157,18 @@ a{
     vertical-align: middle;
     width: 25px;
     height: 25px;
-    background: url(http://s107.107room.com/static/image/icon/house-search/list.png) center center no-repeat;
+    background: url(/lib/images/front/icon/house-search/list.png) center center no-repeat;
 }
+
+/*.allResults .leftIcon{*/
+    /*display: inline-block;*/
+    /*margin-right: 25px;*/
+    /*vertical-align: middle;*/
+    /*width: 25px;*/
+    /*height: 25px;*/
+    /*background: url(http://s107.107room.com/static/image/icon/house-search/list.png) center center no-repeat;*/
+/*}*/
+
 .willSign .rightIcon{
     display: inline-block;
     margin-right: 25px;
@@ -148,8 +176,19 @@ a{
     vertical-align: middle;
     width: 25px;
     height: 25px;
-    background: url(http://s107.107room.com/static/image/icon/house-search/favor-gray02.png) center center no-repeat;
+    background: url(/lib/images/front/icon/house-search/favor-gray02.png) center center no-repeat;
 }
+
+/*.willSign .rightIcon{*/
+    /*display: inline-block;*/
+    /*margin-right: 25px;*/
+    /*margin-top: -3px;*/
+    /*vertical-align: middle;*/
+    /*width: 25px;*/
+    /*height: 25px;*/
+    /*background: url(http://s107.107room.com/static/image/icon/house-search/favor-gray02.png) center center no-repeat;*/
+/*}*/
+
 .allResults span:nth-child(2){
     color: #00ac97;
     font-size: 13px;

@@ -197,7 +197,7 @@ usertype.on('mouseleave',function() {
 });
 
 
-// 百度地图API功能
+// 百度地图API功能(关闭底图可点功能，默认启用)
 var map = new BMap.Map("allmap",{enableMapClick:false});
 
 map.enableScrollWheelZoom(true);

@@ -1,6 +1,7 @@
 package com.github.modules.search.controller;
 
 import com.github.common.constant.SysConstant;
+import com.github.modules.data.service.SpiderService;
 import com.github.modules.search.dto.HouseBucketDTO;
 import com.github.modules.search.service.MapService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +21,23 @@ import java.util.List;
  */
 @RequestMapping("/rent")
 @Controller
-public class MapController {
+public class MapController extends AbstractController {
+
+    @Autowired
+    private SpiderService spiderService;
 
     @Autowired
     private MapService mapService;
 
     @RequestMapping("/map")
-    public String map(@RequestParam(required = false, defaultValue = SysConstant.DEFAULT_CITY) String city,
-                      Model model) {
-        List<HouseBucketDTO> aggData = mapService.mapAggsByCity(city);
+    public String map(@RequestParam(name = "city", required = false,
+                                    defaultValue = SysConstant.DEFAULT_CITY) String city,Model model) {
 
         model.addAttribute("city", city);
+
+        List<HouseBucketDTO> aggData = mapService.mapAggsByCity(city);
         model.addAttribute("aggData", aggData);
+
         return "front/map";
     }
 }
