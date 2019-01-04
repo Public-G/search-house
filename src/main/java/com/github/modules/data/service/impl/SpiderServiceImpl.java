@@ -21,7 +21,7 @@ import javax.persistence.criteria.*;
 import java.util.Date;
 import java.util.List;
 
-@Service("spiderService")
+@Service
 public class SpiderServiceImpl implements SpiderService {
 
     @Autowired

@@ -131,7 +131,7 @@ public class SettingController {
 
         return ApiResponse.ofSuccess();
     }
-
+    
     @ModelAttribute
     private void customModelAttribute(@RequestParam(value = "settingId", required = false) Long settingId, Model model) {
         if (settingId != null) {

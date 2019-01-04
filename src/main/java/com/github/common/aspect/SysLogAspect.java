@@ -13,6 +13,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +27,8 @@ import java.util.Date;
  * @author ZEALER
  * @date 2018-10-20
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class SysLogAspect {
 
     @Autowired
@@ -47,7 +48,7 @@ public class SysLogAspect {
      * @return
      * @throws Throwable
      */
-    @Around("logPointCut()")
+//    @Around("logPointCut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
         long beginTime = System.currentTimeMillis();
         //执行方法

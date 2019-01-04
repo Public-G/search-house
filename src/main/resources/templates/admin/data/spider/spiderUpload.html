@@ -61,11 +61,11 @@
         "series" : [
         ]
     };
-    $.cookie("schedule", schedule);
+//    $.cookie("schedule", schedule);
 
     // 根据节点ID记录时间
     var timeRecord = new Map();
-    $.cookie("timeRecord", timeRecord);
+//    $.cookie("timeRecord", timeRecord);
 
     // 表格渲染
     tableIns = table.render({
@@ -216,7 +216,7 @@
             xAxis: {
                 type: 'value',
                 name: '速度(条/分钟)',
-                max: 1000,
+                max: 500,
                 min: 0,
                 nameGap: 25,
                 nameLocation: 'middle',
@@ -238,7 +238,7 @@
             yAxis: {
                 type: 'value',
                 name: '数据(条)',
-                max: 1000,
+                max: 10000,
                 min: 0,
                 splitNumber: 10,
                 nameTextStyle: {
@@ -305,7 +305,7 @@
 
                 // 爬虫完成
                 if (headers.code) {
-                    var series =  $.cookie("schedule").series;
+                    var series =  schedule.series;
                     var seriesLength = series.length;
                     var count;
                     var speed;
@@ -335,32 +335,32 @@
     function showEcharts(_clientId) {
         var clientId = _clientId;
 
-        var cookieSchedule = $.cookie("schedule");
-        var cookieTimeRecord =  $.cookie("timeRecord");
+//        var cookieSchedule = $.cookie("schedule");
+//        var cookieTimeRecord =  $.cookie("timeRecord");
 
-        var series = cookieSchedule.series;
-        if (cookieSchedule.node.indexOf(clientId) !== -1) {
+        var series = schedule.series;
+        if (schedule.node.indexOf(clientId) !== -1) {
             for (var i = 0; i < series.length; i++) {
                 if (series[i].indexOf(clientId) !== -1) {
                     series[i][1] = series[i][1] + 1; // 数据数+1
 
                     var nowTime = new Date().getTime();
-                    var difference = nowTime - cookieTimeRecord.get(clientId + '-time');
+                    var difference = nowTime - timeRecord.get(clientId + '-time');
                     if (difference > 15000) { // 15s计算一次
                         var nowDataCount = series[i][1];
-                        var lastDatCount = cookieTimeRecord.get(clientId + "-data");
+                        var lastDatCount = timeRecord.get(clientId + "-data");
                         series[i][0] = Math.round((nowDataCount - lastDatCount) / (difference / 60000));  // 计算速度(也是半径)
-                        cookieTimeRecord.set(clientId + "-time", new Date().getTime()); // 重置时间戳
-                        cookieTimeRecord.set(clientId + "-data", series[i][1]); // 重置数据量
+                        timeRecord.set(clientId + "-time", new Date().getTime()); // 重置时间戳
+                        timeRecord.set(clientId + "-data", series[i][1]); // 重置数据量
                     }
                     break;
                 }
             }
         } else {
-            cookieSchedule.node.push(clientId);
-            cookieSchedule.series.push([0, 1, clientId]);
-            cookieTimeRecord.set(clientId + "-time", new Date().getTime()); // 记录时间戳
-            cookieTimeRecord.set(clientId + "-data", 1);
+            schedule.node.push(clientId);
+            schedule.series.push([0, 1, clientId]);
+            timeRecord.set(clientId + "-time", new Date().getTime()); // 记录时间戳
+            timeRecord.set(clientId + "-data", 1);
         }
 
         var dataCount = 0;
@@ -376,7 +376,7 @@
             visualMap: {
                 show: false,
                 dimension: 3, // 指定用数据的『哪个维度』，映射到视觉元素上
-                categories: cookieSchedule.node, // 用于表示离散型数据（或可以称为类别型数据、枚举型数据）的全集
+                categories: schedule.node, // 用于表示离散型数据（或可以称为类别型数据、枚举型数据）的全集
                 calculable: true,
                 precision: 0.1, // 数据展示的小数精度，默认为0，无小数点
                 textGap: 30, // 两端文字主体之间的距离，单位为px
@@ -393,7 +393,7 @@
             series: {
                 type: 'scatter',
                 itemStyle: itemStyle,
-                data: cookieSchedule.series,
+                data: schedule.series,
                 symbolSize: function (val) { // 标记的大小
                     return sizeFunction(val[0]);
                 }

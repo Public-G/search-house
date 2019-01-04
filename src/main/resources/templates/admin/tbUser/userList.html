@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote quoteBox">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input searchVal" placeholder="请输入手机号"/>
+        </div>
+        <a class="search_btn layui-btn" data-type="reload" id="keywordRefresh">搜索</a>
+    </div>
+</blockquote>
+<table id="userList" lay-filter="userList"></table>
+<div th:replace="~{admin/common/common :: script}"></div>
+</body>
+</html>
+<script type="text/javascript">
+    var cols = [ //二维数组的符号不要连在一起，因为[\[…\]]之间的表达式在thymeleaf被认为是内联表达式,会渲染错误
+        [
+            {field: 'userId', checkbox: true, fixed: 'left', width: 50}
+            , {field: 'mobile', title: '手机号', align: 'center'}
+            , {field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
+                    return moment(d.createTime).format("YYYY-MM-DD HH:mm:ss");
+                }
+              }
+            , {field: 'lastLoginTime', title: '最近登陆时间', align: 'center', templet: function (d) {
+                    return moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss");
+                }
+              }
+        ]
+    ];
+
+    layui.renderTable('#userList', 'userListTable', '/sys/front/user/list', cols);
+
+    keywordSearch('userListTable');
+
+</script>

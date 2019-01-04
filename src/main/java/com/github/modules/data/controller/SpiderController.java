@@ -354,7 +354,8 @@ public class SpiderController {
     @ModelAttribute
     private void customModelAttribute(@RequestParam(value = "spiderId", required = false) Long spiderId, Model model) {
         if (spiderId != null) {
-            model.addAttribute("spider", spiderService.findById(spiderId));
+            SpiderEntity spiderEntity = spiderService.findById(spiderId);
+            model.addAttribute("spider", spiderEntity);
         }
     }
 }
