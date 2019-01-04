@@ -29,10 +29,15 @@ public class UserEntity implements UserDetails, Serializable {
     private String mobile;
 
     @Column(name = "create_time")
-    private Date createTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    protected Date createTime;
 
     @Column(name = "last_login_time")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginTime;
+
+    @Transient
+    private Collection<? extends GrantedAuthority>  authorities;
 
     public UserEntity() {
     }
@@ -75,9 +80,16 @@ public class UserEntity implements UserDetails, Serializable {
         this.lastLoginTime = lastLoginTime;
     }
 
+    /**
+     * 权限集合
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.authorities;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override

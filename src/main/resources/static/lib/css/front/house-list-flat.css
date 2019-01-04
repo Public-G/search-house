@@ -3,6 +3,12 @@ div a.on{
     font-weight:bold;
 }
 
+.allHouseSearch .sortHouse a.on{
+    color:#00ac97;
+    font-weight:bold;
+}
+
+
 h1,h2,h3{
     font-weight: normal;
 }

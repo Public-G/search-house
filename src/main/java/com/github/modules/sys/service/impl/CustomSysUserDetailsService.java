@@ -40,7 +40,7 @@ public class CustomSysUserDetailsService implements UserDetailsService {
         logger.debug("用户"+ username +"登录");
 
         // 根据用户名查找用户信息
-        SysUserEntity sysUserEntity = sysUserService.findByUsername(username);
+        SysUserEntity sysUserEntity = sysUserService.findByName(username);
         if (sysUserEntity == null) {
             // catch异常处默认隐藏UsernameNotFoundException, 最终以BadCredentialsException抛出
             throw new UsernameNotFoundException("");

@@ -6,21 +6,21 @@ import java.io.Serializable;
 public class HouseListDTO implements Serializable {
     private static final long serialVersionUID = -12432434531L;
 
-    private String sourceUrlId;
+    protected String sourceUrlId;
 
-    private String title;
+    protected String title;
 
-    private String imgHref;
+    protected String imgHref;
 
-    private String region;
+    protected String region;
 
-    private String community;
+    protected String community;
 
-    private Integer price;
+    protected Integer price;
 
-    private String houseType;
+    protected String houseType;
 
-    private String releaseTime;
+    protected String releaseTime;
 
     public HouseListDTO() {
     }

@@ -2,6 +2,7 @@ package com.github.modules.search.service;
 
 import com.github.common.utils.PageUtils;
 import com.github.modules.search.dto.HouseDTO;
+import com.github.modules.search.dto.HouseListDTO;
 import com.github.modules.search.form.HouseForm;
 
 import java.util.List;
@@ -36,5 +37,11 @@ public interface SearchService {
      */
     HouseDTO queryById(String id);
 
+    /**
+     * 根据用户ID查询收藏的房源
+     * @param userId
+     * @return
+     */
+    List<HouseListDTO> queryById(Long userId);
 
 }

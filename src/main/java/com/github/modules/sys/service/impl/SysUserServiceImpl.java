@@ -1,6 +1,7 @@
 package com.github.modules.sys.service.impl;
 
 import com.github.common.utils.PageUtils;
+import com.github.modules.base.form.PageForm;
 import com.github.modules.sys.dto.SysUserDTO;
 import com.github.modules.sys.entity.SysUserEntity;
 import com.github.modules.sys.repository.SysUserRepository;
@@ -10,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
 import java.util.*;
-
-import static com.github.common.constant.SysConstant.RequestParam.*;
 
 /**
  * 系统用户
@@ -39,11 +39,14 @@ public class SysUserServiceImpl implements SysUserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public PageUtils findPage(Map<String, String> params) {
-        String      keyword = params.get(KEYWORD.getName());
-        Integer     curr     = Integer.valueOf(params.get(CURR.getName()));
-        Integer     limit    = Integer.valueOf(params.get(LIMIT.getName()));
-        PageRequest pageable = new PageRequest(curr - 1, limit);
+    public PageUtils findPage(PageForm pageForm) {
+        String  keyword = pageForm.getKeyword();
+        Integer curr    = pageForm.getCurr();
+        Integer limit   = pageForm.getLimit();
+
+        Sort.Order  order    = new Sort.Order(Sort.Direction.DESC, "userId");
+        Sort        sort     = new Sort(order);
+        PageRequest pageable = new PageRequest(curr - 1, limit, sort);
 
         Page<SysUserEntity> sysUserEntityPage;
 
@@ -69,6 +72,13 @@ public class SysUserServiceImpl implements SysUserService {
         List<SysUserEntity> pageContent    = sysUserEntityPage.getContent();
         List<SysUserDTO>    pageContentDTO = new ArrayList<>();
         for (SysUserEntity sysUserEntity : pageContent) {
+            // 设置创建者名称
+            Long createUserId = sysUserEntity.getCreateUserId();
+            if (createUserId != null && createUserId != 0) {
+                SysUserEntity userEntity = findById(createUserId);
+                sysUserEntity.setCreateUserName(userEntity.getUsername());
+            }
+
             SysUserDTO sysUserDTO = modelMapper.map(sysUserEntity, SysUserDTO.class);
             pageContentDTO.add(sysUserDTO);
         }
@@ -77,12 +87,12 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public SysUserEntity findByUserId(Long userId) {
+    public SysUserEntity findById(Long userId) {
         return sysUserRepository.findOne(userId);
     }
 
     @Override
-    public SysUserEntity findByUsername(String username) {
+    public SysUserEntity findByName(String username) {
         return sysUserRepository.findByUsername(username);
     }
 

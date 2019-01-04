@@ -37,7 +37,7 @@ public class ImageCaptchaProcessor extends AbstractCaptchaProcessor<ImageCaptcha
             ImageIO.write(imageCaptcha.getImage(), "JPEG", outputStream);
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
-            throw new SHException("发送验证码失败");
+            throw new SHException("发送图片验证码失败，请稍后重试");
         } finally {
             IOUtils.closeQuietly(outputStream);
         }

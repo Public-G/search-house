@@ -5,9 +5,9 @@
 <blockquote class="layui-elem-quote quoteBox">
     <div class="layui-inline">
         <div class="layui-input-inline">
-            <input id="areaSearch" type="text" class="layui-input searchVal" placeholder="请输入区域名"/>
+            <input type="text" class="layui-input searchVal" placeholder="请输入关键字"/>
         </div>
-        <a class="search_btn layui-btn" data-type="reload" id="houseRefresh">搜索</a>
+        <a class="search_btn layui-btn" data-type="reload" id="keywordRefresh">搜索</a>
     </div>
     <div class="layui-inline">
         <a id="houseDelete" class="layui-btn layui-btn-danger layui-btn-normal">批量删除</a>
@@ -17,57 +17,75 @@
 <table id="houseList" lay-filter="houseList"></table>
 <div th:replace="~{admin/common/common :: script}"></div>
 
-<script type="text/javascript">
-    layui.use(['table'], function () {
-        var table = layui.table;
-
-        var tableIns = table.render({
-            elem: '#houseList' //指定原始表格元素选择器（推荐id选择器）
-            , id: 'hosueListTable'
-            , url: '/data/house/list'
-            , page: true
-            , height: "full-125"
-            , limit: 10
-            , limits: [10, 30, 50, 70, 100]
-            , request: {
-                pageName: 'curr' //页码的参数名称，默认：page
-            }
-            , parseData: function (res) { //res 即为原始返回的数据
-                return {
-                    "code": res.code, //解析接口状态
-                    "msg": res.msg, //解析提示文本
-                    "count": res.pageBean.count, //解析数据长度
-                    "data": res.pageBean.data //解析数据列表
-                };
-            }
-            , cols: [ //二维数组的符号不要连在一起，因为[\[…\]]之间的表达式在thymeleaf被认为是内联表达式,会渲染错误
-                [
-                    {field: 'id', checkbox: true, fixed: 'left', width: 50}
-                    , {field: 'cityCnName', title: '城市', align: 'center'}
-                    , {field: 'regionCnName', title: '区域', align: 'center'}
-                    , {field: 'sourceUrl', title: '源网址', align: 'center'}
-                    , {field: 'imgHref', title: '封面图', align: 'center'}
-                    , {field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
-                    return moment(d.createTime).format("YYYY-MM-DD");
-                }}
-                    , {field: 'title', title: '标题', align: 'center'}
-                    , {field: 'area', title: '面积', align: 'center'}
-                    , {field: 'price', title: '价格', align: 'center'}
-                    , {field: 'houseType', title: '户型', align: 'center'}
-                    , {field: 'rentWay', title: '出租方式', align: 'center'}
-                    , {field: 'community', title: '小区', align: 'center'}
-                    , {field: 'address', title: '地址', align: 'center'}
-                    , {
-                    field: 'description', title: '描述', align: 'center', templet: function (d) {
-                        return d.description.substring(0, 50);
-                    }
-                }
-                    , {title: '操作', toolbar: '#houseListBar', align: "center", fixed: "right"}
-                ]
-            ]
-        });
-    });
-
+<!-- 操作 -->
+<script type="text/html" id="houseListBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
 </script>
 </body>
 </html>
+<script type="text/javascript">
+    var cols = [
+        [
+            {field: 'sourceUrlId', checkbox: true, fixed: 'left', width: 50}
+            , {field: 'city', title: '城市', align: 'center', width: 100}
+            , {field: 'region', title: '区域', align: 'center', width: 100}
+            , {field: 'title', title: '标题', align: 'center', width: 160}
+            , {field: 'price', title: '价格', align: 'center', width: 100, templet: '#isDynamic'}
+            , {field: 'square', title: '面积', align: 'center', width: 100}
+            , {field: 'houseType', title: '户型', align: 'center', width: 140}
+            , {field: 'roomNum', title: '房间数', align: 'center', width: 60}
+            , {field: 'rentWay', title: '出租方式', align: 'center', width: 60}
+            , {field: 'community', title: '小区', align: 'center', width: 160}
+            , {field: 'address', title: '地址', align: 'center', width: 160}
+            , {field: 'description', title: '描述', align: 'center', width: 160}
+            , {field: 'imgHref', title: '图片链接', align: 'center', width: 160}
+            , {field: 'sourceUrl', title: '源链接', align: 'center', width: 160}
+            , {field: 'website', title: '来源网站', align: 'center', width: 60}
+            , {field: 'releaseTime', title: '发布时间', align: 'center', width: 130, templet: function (d) {
+            return d.releaseTime != undefined ? moment(d.releaseTime).format("YYYY-MM-DD") : '';
+        }
+        }
+            , {field: 'createTime', title: '执行时间', align: 'center', width: 160, templet: function (d) {
+            return d.createTime != undefined ? moment(d.createTime).format("YYYY-MM-DD HH:mm:ss") : '';
+        }
+        }
+            , {title: '操作', width: 160, toolbar: '#houseListBar', fixed: "right", align: "center"}
+        ]
+    ];
+
+    layui.renderTable('#houseList', 'houseListTable', '/data/house/list', cols);
+
+    keywordSearch('houseListTable');
+
+    $("#houseDelete").click(function () {
+        layer.confirm('确认删除所选房源?', {icon: 3, title: '提示'}, function (index) {
+            var checkStatusData = table.checkStatus('houseListTable').data; //获取表格选中行
+            var selectIds = [];
+            checkStatusData.forEach(function (val, index) {
+                selectIds.push(val.sourceUrlId);
+            });
+
+            doBatch(selectIds, "/data/house/delete", "DELETE");
+            layer.close(index);
+        });
+    });
+
+    //监听工具条
+    table.on('tool(houseList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+        if (layEvent === 'edit') { //修改
+            alertByFull("修改房源信息", "/data/house/info/" + data.sourceUrlId);
+        } else if(layEvent === 'delete') {
+            layer.confirm('确认删除房源?', {icon: 3, title: '提示'}, function (index) {
+                var selectIds = [];
+                selectIds.push(data.sourceUrlId);
+                doBatch(selectIds, "/data/house/delete", "DELETE");
+                layer.close(index);
+            });
+        }
+    });
+
+</script>

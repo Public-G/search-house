@@ -61,6 +61,7 @@ layui.define(['layer', 'table', 'form'], function(exports){
                 submitBtn.addClass("layui-btn-disabled");
                 var index = parent.layer.getFrameIndex(window.name);
                 $.post(url, data.field, function (data) {
+                    console.log(JSON.stringify(data));
                     if (data.code === code_success) {
                         layer.msg(data.msg);
                         setTimeout(function() {

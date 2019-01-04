@@ -46,7 +46,7 @@ public class ElasticSearchConfig {
     public TransportClient esClient() throws UnknownHostException {
         Settings settings = Settings.builder()
                 .put("cluster.name", this.esName)
-                .put("client.transport.sniff", true) //自动发现新加入集群的机器(仅限同一网段)
+//                .put("client.transport.sniff", true) //自动发现新加入集群的机器(仅限同一网段)
                 .build();
 
         InetSocketTransportAddress master = new InetSocketTransportAddress(

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;" th:object="${role}">
+    <input name="roleId" type="hidden" th:value="*{roleId}">
+    <input name="_method" type="hidden" th:value="PUT">
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">角色名</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="roleName" th:value="*{roleName}" lay-verify="required|roleName" placeholder="请输入角色名">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="remark" th:value="*{remark}" placeholder="请输入备注">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="role_submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<div th:replace="~{admin/common/common :: script}"></div>
+<script type="text/javascript" th:inline="javascript">
+    var roleName = [[${role.roleName}]];
+    form.verify({
+        roleName: function (value) {
+            var msg = '';
+            if (roleName != value) {
+                $.ajax({
+                    url: "/sys/role/verify",
+                    type: "GET",
+                    async: false,
+                    data: {
+                        roleName: value
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code === code_fail) {
+                            msg = data.msg;
+                        }
+                    }
+                });
+            }
+            return msg;
+        }
+    });
+
+    layui.formSubmit('role_submit', '/sys/role/update');
+</script>
+</body>
+</html>

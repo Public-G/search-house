@@ -135,12 +135,13 @@
         <a class="indexpage" href="/"><img class="logofrog" src="http://s107.107room.com/static/image/logo-frog.png"
                                            alt="爬虫房源"/></a>
         <li class="fourstatus">
-            <span class="loginbutton" sec:authorize="anonymous">免密登录</span>
-            <span sec:authorize="authenticated">
-                 <img class="frog" src="http://www.107room.com/static/image/userinfo/default-favicon-66.png"/>
-                 <span class="headTel" sec:authentication="name"></span>
-                 <span>｜</span>
-                 <span class="logout1">退出</span>
+            <span class="loginbutton" sec:authorize="!hasAnyAuthority('GENERAL_USER')">免密登录</span>
+
+            <span sec:authorize="hasAnyAuthority('GENERAL_USER')">
+                <img class="frog" src="http://www.107room.com/static/image/userinfo/default-favicon-66.png"/>
+                <span class="headTel" sec:authentication="name"></span>
+                <span>｜</span>
+                <span class="logout1">退出</span>
             </span>
 
             <!--<span class="regist"><a href="/user/auth/register">注册</a></span>-->
@@ -431,134 +432,134 @@
 </div>
 
 <div th:fragment="footer">
-    <style type="text/css">
+    <!--<style type="text/css">-->
 
-        .footer {
-            width: 100%;
-            clear: both;
-            background-color: #fff;
-            padding: 20px 0;
-            padding-bottom: 50px;
-            text-align: left;
-        }
+        <!--.footer {-->
+            <!--width: 100%;-->
+            <!--clear: both;-->
+            <!--background-color: #fff;-->
+            <!--padding: 20px 0;-->
+            <!--padding-bottom: 50px;-->
+            <!--text-align: left;-->
+        <!--}-->
 
-        .bodyContent .leftContent h3:nth-child(3) {
-            margin-top: 20px;
-        }
+        <!--.bodyContent .leftContent h3:nth-child(3) {-->
+            <!--margin-top: 20px;-->
+        <!--}-->
 
-        .bodyContent .leftContent h3:nth-child(5) {
-            color: #CECECE;
-        }
+        <!--.bodyContent .leftContent h3:nth-child(5) {-->
+            <!--color: #CECECE;-->
+        <!--}-->
 
-        .bodyContent .leftContent h3:nth-child(6) {
-            color: #CECECE;
-        }
+        <!--.bodyContent .leftContent h3:nth-child(6) {-->
+            <!--color: #CECECE;-->
+        <!--}-->
 
-        .bodyContent .leftContent h3:nth-child(7) {
-            color: #CECECE;
-        }
+        <!--.bodyContent .leftContent h3:nth-child(7) {-->
+            <!--color: #CECECE;-->
+        <!--}-->
 
-        .weUrlList .webURl a {
-            display: block;
-            font-size: 12px;
-            text-align: left;
-            line-height: 16px;
-            cursor: pointer;
-            margin-top: 7px;
-            color: #494949;
-        }
+        <!--.weUrlList .webURl a {-->
+            <!--display: block;-->
+            <!--font-size: 12px;-->
+            <!--text-align: left;-->
+            <!--line-height: 16px;-->
+            <!--cursor: pointer;-->
+            <!--margin-top: 7px;-->
+            <!--color: #494949;-->
+        <!--}-->
 
-        .friendURl {
-            padding-top: 10px;
-            clear: both;
-            width: 535px;
-            color: #494949;
-            font-size: 12px;
-        }
+        <!--.friendURl {-->
+            <!--padding-top: 10px;-->
+            <!--clear: both;-->
+            <!--width: 535px;-->
+            <!--color: #494949;-->
+            <!--font-size: 12px;-->
+        <!--}-->
 
-        .friendURl a {
-            color: #494949;
-            display: inline-block;
-            margin-right: 8px;
-            padding-top: 6px;
-            font-size: 12px;
-        }
+        <!--.friendURl a {-->
+            <!--color: #494949;-->
+            <!--display: inline-block;-->
+            <!--margin-right: 8px;-->
+            <!--padding-top: 6px;-->
+            <!--font-size: 12px;-->
+        <!--}-->
 
-        .friendURl h3 {
-            color: #494949;
-            font-size: 12px;
-        }
+        <!--.friendURl h3 {-->
+            <!--color: #494949;-->
+            <!--font-size: 12px;-->
+        <!--}-->
 
-    </style>
+    <!--</style>-->
     <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/footer-0.6.23.css}">
-    <div class="footer">
-        <ul class="bodyContent">
-            <li class="leftContent" style="cursor:auto">
-                <h3>我们自主研发了T-Nega智能中介识别系统，保护北京租房的租客和房东免受虚假信息的骚扰</h3>
-                <h3>我们汇聚了海量的0中介费北京租房真实信息，帮助北京租房的租客方便省钱地找到房子</h3>
-                <h3>“六度”代表六度空间，“草堂”取自杜甫草堂。让租房真实而简单是我们的理想</h3>
-                <h3>© 2015-2018 107间・北京六度草堂网络科技有限公司出品 联系电话：010-52882522</h3><br/>
-                <h3>增值电信业务经营许可证：京B2-20180418</h3>
-                <h3>京ICP备13034745号 <a target="_blank" href="javascript:void(0)" class="police"
-                                      style="cursor:auto;display:inline-block;color:#CECECE;"><img
-                        src=" "/>京公网安备 11010802022348号</a></h3>
-            </li>
-            <ul class="rightContent">
-                <div class="weUrlList">
-                    <ul class="webURl">
-                        <h3 class="product">产品</h3>
-                        <a href="/" target="_blank">北京租房网</a>
-                        <a href="/chufangbao" target="_blank">出房宝说明</a>
-                        <a href="/z2_a1_1" target="_blank">开始北京租房找房</a>
-                    </ul>
-                    <ul class="webURl">
-                        <h3 class="company">公司</h3>
-                        <a href="http://107room.lofter.com/" target="_blank">官方博客</a>
-                        <a href="/about" target="_blank">关于107间</a>
-                        <a href="/user/feedback" target="_blank">联系我们</a>
-                    </ul>
-                    <ul class="webURl">
-                        <h3 class="help">帮助</h3>
-                        <a href="/newslist_1" target="_blank">北京租房新闻</a>
-                        <a href="/tipslist_1" target="_blank">北京租房攻略</a>
-                        <a href="/doc/protocol" target="_blank">用户协议</a>
-                    </ul>
-                </div>
-                <ul class="friendURl">
-                    <h3 class="friendWeb" style="margin-top: 10px">热门城市</h3>
-                    <a href="http://www.107room.com/" target="_blank">北京租房</a>
-                    <a href="http://sh.107room.com/" target="_blank">上海租房</a>
-                    <a href="http://nj.107room.com/" target="_blank">南京租房</a>
-                    <a href="http://sz.107room.com/" target="_blank">深圳租房</a>
-                    <a href="http://hz.107room.com/" target="_blank">杭州租房</a>
-                    <a href="http://gz.107room.com/" target="_blank">广州租房</a>
-                    <a href="http://zz.107room.com/" target="_blank">郑州租房</a>
-                    <a href="http://cq.107room.com/" target="_blank">重庆租房</a>
-                    <a href="http://cd.107room.com/" target="_blank">成都租房</a>
-                    <a href="http://wh.107room.com/" target="_blank">武汉租房</a>
-                    <a href="http://xa.107room.com/" target="_blank">西安租房</a>
-                    <a href="http://jn.107room.com/" target="_blank">济南租房</a>
-                    <a href="http://tj.107room.com/" target="_blank">天津租房</a>
-                    <a href="http://su.107room.com/" target="_blank">苏州租房</a>
-                    <a href="http://sy.107room.com/" target="_blank">沈阳租房</a>
-                    <a href="http://qd.107room.com/" target="_blank">青岛租房</a>
-                    <a href="http://cs.107room.com/" target="_blank">长沙租房</a>
-                    <a href="http://xm.107room.com/" target="_blank">厦门租房</a>
-                    <a href="http://km.107room.com/" target="_blank">昆明租房</a>
-                    <a href="http://dl.107room.com/" target="_blank">大连租房</a>
-                    <a href="http://cc.107room.com/" target="_blank">长春租房</a>
-                    <a href="http://nb.107room.com/" target="_blank">宁波租房</a>
-                    <a href="http://hrb.107room.com/" target="_blank">哈尔滨租房</a>
-                </ul>
-                <ul class="friendURl">
-                    <h3 class="friendWeb">友站</h3>
-                    <a href="http://www.107room.com/user/feedback" target="_blank">友链交换(PR大于2,权重大于2)</a>
-                </ul>
+    <!--<div class="footer">-->
+        <!--&lt;!&ndash;<ul class="bodyContent">&ndash;&gt;-->
+        <!--&lt;!&ndash;<li class="leftContent" style="cursor:auto">&ndash;&gt;-->
+            <!--&lt;!&ndash;<h3>我们自主研发了T-Nega智能中介识别系统，保护北京租房的租客和房东免受虚假信息的骚扰</h3>&ndash;&gt;-->
+            <!--&lt;!&ndash;<h3>我们汇聚了海量的0中介费北京租房真实信息，帮助北京租房的租客方便省钱地找到房子</h3>&ndash;&gt;-->
+            <!--&lt;!&ndash;<h3>“六度”代表六度空间，“草堂”取自杜甫草堂。让租房真实而简单是我们的理想</h3>&ndash;&gt;-->
+            <!--&lt;!&ndash;<h3>© 2015-2018 107间・北京六度草堂网络科技有限公司出品 联系电话：010-52882522</h3><br/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<h3>增值电信业务经营许可证：京B2-20180418</h3>&ndash;&gt;-->
+            <!--&lt;!&ndash;<h3>京ICP备13034745号 <a target="_blank" href="javascript:void(0)" class="police"&ndash;&gt;-->
+                                  <!--&lt;!&ndash;style="cursor:auto;display:inline-block;color:#CECECE;"><img&ndash;&gt;-->
+                    <!--&lt;!&ndash;src=" "/>京公网安备 11010802022348号</a></h3>&ndash;&gt;-->
+        <!--&lt;!&ndash;</li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ul class="rightContent">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="weUrlList">&ndash;&gt;-->
+        <!--&lt;!&ndash;<ul class="webURl">&ndash;&gt;-->
+        <!--&lt;!&ndash;<h3 class="product">产品</h3>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/" target="_blank">北京租房网</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/chufangbao" target="_blank">出房宝说明</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/z2_a1_1" target="_blank">开始北京租房找房</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ul class="webURl">&ndash;&gt;-->
+        <!--&lt;!&ndash;<h3 class="company">公司</h3>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="http://107room.lofter.com/" target="_blank">官方博客</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/about" target="_blank">关于107间</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/user/feedback" target="_blank">联系我们</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ul class="webURl">&ndash;&gt;-->
+        <!--&lt;!&ndash;<h3 class="help">帮助</h3>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/newslist_1" target="_blank">北京租房新闻</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/tipslist_1" target="_blank">北京租房攻略</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;<a href="/doc/protocol" target="_blank">用户协议</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<ul class="friendURl">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<h3 class="friendWeb" style="margin-top: 10px">热门城市</h3>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://www.107room.com/" target="_blank">北京租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://sh.107room.com/" target="_blank">上海租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://nj.107room.com/" target="_blank">南京租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://sz.107room.com/" target="_blank">深圳租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://hz.107room.com/" target="_blank">杭州租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://gz.107room.com/" target="_blank">广州租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://zz.107room.com/" target="_blank">郑州租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://cq.107room.com/" target="_blank">重庆租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://cd.107room.com/" target="_blank">成都租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://wh.107room.com/" target="_blank">武汉租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://xa.107room.com/" target="_blank">西安租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://jn.107room.com/" target="_blank">济南租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://tj.107room.com/" target="_blank">天津租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://su.107room.com/" target="_blank">苏州租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://sy.107room.com/" target="_blank">沈阳租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://qd.107room.com/" target="_blank">青岛租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://cs.107room.com/" target="_blank">长沙租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://xm.107room.com/" target="_blank">厦门租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://km.107room.com/" target="_blank">昆明租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://dl.107room.com/" target="_blank">大连租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://cc.107room.com/" target="_blank">长春租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://nb.107room.com/" target="_blank">宁波租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://hrb.107room.com/" target="_blank">哈尔滨租房</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</ul>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<ul class="friendURl">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<h3 class="friendWeb">友站</h3>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<a href="http://www.107room.com/user/feedback" target="_blank">友链交换(PR大于2,权重大于2)</a>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</ul>&ndash;&gt;&ndash;&gt;-->
 
-            </ul>
-        </ul>
-    </div>
-    <script>document.write(unescape('%3Cdiv id="hm_t_118688"%3E%3C/div%3E%3Cscript charset="utf-8" src="http://crs.baidu.com/t.js?siteId=be59e7e8fcfc3936690de3a8c9d38dc3&planId=118688&async=0&referer=') + encodeURIComponent(document.referrer) + '&title=' + encodeURIComponent(document.title) + '&rnd=' + (+new Date) + unescape('"%3E%3C/script%3E'));</script>
+        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--<script>document.write(unescape('%3Cdiv id="hm_t_118688"%3E%3C/div%3E%3Cscript charset="utf-8" src="http://crs.baidu.com/t.js?siteId=be59e7e8fcfc3936690de3a8c9d38dc3&planId=118688&async=0&referer=') + encodeURIComponent(document.referrer) + '&title=' + encodeURIComponent(document.title) + '&rnd=' + (+new Date) + unescape('"%3E%3C/script%3E'));</script>-->
     <style type="text/css">
         .adminNav {
             display: block !important;
@@ -569,7 +570,7 @@
         }
     </style>
 
-    <div id="footer" style="display:none;"></div>
+    <!--<div id="footer" style="display:none;"></div>-->
     <script>
 //        (function () {
 //            ReactDOM.render(

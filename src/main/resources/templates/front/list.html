@@ -33,14 +33,14 @@
                             <span class="leftIcon"></span>
                             <span>地图找房</span>
                         </a>
-                        <a class="willSign" href="/contactHouse">
+                        <a class="willSign" href="javascript:void(0)">
                             <span class="rightIcon"></span>
                             <span>我的收藏</span>
                             <span class="signNum" style="display: inline-block;" th:if="${collectCount != null}">[[${collectCount}]]</span>
                         </a>
                     </ul>
                 </div>
-                <div>热门搜索: <span><a target="_blank" href="wwww.baidu.com">小区</a></span> <span>小区</span> <span>小区</span></div>
+                <div>
                 <div class="citySubway">
                     <a href="javascript:void(0)" class="city" style="color:#fff;background:#00ac97;font-weight:bold;">热门区域</a>
                     <!--<a href="/z3_a1_1" class="subway">地铁找房</a>-->
@@ -92,11 +92,11 @@
                     </div>
                     <div class="houseType">
                         <strong href="javascript:void(0)" style="font-weight:bold;" class="areaBold">户型</strong>
-                        <a href="/z2_a1_1" style="color:#00ac97;font-weight:bold;">不限</a>
-                        <a href="/z2_a1-e1_1">1室</a>
-                        <a href="/z2_a1-e2_1">2室</a>
-                        <a href="/z2_a1-e3_1">3室</a>
-                        <a href="/z2_a1-e4_1">4室及以上</a>
+                        <a href="javascript:void(0);" data-bind="*">不限</a>
+                        <a href="javascript:void(0);" data-bind="1">1室</a>
+                        <a href="javascript:void(0);" data-bind="2">2室</a>
+                        <a href="javascript:void(0);" data-bind="3">3室</a>
+                        <a href="javascript:void(0);" data-bind="4-*">4室及以上</a>
                     </div>
                 </div>
                 <div class="demandSelect">
@@ -104,7 +104,7 @@
 
                     <div class="selectMale">
                         <li class="selectEle">
-                            <span>房源来源</span>
+                            <span class="source">房源来源</span>
                             <span class="select_icon one_select_icon">
                     <svg width="13" height="13" viewBox="0 0 200 200">
                         <g class="transform-group">
@@ -117,17 +117,16 @@
                     </svg>
                 </span>
                         </li>
-                        <ul>
-                            <a href="/z2_a1_1" style="background:#f1f1f1;">不限</a>
-                            <a href="/z2_a1-g1_1">107间</a>
-                            <a href="/z2_a1-g2_1">链家</a>
-                            <a href="/z2_a1-g3_1">房天下</a>
+                        <ul class="sourceWebsite">
+                            <a href="javascript:void(0);" data-bind="*" style="background:#f1f1f1;">不限</a>
+                            <!--<a href="javascript:void(0);">链家</a>-->
+                            <!--<a href="/z2_a1-g3_1">房天下</a>-->
                         </ul>
                     </div>
 
                     <div class="selectMale">
                         <li class="selectEle">
-                            <span>出租方式</span>
+                            <span class="way">出租方式</span>
                             <span class="select_icon one_select_icon">
                     <svg width="13" height="13" viewBox="0 0 200 200">
                         <g class="transform-group">
@@ -140,10 +139,10 @@
                     </svg>
                 </span>
                         </li>
-                        <ul>
-                            <a href="/z2_a1_1" style="background:#f1f1f1;">不限</a>
-                            <a href="/z2_a1-f1_1">分租</a>
-                            <a href="/z2_a1-f2_1">整租</a>
+                        <ul class="rentWay">
+                            <a href="javascript:void(0);" data-bind="*" style="background:#f1f1f1;">不限</a>
+                            <a href="javascript:void(0);" data-bind="1">分租</a>
+                            <a href="javascript:void(0);" data-bind="0">整租</a>
                         </ul>
                     </div>
 
@@ -164,9 +163,9 @@
                 <div class="bodyHouseMap">
                     <div class="allHouseSearch">
                         <div class="sortHouse">
-                            <a href="/z2_a1_1" style="font-weight: bold;color:#00ac97">智能排序</a>
-                            <a href="/z2_a1-h1_1">月租价格</a>
-                            <a href="/z2_a1-h2_1">发布时间</a>
+                            <a href="javascript:void(0);" data-bind="_score">智能排序</a>
+                            <a href="javascript:void(0);" data-bind="price">月租价格</a>
+                            <a href="javascript:void(0);" data-bind="releaseTime">发布时间</a>
                             <li class="allHouseNum" style="padding-right:16px;text-align:right;"><span>
                                     [[${houses.count}]]
                                 </span>个符合条件的房子
@@ -201,7 +200,7 @@
                                         <li class="desLi">
                                             <a th:href="'/rent/search/'+${item.sourceUrlId}" class="houseDescibtion" target="_blank">[[${item.title}]]</a>
                                         </li>
-                                        <a th:href="'/rent/search/'+${item.sourceUrlId}" class="dateTime" target="_blank">[[${item.updateTime}]]</a>
+                                        <a th:href="'/rent/search/'+${item.sourceUrlId}" class="dateTime" target="_blank">[[${item.releaseTime}]]</a>
                                     </ul>
                                 </div>
                             </th:block>
@@ -234,17 +233,17 @@
                 </div>
 
                 <!-- 地图显示 -->
-                <div class="mapwrap">
-                    <div id="allmap"></div>
-                    <img class="big" th:src="@{/lib/images/front/map/zoomin.png}">
-                    <img class="small" th:src="@{/lib/images/front/map/zoomout.png}">
-                    <!--<a href="/chufangbao" target='_block'>-->
-                        <!--<img class="mapBottomImg" src="static/image/mbad.png">-->
-                    <!--</a>-->
-                    <!--<img class="mapBottomImg" src="static/image/verify.png">-->
-                    <!--<img class="mapBottomImg"-->
-                    <!--src="http://s107.107room.com/static/image/activity/activity-flat/advertise.png">-->
-                </div>
+                <!--<div class="mapwrap">-->
+                    <!--<div id="allmap"></div>-->
+                    <!--<img class="big" th:src="@{/lib/images/front/map/zoomin.png}">-->
+                    <!--<img class="small" th:src="@{/lib/images/front/map/zoomout.png}">-->
+                    <!--&lt;!&ndash;<a href="/chufangbao" target='_block'>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img class="mapBottomImg" src="static/image/mbad.png">&ndash;&gt;-->
+                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<img class="mapBottomImg" src="static/image/verify.png">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<img class="mapBottomImg"&ndash;&gt;-->
+                    <!--&lt;!&ndash;src="http://s107.107room.com/static/image/activity/activity-flat/advertise.png">&ndash;&gt;-->
+                <!--</div>-->
 
             </div>
 
@@ -255,6 +254,7 @@
             <script src="http://api.map.baidu.com/api?v=2.0&ak=WOelgx1d1R4mLIWsj6Q2lOYQB4FLC0WE"></script>
             <script type="text/javascript" th:src="@{/lib/js/front/house-list-flat.js}"></script>
         </div>
+    </div>
     </div>
 
     <div th:replace="~{front/common/common :: footer}"></div>
@@ -275,35 +275,15 @@
         var data = {
             priceBlock : [[${searchBody.priceBlock}]],
             squareBlock : [[${searchBody.squareBlock}]],
-            region : [[${searchBody.region}]]
+            region : [[${searchBody.region}]],
+            roomNum : [[${searchBody.roomNum}]],
+            rentWay : [[${searchBody.rentWay}]],
+            sourceWebsite : [[${searchBody.sourceWebsite}]],
+            orderBy : [[${searchBody.orderBy}]]
         };
 
         layui.use('laypage', function() {
             var laypage = layui.laypage;
-
-            loadBiaoyu();
-
-            loadRegion();
-
-            $("img.lazy").lazyload({effect: "fadeIn", threshold : 200});  //lazyload初始化函数
-
-            var currentKeyword = [[${searchBody.keyword}]];
-            if (null !== currentKeyword && currentKeyword.length > 0) {
-                data.keyword = currentKeyword;
-                searchBox.val(currentKeyword);
-            }
-
-            $('.monthCost a[data-bind="' + data.priceBlock + '"]').addClass("on");
-            if (!$('.monthCost > a').hasClass("on")) {
-                priceStart.val(data.priceBlock.substring(0, 1));
-                priceEnd.val(data.priceBlock.substring(2));
-            }
-            $('.houseMeasure a[data-bind="' + data.squareBlock + '"]').addClass("on");
-            if (!$('.houseMeasure > a').hasClass("on")) {
-                measureStart.val(data.squareBlock.substring(0, 1));
-                measureEnd.val(data.squareBlock.substring(2));
-            }
-
             laypage.render({
                 elem: 'pageable'
                 ,theme: '#00ac97'
@@ -317,6 +297,141 @@
                     }
                 }
             });
+
+            loadBiaoyu();
+            loadRegion();
+
+            $("img.lazy").lazyload({effect: "fadeIn", threshold : 200});  //lazyload初始化函数
+
+            // 地图找房
+            $(".allResults").on("click", function () {
+                location.href = "/rent/map?city=" + city
+            });
+
+            // 收藏
+            $(".willSign").on("click", function () {
+                $.get('/rent/contactHouse', function (data) {
+                    if (data.code === 401) {
+                        $('.signLogin').show();
+                        return;
+                    }
+
+                    if (data.code === 0) {
+                        window.location.href = '/rent/collectList?city=' + city;
+                    }
+                });
+            });
+
+            // 加载房源来源
+            $.get('/rent/loadWebsite', function (response) {
+                if (response.code === 0) {
+                    $.each(response.data, function (index, item) {
+                        console.log(item);
+                        sourceWebsite.append('<a href="javascript:void(0);" data-bind="'+item.ruleId+'">'+item.websiteName+'</a>');
+                    });
+                }
+                // 房源来源选中
+                if (data.sourceWebsite !== "*") {
+                    var sourceWebsiteVal = $('.sourceWebsite a[data-bind="' + data.sourceWebsite + '"]').text();
+                    $('.source').text(sourceWebsiteVal);
+                }
+            });
+
+            monthCost.delegate('a','click',function () {
+                data.priceBlock = $(this).data("bind");
+                searchButton.click();
+            });
+
+            houseMeasure.delegate('a','click',function () {
+                data.squareBlock = $(this).data("bind");
+                searchButton.click();
+            });
+
+            regions.delegate('a','click',function () {
+                data.region = $(this).data("bind");
+                searchButton.click();
+            });
+
+            houseType.delegate('a','click',function () {
+                data.roomNum = $(this).data("bind");
+                searchButton.click();
+            });
+
+            rentWay.delegate('a','click',function () {
+                data.rentWay = $(this).data("bind");
+                searchButton.click();
+            });
+
+            sourceWebsite.delegate('a','click',function () {
+                data.sourceWebsite = $(this).data("bind");
+                searchButton.click();
+            });
+
+            // 排序
+            sortHouse.delegate('a','click',function () {
+                data.orderBy = $(this).data("bind");
+                if (data.orderBy === "price") {
+                    data.orderDirection = "asc";  // 价格升序
+                }
+                searchButton.click();
+            });
+
+            searchButton.on('click',function(){
+                var keyword = searchBox.val();
+                if (typeof(keyword) !== 'undefined' && keyword !== null && keyword.trim() !== '') {
+                    data.keyword = keyword;
+                }
+                window.location.href = locate_url(1);
+            });
+
+            // 价格输入后确认提交
+            priceAdd.on('click',function(){
+                // var query = searchBox.val();
+                var price1 = priceStart.val();
+                var price2 = priceEnd.val();
+                data.priceBlock = price1 + '-' + price2;
+                searchButton.click();
+            });
+
+            // 面积输入后确认提交
+            areaAdd.on('click',function(){
+                var area1 = measureStart.val();
+                var area2 = measureEnd.val();
+                data.squareBlock = area1 + '-' + area2;
+                searchButton.click();
+            });
+
+            var currentKeyword = [[${searchBody.keyword}]];
+            if (null !== currentKeyword && currentKeyword.length > 0) {
+                data.keyword = currentKeyword;
+                searchBox.val(currentKeyword);
+            }
+
+            $('.monthCost a[data-bind="' + data.priceBlock + '"]').addClass("on");
+            if (!$('.monthCost > a').hasClass("on")) {
+                var priceSplit = data.priceBlock.split("-");
+                priceStart.val(priceSplit[0]);
+                priceEnd.val(priceSplit[1]);
+            }
+
+            $('.houseMeasure a[data-bind="' + data.squareBlock + '"]').addClass("on");
+            if (!$('.houseMeasure > a').hasClass("on")) {
+                var squareSplit = data.squareBlock.split("-");
+                measureStart.val(squareSplit[0]);
+                measureEnd.val(squareSplit[1]);
+            }
+
+            // 户型选中
+            $('.houseType a[data-bind="' + data.roomNum + '"]').addClass("on");
+
+            // 出租方式选中
+            if (data.rentWay !== "*") {
+                var rentWayVal = $('.rentWay a[data-bind="' + data.rentWay + '"]').text();
+                $('.way').text(rentWayVal);
+            }
+
+            // 排序方式选中
+            $('.sortHouse a[data-bind="' + data.orderBy + '"]').addClass("on");
 
             $(".searchBox").autocomplete({
                 minLength: 2, // 最小字符数，默认1
@@ -358,50 +473,6 @@
             }
         }
 
-        monthCost.delegate('a','click',function () {
-            data.priceBlock = $(this).data("bind");
-            searchButton.click();
-        });
-
-        houseMeasure.delegate('a','click',function () {
-            data.squareBlock = $(this).data("bind");
-            searchButton.click();
-        });
-
-        cities.delegate('a', 'click', function () {
-           alert(111111);
-        });
-
-        regions.delegate('a','click',function () {
-            data.region = $(this).data("bind");
-            searchButton.click();
-        });
-
-        searchButton.on('click',function(){
-            var keyword = searchBox.val();
-            if (typeof(keyword) !== 'undefined' && keyword !== null && keyword.trim() !== '') {
-                data.keyword = keyword;
-            }
-            window.location.href = locate_url(1);
-        });
-
-        // 价格输入后确认提交
-        priceAdd.on('click',function(){
-            // var query = searchBox.val();
-            var price1 = priceStart.val();
-            var price2 = priceEnd.val();
-            data.priceBlock = price1 + '-' + price2;
-            searchButton.click();
-        });
-
-        // 面积输入后确认提交
-        areaAdd.on('click',function(){
-            var area1 = measureStart.val();
-            var area2 = measureEnd.val();
-            data.squareBlock = area1 + '-' + area2;
-            searchButton.click();
-        });
-
         function locate_url(curr) {
             var target = '/rent/search?city=' + [[${searchBody.city}]] + '&';
             $.each(data, function (key, value) {
@@ -439,56 +510,6 @@
             });
         }
 
-        function searchHouse(curr) {
-            $.ajax({
-                url: "/rent/search",
-                type: "GET",
-                traditional: true,
-//                data: {
-//                    _method: "DELETE",
-//                    deleteCheck: deleteCheck
-//                },
-                dataType: "json",
-                success: function (data) {
-                    if (data.code === 0) {
-                        $(".houseResult").html(data.data);
-                       setTimeout(function () {
-                           // 房源列表图片懒加载
-                           $(".lazy").lazyload({effect: "fadeIn", threshold : 200});  //lazyload初始化函数
-                       }, 1000);
-                    }
-                }
-            });
-        }
-
-
-        function parsePrice(price) {
-            var priceHtml = '';
-            $.each(price, function (key, val) {
-                if (val.min < 0) {
-                    priceHtml += '<a href="javascript:void(0);" data-price-key='+key+'>'+val.max+'以下</a>'
-                } else if (val.max < 0) {
-                    priceHtml += '<a href="javascript:void(0);" data-price-key='+key+'>'+val.min+'以上</a>'
-                } else {
-                    priceHtml += '<a href="javascript:void(0);" data-price-key='+key+'>'+val.min+'-'+val.max+'</a>'
-                }
-            });
-            return priceHtml;
-        }
-
-        function parseArea(area) {
-            var areaHtml = '';
-            $.each(area, function (key, val) {
-               if (val.min < 0) {
-                   areaHtml += '<a href="javascript:void(0);" data-bind='+key+'>'+val.max+'m<sup>2</sup><span>以下</span></a>';
-               } else if (val.max < 0) {
-                   areaHtml += '<a href="javascript:void(0);" data-bind='+key+'>'+val.min+'m<sup>2</sup><span>以下</span></a>';
-               } else {
-                   areaHtml += '<a href="javascript:void(0);" data-bind='+key+'>'+val.min+' <span>m</span><sup>2</sup><span>-</span>'+val.max+'<span>m</span><sup>2</sup></a>';
-               }
-            });
-            return areaHtml;
-        }
     </script>
 </body>
 </html>

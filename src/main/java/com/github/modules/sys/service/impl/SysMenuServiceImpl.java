@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.*;
@@ -114,5 +115,36 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Override
     public List<String> findPermsByUserId(Long userId) {
         return sysMenuRepository.findPermsByUserId(userId);
+    }
+
+    @Override
+    public List<SysMenuEntity> findIsNotBtn() {
+        List<SysMenuEntity> allMenu = findAll();
+
+        List<SysMenuEntity> isNotBtn = new ArrayList<>();
+        for (SysMenuEntity menuEntity : allMenu) {
+            if (menuEntity.getType() != SysConstant.MenuType.BUTTON.getValue()) {
+                isNotBtn.add(menuEntity);
+            }
+        }
+
+        return isNotBtn;
+    }
+
+    @Transactional
+    @Override
+    public void saveOrUpdate(SysMenuEntity sysMenuEntity) {
+        sysMenuRepository.save(sysMenuEntity);
+    }
+
+    @Override
+    public SysMenuEntity findById(Long menuId) {
+        return sysMenuRepository.findOne(menuId);
+    }
+
+    @Transactional
+    @Override
+    public void deleteBatch(Long[] menuIds) {
+        sysMenuRepository.deleteByMenuIdIn(menuIds);
     }
 }

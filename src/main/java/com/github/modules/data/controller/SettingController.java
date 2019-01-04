@@ -1,5 +1,6 @@
 package com.github.modules.data.controller;
 
+import com.github.common.annotation.SysLog;
 import com.github.common.exception.SHException;
 import com.github.common.utils.ApiResponse;
 import com.github.common.utils.PageUtils;
@@ -74,6 +75,7 @@ public class SettingController {
     /**
      * 保存参数信息
      */
+    @SysLog("保存爬虫参数")
     @PostMapping("/save")
     @ResponseBody
     public ApiResponse save(SettingEntity settingEntity){
@@ -87,7 +89,7 @@ public class SettingController {
     /**
      * 参数信息
      */
-    @GetMapping("/info/{settingId:[1-9]+}")
+    @GetMapping("/info/{settingId:[0-9]+}")
     public String info(@PathVariable Long settingId, Model model){
         model.addAttribute("setting", settingService.findById(settingId));
 
@@ -97,6 +99,7 @@ public class SettingController {
     /**
      * 修改参数信息
      */
+    @SysLog("修改爬虫参数")
     @PutMapping("/update")
     @ResponseBody
     public ApiResponse update(@ModelAttribute("setting") SettingEntity settingEntity){
@@ -115,6 +118,7 @@ public class SettingController {
     /**
      * 删除参数信息
      */
+    @SysLog("删除爬虫参数")
     @DeleteMapping("/delete")
     @ResponseBody
     public ApiResponse delete(@RequestParam("selectIds") Long[] settingIds) {

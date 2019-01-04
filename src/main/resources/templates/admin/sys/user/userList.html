@@ -45,11 +45,11 @@
                         , {field: 'email', title: '邮箱', align: 'center'}
                         , {field: 'mobile', title: '手机号', align: 'center'}
                         , {field: 'status', title: '状态', align: 'center', templet: '#status'}
-                        , {
-                        field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
+                        , {field: 'createUserName', title: '创建者', align: 'center'}
+                        , {field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
                             return moment(d.createTime).format("YYYY-MM-DD HH:mm:ss");
-                        }
-                    }
+                             }
+                         }
                         , {
                         field: 'lastLoginTime', title: '上次登录时间', align: 'center', templet: function (d) {
                             return d.lastLoginTime != undefined ? moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss") : '';
@@ -68,7 +68,7 @@
     });
 
     $("#userDelete").click(function () {
-        layer.confirm('确认删除?', {icon: 3, title: '提示'}, function (index) {
+        layer.confirm('确认删除所选用户?', {icon: 3, title: '提示'}, function (index) {
             var checkStatusData = table.checkStatus('userListTable').data; //获取表格选中行
             var deleteIds = [];
             checkStatusData.forEach(function (val, index) {
@@ -106,83 +106,9 @@
             //do something
             console.log("获得当前行 tr 的DOM对象 = " + tr);
             //同步更新缓存对应的值
-//                obj.update({
-//                    username: '123'
-//                    ,title: 'xxx'
-//                });
         }
     });
 
-
-//    layui.use(['table'], function () {
-//        var table = layui.table;
-
-//        var tableIns = table.render({
-//            elem: '#userList' //指定原始表格元素选择器（推荐id选择器）
-//            , id: 'userListTable'
-//            , url: '/sys/user/list'
-//            , page: true
-//            , height: "full-125"
-//            , limit: 10
-//            , limits: [10, 15, 20, 25, 30]
-//            , request: {
-//                pageName: 'curr' //页码的参数名称，默认：page
-//            }
-//            , parseData: function (res) { //res 即为原始返回的数据
-//                return {
-//                    "code": res.code, //解析接口状态
-//                    "msg": res.msg, //解析提示文本
-//                    "count": res.pageBean.count, //解析数据长度
-//                    "data": res.pageBean.data //解析数据列表
-//                };
-//            }
-//            , cols: [ //二维数组的符号不要连在一起，因为[\[…\]]之间的表达式在thymeleaf被认为是内联表达式,会渲染错误
-//                [
-//                    {field: 'userId', checkbox: true, fixed: 'left', width: 50}
-//                    , {field: 'username', title: '用户名', align: 'center'}
-//                    , {field: 'email', title: '邮箱', align: 'center'}
-//                    , {field: 'mobile', title: '手机号', align: 'center'}
-//                    , {field: 'status', title: '状态', align: 'center', templet: '#status'}
-//                    , {
-//                    field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
-//                        return moment(d.createTime).format("YYYY-MM-DD HH:mm:ss");
-//                    }
-//                }
-//                    , {
-//                    field: 'lastLoginTime', title: '上次登录时间', align: 'center', templet: function (d) {
-//                        return d.lastLoginTime != undefined ? moment(d.lastLoginTime).format("YYYY-MM-DD HH:mm:ss") : '';
-//                    }
-//                }
-//                    , {title: '操作', width: 270, toolbar: '#userListBar', fixed: "right", align: "center"}
-//                ]
-//            ]
-//        });
-
-
-
-
-
-//        var active = {
-//            reload: function () {
-//                var usernameSearch = $('#usernameSearch');
-//                //执行重载
-//                table.reload('userListTable', {
-//                    page: {
-//                        curr: 1 //重新从第 1 页开始
-//                    }
-//                    , where: {
-//                        keyword: usernameSearch.val()
-//                    }
-//                });
-//            }
-//        };
-//
-//        $('#userRefresh').on('click', function () {
-//            var type = $(this).data('type');
-//            active[type] ? active[type].call(this) : '';
-//        });
-
-//    });
 </script>
 
 

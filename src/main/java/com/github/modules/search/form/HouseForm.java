@@ -17,17 +17,21 @@ public class HouseForm extends PageForm implements Serializable {
 
     private String city = SysConstant.DEFAULT_CITY;
 
-    private String region;
+    private String region = "*";
 
     private String priceBlock;
 
     private String squareBlock;
 
-    private String houseType;
+    private String roomNum = "*";
 
-    private String rentWay;
+    private String rentWay = "*";
 
-    private String sourceWebsite;
+    private String sourceWebsite = "*";
+
+    private String orderBy = "_score";
+
+    private String orderDirection = "desc";
 
     public HouseForm() {
 
@@ -37,26 +41,28 @@ public class HouseForm extends PageForm implements Serializable {
         this.city = city;
     }
 
-    public HouseForm(int curr, int limit, String city, String region, String priceBlock, String squareBlock, String houseType, String rentWay, String sourceWebsite) {
+    public HouseForm(int curr, int limit, String city, String region, String priceBlock, String squareBlock, String roomNum, String rentWay, String sourceWebsite, String orderBy) {
         super(curr, limit);
         this.city = city;
         this.region = region;
         this.priceBlock = priceBlock;
         this.squareBlock = squareBlock;
-        this.houseType = houseType;
+        this.roomNum = roomNum;
         this.rentWay = rentWay;
         this.sourceWebsite = sourceWebsite;
+        this.orderBy = orderBy;
     }
 
-    public HouseForm(int curr, int limit, String keyword, String city, String region, String priceBlock, String squareBlock, String houseType, String rentWay, String sourceWebsite) {
+    public HouseForm(int curr, int limit, String keyword, String city, String region, String priceBlock, String squareBlock, String roomNum, String rentWay, String sourceWebsite, String orderBy) {
         super(curr, limit, keyword);
         this.city = city;
         this.region = region;
         this.priceBlock = priceBlock;
         this.squareBlock = squareBlock;
-        this.houseType = houseType;
+        this.roomNum = roomNum;
         this.rentWay = rentWay;
         this.sourceWebsite = sourceWebsite;
+        this.orderBy = orderBy;
     }
 
     public String getCity() {
@@ -91,12 +97,12 @@ public class HouseForm extends PageForm implements Serializable {
         this.squareBlock = squareBlock;
     }
 
-    public String getHouseType() {
-        return houseType;
+    public String getRoomNum() {
+        return roomNum;
     }
 
-    public void setHouseType(String houseType) {
-        this.houseType = houseType;
+    public void setRoomNum(String roomNum) {
+        this.roomNum = roomNum;
     }
 
     public String getRentWay() {
@@ -113,5 +119,21 @@ public class HouseForm extends PageForm implements Serializable {
 
     public void setSourceWebsite(String sourceWebsite) {
         this.sourceWebsite = sourceWebsite;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getOrderDirection() {
+        return orderDirection;
+    }
+
+    public void setOrderDirection(String orderDirection) {
+        this.orderDirection = orderDirection;
     }
 }

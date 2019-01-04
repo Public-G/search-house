@@ -42,7 +42,7 @@
 <script th:src="@{/lib/js/plugin/sockjs.min.js}"></script>
 <script th:src="@{/lib/js/plugin/stomp.min.js}"></script>
 <script th:src="@{/lib/js/plugin/echarts.min.js}"></script>
-
+<script type="text/javascript" th:src="@{/lib/js/plugin/jquery.cookie.min.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     var stompClient = null;
     var itemStyle, sizeFunction, option;
@@ -61,9 +61,11 @@
         "series" : [
         ]
     };
+    $.cookie("schedule", schedule);
 
     // 根据节点ID记录时间
     var timeRecord = new Map();
+    $.cookie("timeRecord", timeRecord);
 
     // 表格渲染
     tableIns = table.render({
@@ -149,27 +151,6 @@
         }
     });
 
-
-
-//    function loadclusterList(reload) {
-//        $.get("/data/spider/check", function (data) {
-//            if (data.code === code_success) {
-//                $("#cluster_list_body").html(data.data);
-//                    if (reload) {
-//                        console.log("重载=======");
-//                        table.reload('clusterListTable');
-//                    } else {
-//                        table.init('clusterList', {
-//                            height: 80
-//                        });
-//                    }
-//
-//            } else {
-//                layer.msg(data.msg, {icon: 2, anim: 6, time: 1000});
-//            }
-//        });
-//    }
-
     function initEcharts() {
         itemStyle = {
             normal: {
@@ -183,7 +164,7 @@
 
         sizeFunction = function (x) {
             var y = Math.sqrt(x / 5e1) + 0.1;
-            return y * 80;
+            return y * 60;
         };
 
         // Schema:
@@ -205,7 +186,7 @@
                     color: 'rgba(255, 255, 255, 0.7)'
                 }
             }, {
-                text: '各国人均寿命与GDP关系演变',
+                text: '爬虫节点获取数据情况',
                 left: 'center',
                 top: 10,
                 textStyle: {
@@ -320,8 +301,32 @@
             console.log('开始进行连接Connected: ' + frame);
             // 订阅服务器的目标
             stompClient.subscribe('/topic/realTime', function (response) {
-                if (JSON.parse(response.body).clientId) {
-                    showEcharts(JSON.parse(response.body).clientId);
+                var headers = JSON.parse(response.body);
+
+                // 爬虫完成
+                if (headers.code) {
+                    var series =  $.cookie("schedule").series;
+                    var seriesLength = series.length;
+                    var count;
+                    var speed;
+                    for (var i = 0; i < seriesLength; i++) {
+                        count += series[i][1]; // 数据数
+                        speed += series[i][0]  //平均速度
+                    }
+                    speed = speed / seriesLength; //节点平均速度
+                    layer.alert('爬取结束\n数据总数：' + count + "，平均速度：" + speed, {
+                        skin: 'layui-layer-molv' //样式类名
+                        ,closeBtn: 0
+                    }, function(){
+                        parent.layer.close(index); //关闭
+                        parent.location.reload(); //刷新父页面
+                    });
+                    return
+                }
+
+                // 节点情况
+                if (headers.clientId) {
+                    showEcharts(headers.clientId);
                 }
             });
         });
@@ -330,30 +335,32 @@
     function showEcharts(_clientId) {
         var clientId = _clientId;
 
-        var series = schedule.series;
-        if (schedule.node.indexOf(clientId) !== -1) {
+        var cookieSchedule = $.cookie("schedule");
+        var cookieTimeRecord =  $.cookie("timeRecord");
+
+        var series = cookieSchedule.series;
+        if (cookieSchedule.node.indexOf(clientId) !== -1) {
             for (var i = 0; i < series.length; i++) {
                 if (series[i].indexOf(clientId) !== -1) {
                     series[i][1] = series[i][1] + 1; // 数据数+1
 
                     var nowTime = new Date().getTime();
-                    var difference = nowTime - timeRecord.get(clientId);
-                    if (difference > 15000) { // 5s计算一次
+                    var difference = nowTime - cookieTimeRecord.get(clientId + '-time');
+                    if (difference > 15000) { // 15s计算一次
                         var nowDataCount = series[i][1];
-                        var lastDatCount = timeRecord.get(clientId + "-data");
+                        var lastDatCount = cookieTimeRecord.get(clientId + "-data");
                         series[i][0] = Math.round((nowDataCount - lastDatCount) / (difference / 60000));  // 计算速度(也是半径)
-                        timeRecord.set(clientId + "-time", new Date().getTime()); // 重置时间戳
-                        timeRecord.set(clientId + "-data", series[i][1]); // 重置数据量
+                        cookieTimeRecord.set(clientId + "-time", new Date().getTime()); // 重置时间戳
+                        cookieTimeRecord.set(clientId + "-data", series[i][1]); // 重置数据量
                     }
                     break;
                 }
             }
         } else {
-            schedule.node.push(clientId);
-            schedule.series.push([0, 1, clientId]);
-            timeRecord.set(clientId + "-time", new Date().getTime()); // 记录时间戳
-            timeRecord.set(clientId + "-data", 1)
-            console.log("数据量====" + timeRecord.get(clientId + "-data"));
+            cookieSchedule.node.push(clientId);
+            cookieSchedule.series.push([0, 1, clientId]);
+            cookieTimeRecord.set(clientId + "-time", new Date().getTime()); // 记录时间戳
+            cookieTimeRecord.set(clientId + "-data", 1);
         }
 
         var dataCount = 0;
@@ -369,7 +376,7 @@
             visualMap: {
                 show: false,
                 dimension: 3, // 指定用数据的『哪个维度』，映射到视觉元素上
-                categories: schedule.node, // 用于表示离散型数据（或可以称为类别型数据、枚举型数据）的全集
+                categories: cookieSchedule.node, // 用于表示离散型数据（或可以称为类别型数据、枚举型数据）的全集
                 calculable: true,
                 precision: 0.1, // 数据展示的小数精度，默认为0，无小数点
                 textGap: 30, // 两端文字主体之间的距离，单位为px
@@ -386,7 +393,7 @@
             series: {
                 type: 'scatter',
                 itemStyle: itemStyle,
-                data: schedule.series,
+                data: cookieSchedule.series,
                 symbolSize: function (val) { // 标记的大小
                     return sizeFunction(val[0]);
                 }

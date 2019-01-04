@@ -35,4 +35,23 @@ public interface SysMenuService {
      */
     List<String> findPermsByUserId(Long userId);
 
+    /**
+     * 获取除按钮意外的菜单
+     * @return
+     */
+    List<SysMenuEntity> findIsNotBtn();
+
+    /**
+     * 保存/更新 菜单
+     */
+    void saveOrUpdate(SysMenuEntity sysMenuEntity);
+
+    /**
+     * 根据ID查询菜单
+     * @param menuId
+     * @return
+     */
+    SysMenuEntity findById(Long menuId);
+
+    void deleteBatch(Long[] menuIds);
 }

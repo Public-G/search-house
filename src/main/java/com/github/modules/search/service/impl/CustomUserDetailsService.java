@@ -3,6 +3,7 @@ package com.github.modules.search.service.impl;
 import com.github.modules.search.entity.UserEntity;
 import com.github.modules.search.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,6 +31,10 @@ public class CustomUserDetailsService implements UserDetailsService {
             userEntity = user;
         }
 
-        return userService.save(userEntity);
+        UserEntity saveResult = userService.save(userEntity);
+
+        // 授予普通用户权限
+        saveResult.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList("GENERAL_USER"));
+        return saveResult;
     }
 }

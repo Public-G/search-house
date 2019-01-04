@@ -5,11 +5,12 @@ import com.github.common.exception.SHException;
 import com.github.common.utils.ApiResponse;
 import com.github.common.utils.CustomResponseWrapper;
 import com.github.common.utils.PageUtils;
-import com.github.modules.data.entity.SupportAreaEntity;
+import com.github.modules.data.entity.RuleEntity;
+import com.github.modules.data.service.RuleService;
 import com.github.modules.data.service.SpiderService;
-import com.github.modules.data.service.SupportAreaService;
 import com.github.modules.search.constant.HouseIndexConstant;
 import com.github.modules.search.dto.HouseDTO;
+import com.github.modules.search.dto.HouseListDTO;
 import com.github.modules.search.entity.CollectEntity;
 import com.github.modules.search.entity.UserEntity;
 import com.github.modules.search.form.HouseForm;
@@ -52,6 +53,9 @@ public class SearchController extends AbstractController {
 
     @Autowired
     private SpiderService spiderService;
+
+    @Autowired
+    private RuleService ruleService;
 
     @Autowired
     private CollectService collectService;
@@ -106,9 +110,6 @@ public class SearchController extends AbstractController {
             model.addAttribute("collectCount", count);
         }
 
-        if (StringUtils.isBlank(houseForm.getRegion())) {
-            houseForm.setRegion("*");
-        }
         houseForm.setLimit(pageBean.getData().size());
         houseForm.setPriceBlock(ConditionRangeUtils.matchPrice(houseForm.getPriceBlock()).getKey());
         houseForm.setSquareBlock(ConditionRangeUtils.matchArea(houseForm.getSquareBlock()).getKey());
@@ -133,6 +134,15 @@ public class SearchController extends AbstractController {
         return "front/detail";
     }
 
+    /**
+     * 房源来源
+     */
+    @GetMapping("/loadWebsite")
+    @ResponseBody
+    public ApiResponse loadWebsite() {
+        List<RuleEntity> allRule = ruleService.findAll();
+        return ApiResponse.ofSuccess().put("data", allRule);
+    }
 
     /**
      * 是否收藏
@@ -194,6 +204,37 @@ public class SearchController extends AbstractController {
         collectService.delete(userId, houseId);
 
         return ApiResponse.ofSuccess();
+    }
+
+    /**
+     * 查看收藏
+     */
+    @GetMapping("/contactHouse")
+    @ResponseBody
+    public ApiResponse contactHouse() {
+        Long userId = getUserId();
+
+        checkUser(userId);
+
+        return ApiResponse.ofSuccess();
+    }
+
+    /**
+     * 跳转收藏页
+     */
+    @GetMapping("/collectList")
+    public String collectList(Model model) {
+        Long userId = getUserId();
+
+        if (userId != null) {
+            List<HouseListDTO> houseListDTOList = searchService.queryById(userId);
+            int count = collectService.findCount(userId);
+
+            model.addAttribute("collect", houseListDTOList);
+            model.addAttribute("collectCount", count);
+        }
+
+        return "front/contactHouse";
     }
 
     private void checkUser(Long userId) {

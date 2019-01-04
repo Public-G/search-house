@@ -1,5 +1,9 @@
 package com.github.modules.sys.entity;
 
+import com.github.common.validator.group.AddGroup;
+import com.github.common.validator.group.UpdateGroup;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -16,15 +20,24 @@ public class SysRoleEntity implements Serializable {
     private static final long serialVersionUID = 14376534534L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id")
     private Long roleId;
 
     @Column(name = "role_name")
+    @NotBlank(message="角色名不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String roleName;
 
     private String remark;
 
     @Column(name = "create_user_id")
     private Long createUserId;
+
+    /**
+     * 创建者名称
+     */
+    @Transient
+    private String createUserName;
 
     @Column(name = "create_time")
     @Temporal(TemporalType.TIMESTAMP)
@@ -71,6 +84,14 @@ public class SysRoleEntity implements Serializable {
 
     public void setCreateUserId(Long createUserId) {
         this.createUserId = createUserId;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
     }
 
     public Date getCreateTime() {

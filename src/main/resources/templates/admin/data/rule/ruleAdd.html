@@ -20,21 +20,32 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">类型</label>
+        <label class="layui-form-label">动态的数据</label>
         <div class="layui-input-block">
-            <select name="attribute" lay-verify="required">
-                <option value=""></option>
-                <option value="0">个人</option>
-                <option value="1">中介</option>
-                <option value="2">使用分类器</option>
-            </select>
+            <input type="radio" name="isDynamic" value="0" title="是">
+            <input type="radio" name="isDynamic" value="1" title="否" checked="">
         </div>
+        <!--<div class="layui-input-block">-->
+            <!--<select name="attribute" lay-verify="required">-->
+                <!--<option value=""></option>-->
+                <!--<option value="0">个人</option>-->
+                <!--<option value="1">中介</option>-->
+                <!--<option value="2">使用分类器</option>-->
+            <!--</select>-->
+        <!--</div>-->
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">爬取的域名</label>
         <div class="layui-input-block">
             <input type="text" name="allowedDomains" lay-verify="required" autocomplete="off" placeholder="爬取的域名，多个请用逗号分隔，例如：a.com,b.com" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">爬虫类类名</label>
+        <div class="layui-input-block">
+            <input type="text" name="crawlName" autocomplete="off" placeholder="爬虫类类名，默认使用通用爬虫类" class="layui-input">
         </div>
     </div>
 

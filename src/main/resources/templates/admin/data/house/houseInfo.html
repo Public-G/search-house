@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;" th:object="${house}">
+    <input name="sourceUrlId" type="hidden" th:value="*{sourceUrlId}">
+    <input name="_method" type="hidden" th:value="PUT">
+
+    <div class="layui-row">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">城市</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="city" th:value="*{city}" lay-verify="required" placeholder="城市">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">区域</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="region" th:value="*{region}" placeholder="区域">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" th:value="*{title}" autocomplete="off" placeholder="标题" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-row">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">价格</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="price" th:value="*{price}" lay-verify="required" placeholder="价格">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">面积</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="square" th:value="*{square}" placeholder="区域">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">户型</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="houseType" th:value="*{houseType}" placeholder="户型">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">小区</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="community" th:value="*{community}" placeholder="小区">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">房间数</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="roomNum" th:value="*{roomNum}" lay-verify="required" placeholder="房间数">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">出租方式</label>
+            <div class="layui-input-block">
+                <input type="radio" name="rentWay" value="0" th:field="*{rentWay}" title="整租">
+                <input type="radio" name="rentWay" value="1" th:field="*{rentWay}" title="合租">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="address" th:value="*{address}" autocomplete="off" placeholder="地址" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">图片链接</label>
+        <div class="layui-input-block">
+            <input type="text" name="imgHref" th:value="*{imgHref}" autocomplete="off" placeholder="图片链接" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">源链接</label>
+        <div class="layui-input-block">
+            <input type="text" name="sourceUrl" th:value="*{sourceUrl}" autocomplete="off" placeholder="源链接" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" name="description">[[*{description}]]</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">更新时间</label>
+        <div class="layui-input-block">
+            <input type="text" name="releaseTime" th:value="*{releaseTime}" placeholder="更新时间" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="house_submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<div th:replace="~{admin/common/common :: script}"></div>
+<script>
+    layui.formSubmit('house_submit', '/data/house/update');
+</script>
+</body>
+</html>

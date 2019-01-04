@@ -40,6 +40,12 @@ public class RuleEntity implements Serializable {
     private String allowedDomains;
 
     /**
+     * 爬虫类类名
+     */
+    @Column(name = "crawl_name")
+    private String crawlName;
+
+    /**
      * 详情页循环入口
      */
     @Column(name = "loop_start")
@@ -123,10 +129,11 @@ public class RuleEntity implements Serializable {
     private String websiteName;
 
     /**
-     * 类型 0：个人  1：中介  2：使用分类器
+     * 是否动态数据，0-是；1-否
      */
-    @NotNull(message = "属性不能为空",  groups = {AddGroup.class, UpdateGroup.class})
-    private int attribute;
+    @NotNull(message = "未选择是否动态数据",  groups = {AddGroup.class, UpdateGroup.class})
+    @Column(name = "is_dynamic")
+    private int isDynamic;
 
     /**
      * 发布时间
@@ -149,9 +156,10 @@ public class RuleEntity implements Serializable {
     public RuleEntity() {
     }
 
-    public RuleEntity(String ruleName, String allowedDomains, String loopStart, String nextUrl, String detailUrl, String region, String title, String community, String address, String price, String square, String description, String imgHref, String houseType, String rentWay, String websiteName, int attribute, String releaseTime, Date createTime, Date updateTime) {
+    public RuleEntity(String ruleName, String allowedDomains, String crawlName, String loopStart, String nextUrl, String detailUrl, String region, String title, String community, String address, String price, String square, String description, String imgHref, String houseType, String rentWay, String websiteName, int isDynamic, String releaseTime, Date createTime, Date updateTime) {
         this.ruleName = ruleName;
         this.allowedDomains = allowedDomains;
+        this.crawlName = crawlName;
         this.loopStart = loopStart;
         this.nextUrl = nextUrl;
         this.detailUrl = detailUrl;
@@ -166,7 +174,7 @@ public class RuleEntity implements Serializable {
         this.houseType = houseType;
         this.rentWay = rentWay;
         this.websiteName = websiteName;
-        this.attribute = attribute;
+        this.isDynamic = isDynamic;
         this.releaseTime = releaseTime;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -194,6 +202,14 @@ public class RuleEntity implements Serializable {
 
     public void setAllowedDomains(String allowedDomains) {
         this.allowedDomains = allowedDomains;
+    }
+
+    public String getCrawlName() {
+        return crawlName;
+    }
+
+    public void setCrawlName(String crawlName) {
+        this.crawlName = crawlName;
     }
 
     public String getLoopStart() {
@@ -308,12 +324,12 @@ public class RuleEntity implements Serializable {
         this.websiteName = websiteName;
     }
 
-    public int getAttribute() {
-        return attribute;
+    public int getIsDynamic() {
+        return isDynamic;
     }
 
-    public void setAttribute(int attribute) {
-        this.attribute = attribute;
+    public void setIsDynamic(int isDynamic) {
+        this.isDynamic = isDynamic;
     }
 
     public String getReleaseTime() {

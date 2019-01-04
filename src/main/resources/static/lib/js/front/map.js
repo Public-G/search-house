@@ -17,6 +17,8 @@ function load(city, aggData) {
         regionCountMap[aggData[i].key] = aggData[i].count;
     }
 
+    drawRegion(city); // 刻画区域
+
     map.addEventListener("zoomend", function () {
         if (this.getZoom() > 12) {
             navigationControl.show();
@@ -46,8 +48,6 @@ function load(city, aggData) {
             scaleControl.hide();
         }
     });
-
-    drawRegion(city);
 }
 
 function drawRegion(city) {
@@ -116,7 +116,7 @@ function drawRegion(city) {
         polygonContext[textContent] = []; // 边界点集合
 
         (function (textContent) {
-            boundary.get(city + regionList[i].name, function (rs) {
+            boundary.get(city + regionList[i].name, function (rs) { // 城市+区域获取边界点集合
 
                 var count = rs.boundaries.length; // 行政区域边界点集合长度
                 if (count === 0) {
@@ -189,7 +189,7 @@ function houseTip(e) {
     var searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, {
         title: customPoi.title, // 标题
         width: 300,
-        height: 80,
+        height: 100,
         panel: "panel", // 搜索结果面板
         enableAutoPan: true, // 自动平移
         enableSendToPhone: false, // 是否显示发送到手机按钮

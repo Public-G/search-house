@@ -4,7 +4,6 @@ import com.github.common.constant.SysConstant;
 import com.github.common.utils.PageUtils;
 import com.github.modules.base.form.PageForm;
 import com.github.modules.data.entity.ScheduleJobEntity;
-import com.github.modules.data.entity.SupportAreaEntity;
 import com.github.modules.data.repository.ScheduleJobRepository;
 import com.github.modules.data.service.ScheduleJobService;
 import com.github.modules.data.utils.ScheduleUtils;

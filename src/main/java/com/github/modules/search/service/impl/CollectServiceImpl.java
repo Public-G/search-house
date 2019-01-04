@@ -22,9 +22,7 @@ public class CollectServiceImpl implements CollectService {
 
     @Override
     public List<CollectEntity> findByUserId(Long userId) {
-        return findHouseId(userId);
-
-        // TODO ES批量查询
+        return collectRepository.findByUserId(userId);
     }
 
     @Override

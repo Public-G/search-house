@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;">
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">角色名</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="roleName" lay-verify="required|roleName" placeholder="请输入角色名">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="remark" placeholder="请输入备注">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择权限</label>
+        <div class="layui-input-block">
+            <div id="LAY-auth-tree-index"></div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="role_submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<div th:replace="~{admin/common/common :: script}"></div>
+</body>
+</html>
+<script type="text/javascript">
+    layui.config({
+        base: '/lib/layui/extends/'
+    }).extend({
+        authtree: 'authtree'
+    });
+
+    layui.use(['authtree'], function(){
+        var authtree = layui.authtree;
+        $.ajax({
+            url: '/sys/role/menu',
+            type: "get",
+            dataType: 'json',
+            success: function(data){
+                if (data.code === code_success) {
+                    var opt = {
+                        primaryKey : "menuId",
+                        parentKey : "parentId",
+                        nameKey : "menuName",
+                        valueKey : "menuId"
+                    };
+                   var trees =  authtree.listConvert(data.data, opt);
+                    // 如果后台返回的不是树结构，请使用 authtree.listConvert 转换
+                    authtree.render('#LAY-auth-tree-index', trees, {
+                        inputname: 'authids[]',
+                        layfilter: 'lay-check-auth',
+                        autowidth: true
+                    });
+                }
+            }
+        });
+
+        form.verify({
+            roleName: function (value) {
+                var msg = '';
+                $.ajax({
+                    url: "/sys/role/verify",
+                    type: "GET",
+                    async: false,
+                    data: {
+                        roleName: value
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code === code_fail) {
+                            msg = data.msg;
+                        }
+                    }
+                });
+                return msg;
+            }
+        });
+
+        layui.formSubmit('role_submit', '/sys/role/save');
+    });
+
+</script>

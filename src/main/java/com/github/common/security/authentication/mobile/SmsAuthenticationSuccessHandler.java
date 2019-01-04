@@ -23,7 +23,7 @@ public class SmsAuthenticationSuccessHandler implements AuthenticationSuccessHan
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
-        System.out.println(objectMapper.writeValueAsString(authentication));
+//        System.out.println(objectMapper.writeValueAsString(authentication));
         response.setContentType(SysConstant.CONTENT_TYPE_JSON);
         response.getWriter().write(objectMapper.writeValueAsString(
                 ApiResponse.ofMessage(ApiResponse.ResponseStatus.SUCCESS.getCode(),

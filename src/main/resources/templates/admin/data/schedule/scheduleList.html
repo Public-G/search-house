@@ -46,7 +46,8 @@
 
 <!-- 操作 -->
 <script type="text/html" id="scheduleListBar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 修改</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
 </script>
 
 <script type="text/javascript">
@@ -69,7 +70,7 @@
                 }
             }
             , {field: 'status', title: '状态', align: 'center', width: 100, templet: '#status'}
-            , {title: '操作', width: 140, toolbar: '#scheduleListBar', fixed: "right", align: "center"}
+            , {title: '操作', width: 160, toolbar: '#scheduleListBar', fixed: "right", align: "center"}
         ]
     ];
 
@@ -141,6 +142,13 @@
 
         if (layEvent === 'edit') { //修改
             alertByFull("修改定时任务", "/data/schedule/info/" + data.jobId);
+        }  else if(layEvent === 'delete') {
+            layer.confirm('确认删除任务?', {icon: 3, title: '提示'}, function (index) {
+                var selectIds = [];
+                selectIds.push(data.jobId);
+                doBatch(selectIds, "/data/schedule/delete", "DELETE");
+                layer.close(index);
+            });
         }
     });
 

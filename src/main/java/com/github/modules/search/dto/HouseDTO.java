@@ -29,8 +29,8 @@ public class HouseDTO extends HouseListDTO implements Serializable {
         super();
     }
 
-    public HouseDTO(String sourceUrlId, String title, String imgHref, String region, String community, Integer price, String houseType, String updateTime, String city, String title1, Integer square, String rentWay, String address, String sourceUrl, String description1) {
-        super(sourceUrlId, title, imgHref, region, community, price, houseType, updateTime);
+    public HouseDTO(String sourceUrlId, String title, String imgHref, String region, String community, Integer price, String houseType, String releaseTime, String city, String title1, Integer square, String rentWay, String address, String sourceUrl, String description1) {
+        super(sourceUrlId, title, imgHref, region, community, price, houseType, releaseTime);
         this.city = city;
         this.title = title1;
         this.square = square;

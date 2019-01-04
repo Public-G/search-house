@@ -1,10 +1,16 @@
 package com.github.modules.search.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.common.utils.PageUtils;
+import com.github.modules.data.pojo.HouseIndexTemplate;
+import com.github.modules.data.service.HouseService;
 import com.github.modules.search.constant.HouseIndexConstant;
 import com.github.modules.search.dto.HouseDTO;
 import com.github.modules.search.dto.HouseListDTO;
+import com.github.modules.search.entity.CollectEntity;
 import com.github.modules.search.form.HouseForm;
+import com.github.modules.search.form.HouseSort;
+import com.github.modules.search.service.CollectService;
 import com.github.modules.search.service.SearchService;
 
 import com.github.modules.search.utils.ConditionRangeUtils;
@@ -12,6 +18,9 @@ import org.apache.catalina.startup.HomesUserDatabase;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.get.MultiGetItemResponse;
+import org.elasticsearch.action.get.MultiGetRequestBuilder;
+import org.elasticsearch.action.get.MultiGetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -20,6 +29,7 @@ import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.rescore.QueryRescorerBuilder;
 import org.elasticsearch.search.rescore.RescoreBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.search.suggest.Suggest;
 import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.search.suggest.SuggestBuilders;
@@ -32,6 +42,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service("searchService")
@@ -44,6 +55,15 @@ public class SearchServiceImpl implements SearchService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private CollectService collectService;
+
+    @Autowired
+    private HouseService houseService;
 
     @Override
     public Set<String> suggest(String prefix) {
@@ -95,55 +115,11 @@ public class SearchServiceImpl implements SearchService {
     public PageUtils query(HouseForm houseForm) {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
 
-        boolQueryBuilder.filter(
-                QueryBuilders.termQuery(HouseIndexConstant.CITY, houseForm.getCity())
-        );
+        // 筛选条件
+        addOption(boolQueryBuilder, houseForm);
 
-        if (StringUtils.isNotBlank(houseForm.getRegion()) && !"*".equals(houseForm.getRegion())) {
-            boolQueryBuilder.filter(
-                    QueryBuilders.termQuery(HouseIndexConstant.REGION, houseForm.getRegion())
-            );
-        }
-
-        if (StringUtils.isNotBlank(houseForm.getRentWay())) {
-            boolQueryBuilder.filter(
-                    QueryBuilders.termQuery(HouseIndexConstant.RENT_WAY, houseForm.getRentWay())
-            );
-        }
-
-        if (StringUtils.isNotBlank(houseForm.getSourceWebsite())) {
-            boolQueryBuilder.filter(
-                    QueryBuilders.termQuery(HouseIndexConstant.WEBSITE, houseForm.getSourceWebsite())
-            );
-        }
-
-        ConditionRangeUtils squareCondition = ConditionRangeUtils.matchArea(houseForm.getSquareBlock());
-        if (!ConditionRangeUtils.ALL.equals(squareCondition)) {
-            RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery(HouseIndexConstant.SQUARE);
-            if (squareCondition.getMin() > 0) {
-                rangeQueryBuilder.gte(squareCondition.getMin());
-            }
-
-            if (squareCondition.getMax() > 0) {
-                rangeQueryBuilder.lte(squareCondition.getMax());
-            }
-            boolQueryBuilder.filter(rangeQueryBuilder);
-        }
-
-        ConditionRangeUtils priceCondition = ConditionRangeUtils.matchPrice(houseForm.getPriceBlock());
-        if (!ConditionRangeUtils.ALL.equals(priceCondition)) {
-            RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery(HouseIndexConstant.PRICE);
-            if (priceCondition.getMin() > 0) {
-                rangeQueryBuilder.gte(priceCondition.getMin());
-            }
-
-            if (priceCondition.getMax() > 0) {
-                rangeQueryBuilder.lte(priceCondition.getMax());
-            }
-            boolQueryBuilder.filter(rangeQueryBuilder);
-        }
-
-        SearchRequestBuilder searchRequestBuilder;
+        SearchRequestBuilder searchRequestBuilder = esClient.prepareSearch(HouseIndexConstant.INDEX_NAME)
+                .setTypes(HouseIndexConstant.TYPE_NAME);
 
         if (StringUtils.isNotBlank(houseForm.getKeyword())) {
             // 以下field满足其中之一即可。
@@ -160,7 +136,7 @@ public class SearchServiceImpl implements SearchService {
                             .field(HouseIndexConstant.DESCRIPTION)
                             .type(MultiMatchQueryBuilder.Type.BEST_FIELDS)
                             .tieBreaker(0.4f)
-                            .minimumShouldMatch("75%"));
+                            .minimumShouldMatch("50%"));
 
             QueryRescorerBuilder queryRescorerBuilder = RescoreBuilder.queryRescorer(boolQueryBuilder.should(
                     // 使用近似匹配实现召回率与精准度的平衡，should匹配到将会贡献分数
@@ -174,20 +150,16 @@ public class SearchServiceImpl implements SearchService {
                             .should(QueryBuilders.matchPhraseQuery(
                                     HouseIndexConstant.DESCRIPTION, houseForm.getKeyword()).slop(10))));
 
-            searchRequestBuilder = esClient.prepareSearch(HouseIndexConstant.INDEX_NAME)
-                    .setTypes(HouseIndexConstant.TYPE_NAME)
-                    .setFrom(houseForm.getCurr() - 1)
-                    .setSize(houseForm.getLimit())
-                    .setQuery(boolQueryBuilder)
-                    // 前50条使用重打分机制优化近似匹配搜索的性能
-                    .setRescorer(queryRescorerBuilder, 50);
-        } else {
-            searchRequestBuilder = esClient.prepareSearch(HouseIndexConstant.INDEX_NAME)
-                    .setTypes(HouseIndexConstant.TYPE_NAME)
-                    .setFrom(houseForm.getCurr() - 1)
-                    .setSize(houseForm.getLimit())
-                    .setQuery(boolQueryBuilder);
+            // 前50条使用重打分机制优化近似匹配搜索的性能
+            searchRequestBuilder.setRescorer(queryRescorerBuilder, 50);
         }
+
+        searchRequestBuilder.setFrom(houseForm.getCurr() - 1)
+                            .setSize(houseForm.getLimit())
+                            .setQuery(boolQueryBuilder)
+                            .addSort(HouseSort.getSortKey(houseForm.getOrderBy()),
+                                        SortOrder.fromString(houseForm.getOrderDirection()
+                                    ));
 
         logger.debug(searchRequestBuilder.toString());
 
@@ -197,7 +169,6 @@ public class SearchServiceImpl implements SearchService {
         List<HouseListDTO> dataList = new ArrayList<>();
         for (SearchHit hit : hits) {
             HouseListDTO houseListDTO = modelMapper.map(hit.getSource(), HouseListDTO.class);
-
             dataList.add(houseListDTO);
         }
 
@@ -226,5 +197,103 @@ public class SearchServiceImpl implements SearchService {
         }
 
         return new HouseDTO();
+    }
+
+    @Override
+    public List<HouseListDTO> queryById(Long userId) {
+        List<CollectEntity> collectEntityList = collectService.findByUserId(userId);
+
+        Set<String> sourceUrlIds = new HashSet<>();
+        for (CollectEntity collectEntity : collectEntityList) {
+            sourceUrlIds.add(collectEntity.getHouseId());
+        }
+
+        String[] ids = sourceUrlIds.toArray(new String[]{});
+        List<HouseIndexTemplate> houseIndexTemplateList = houseService.multiGet(ids);
+
+        List<HouseListDTO> houseListDTOList = new ArrayList<>();
+        for (HouseIndexTemplate houseIndexTemplate : houseIndexTemplateList) {
+            HouseListDTO houseListDTO = modelMapper.map(houseIndexTemplate, HouseListDTO.class);
+            houseListDTOList.add(houseListDTO);
+        }
+
+        return houseListDTOList;
+    }
+
+    private void addOption(BoolQueryBuilder boolQueryBuilder, HouseForm houseForm) {
+        // 城市过滤
+        boolQueryBuilder.filter(
+                QueryBuilders.termQuery(HouseIndexConstant.CITY, houseForm.getCity())
+        );
+
+        // 区域过滤
+        String region = houseForm.getRegion();
+        if (StringUtils.isNotBlank(region) && !"*".equals(region)) {
+            boolQueryBuilder.filter(
+                    QueryBuilders.termQuery(HouseIndexConstant.REGION, region)
+            );
+        }
+
+        // 出租方式过滤
+        String rentWay = houseForm.getRentWay();
+        if (StringUtils.isNotBlank(rentWay) && !"*".equals(rentWay)) {
+            boolQueryBuilder.filter(
+                    QueryBuilders.termQuery(HouseIndexConstant.RENT_WAY, rentWay)
+            );
+        }
+
+        // 户型（房间数）过滤
+        String roomNum = houseForm.getRoomNum();
+        if (StringUtils.isNotBlank(roomNum) && !"*".equals(roomNum)) {
+            String[] splitResult = roomNum.split("[-]");
+
+            // 房间数+
+            if (splitResult.length == 1) {
+                boolQueryBuilder.filter(
+                        QueryBuilders.termQuery(HouseIndexConstant.ROOM_NUM, roomNum)
+                );
+            } else if (splitResult.length == 2 ) {
+                RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery(HouseIndexConstant.ROOM_NUM);
+                Integer roomNumPlus = Integer.valueOf(splitResult[0]);
+                rangeQueryBuilder.gte(roomNumPlus);
+                boolQueryBuilder.filter(rangeQueryBuilder);
+            }
+        }
+
+        // 来源网站过滤
+        String sourceWebsite = houseForm.getSourceWebsite();
+        if (StringUtils.isNotBlank(sourceWebsite) && !"*".equals(sourceWebsite)) {
+            boolQueryBuilder.filter(
+                    QueryBuilders.termQuery(HouseIndexConstant.WEBSITE, sourceWebsite)
+            );
+        }
+
+        // 面积区间
+        ConditionRangeUtils squareCondition = ConditionRangeUtils.matchArea(houseForm.getSquareBlock());
+        if (!ConditionRangeUtils.ALL.equals(squareCondition)) {
+            RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery(HouseIndexConstant.SQUARE);
+            if (squareCondition.getMin() > 0) {
+                rangeQueryBuilder.gte(squareCondition.getMin());
+            }
+
+            if (squareCondition.getMax() > 0) {
+                rangeQueryBuilder.lte(squareCondition.getMax());
+            }
+            boolQueryBuilder.filter(rangeQueryBuilder);
+        }
+
+        // 价格区间
+        ConditionRangeUtils priceCondition = ConditionRangeUtils.matchPrice(houseForm.getPriceBlock());
+        if (!ConditionRangeUtils.ALL.equals(priceCondition)) {
+            RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery(HouseIndexConstant.PRICE);
+            if (priceCondition.getMin() > 0) {
+                rangeQueryBuilder.gte(priceCondition.getMin());
+            }
+
+            if (priceCondition.getMax() > 0) {
+                rangeQueryBuilder.lte(priceCondition.getMax());
+            }
+            boolQueryBuilder.filter(rangeQueryBuilder);
+        }
     }
 }

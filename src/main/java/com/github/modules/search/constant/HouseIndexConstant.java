@@ -28,6 +28,8 @@ public class HouseIndexConstant {
 
     public static final String HOUSE_TYPE = "houseType";
 
+    public static final String ROOM_NUM = "roomNum";
+
     public static final String RENT_WAY = "rentWay";
 
     public static final String WEBSITE = "website";
@@ -38,10 +40,8 @@ public class HouseIndexConstant {
 
     public static final String DESCRIPTION = "description";
 
-    public static final String UPDATE_TIME = "updateTime";
+    public static final String RELEASE_TIME = "releaseTime";
 
     public static final String CREATE_TIME = "createTime";
-
-    public static final String AGG_REGION = "agg_region";
 
 }

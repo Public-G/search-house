@@ -2,6 +2,7 @@ package com.github.modules.sys.entity;
 
 import com.github.common.validator.group.AddGroup;
 import com.github.common.validator.group.UpdateGroup;
+import com.github.modules.search.entity.UserEntity;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
@@ -47,6 +48,18 @@ public class SysUserEntity implements UserDetails, Serializable {
      */
     private Integer status;
 
+    /**
+     * 创建者ID
+     */
+    @Column(name = "create_user_id")
+    private Long createUserId;
+
+    /**
+     * 创建者名称
+     */
+    @Transient
+    private String createUserName;
+
     @Column(name = "create_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
@@ -61,13 +74,25 @@ public class SysUserEntity implements UserDetails, Serializable {
     public SysUserEntity() {
     }
 
-    public SysUserEntity(Long userId, String username, String password, String email, String mobile, Integer status, Date createTime, Date lastLoginTime) {
-        this.userId = userId;
+    public SysUserEntity(String username, String password, String email, String mobile, Integer status, Long createUserId, String createUserName, Date createTime, Date lastLoginTime) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.mobile = mobile;
         this.status = status;
+        this.createUserId = createUserId;
+        this.createUserName = createUserName;
+        this.createTime = createTime;
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    public SysUserEntity(String username, String password, String email, String mobile, Integer status, Long createUserId, Date createTime, Date lastLoginTime) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.mobile = mobile;
+        this.status = status;
+        this.createUserId = createUserId;
         this.createTime = createTime;
         this.lastLoginTime = lastLoginTime;
     }
@@ -147,6 +172,22 @@ public class SysUserEntity implements UserDetails, Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
     }
 
     public Date getCreateTime() {

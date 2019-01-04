@@ -1,5 +1,6 @@
 package com.github.modules.data.controller;
 
+import com.github.common.annotation.SysLog;
 import com.github.common.constant.SysConstant;
 import com.github.common.exception.SHException;
 import com.github.common.utils.ApiResponse;
@@ -11,12 +12,11 @@ import com.github.modules.base.form.PageForm;
 import com.github.modules.data.entity.RuleEntity;
 import com.github.modules.data.entity.ScheduleJobEntity;
 import com.github.modules.data.entity.SpiderEntity;
-import com.github.modules.data.entity.SupportAreaEntity;
 import com.github.modules.data.service.RuleService;
 import com.github.modules.data.service.SpiderService;
-import com.github.modules.data.service.SupportAreaService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +58,8 @@ public class RuleController {
     public ApiResponse list(PageForm pageForm){
         PageUtils pageBean = ruleService.findPage(pageForm);
 
+        System.out.println(SecurityContextHolder.getContext().getAuthentication());
+
         return ApiResponse.ofSuccess().put("pageBean", pageBean);
     }
 
@@ -78,6 +80,7 @@ public class RuleController {
     /**
      * 保存解析规则
      */
+    @SysLog("保存解析规则")
     @PostMapping("/save")
     @ResponseBody
     public ApiResponse save(RuleEntity ruleEntity){
@@ -91,7 +94,7 @@ public class RuleController {
     /**
      * 解析规则信息
      */
-    @GetMapping("/info/{ruleId:[1-9]+}")
+    @GetMapping("/info/{ruleId:[0-9]+}")
     public String info(@PathVariable Long ruleId, Model model){
         model.addAttribute("rule", ruleService.findById(ruleId));
 
@@ -101,6 +104,7 @@ public class RuleController {
     /**
      * 修改解析规则
      */
+    @SysLog("修改解析规则")
     @PutMapping("/update")
     @ResponseBody
     public ApiResponse update(@ModelAttribute("rule") RuleEntity ruleEntity){
@@ -119,11 +123,12 @@ public class RuleController {
     /**
      * 删除解析规则
      */
+    @SysLog("删除解析规则")
     @DeleteMapping("/delete")
     @ResponseBody
     public ApiResponse delete(@RequestParam("selectIds") Long[] ruleIds) {
         List<SpiderEntity> spiderEntities = spiderService.findByRuleIdIn(ruleIds);
-        if (null != spiderEntities && spiderEntities.size() > 0) {
+        if (spiderEntities != null && spiderEntities.size() > 0) {
             throw new SHException("项目中已使用，请先删除关联");
         }
 

@@ -1,22 +1,31 @@
 package com.github.modules.data.controller;
 
+import com.github.common.annotation.SysLog;
 import com.github.common.exception.SHException;
 import com.github.common.utils.ApiResponse;
 import com.github.common.utils.PageUtils;
 import com.github.common.validator.ValidatorUtils;
+import com.github.common.validator.group.UpdateGroup;
+import com.github.modules.base.form.PageForm;
+import com.github.modules.data.entity.RuleEntity;
+import com.github.modules.data.entity.SpiderEntity;
 import com.github.modules.data.pojo.HouseIndexTemplate;
 import com.github.modules.data.constant.CommunicateConstant;
 import com.github.modules.data.service.HouseService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,46 +40,8 @@ import java.util.concurrent.Executors;
 @Controller
 public class HouseController {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
-    /**
-     * 具有缓存功能的线程池
-     */
-    private ExecutorService executor = Executors.newCachedThreadPool();
-
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
-
     @Autowired
     private HouseService houseService;
-
-    @RabbitListener(queues = CommunicateConstant.RABBITMQ_HOUSE_QUEUE)
-    public void listener(@Payload HouseIndexTemplate houseIndexTemplate, @Headers Map<String, Object> headers) {
-        //任务开始时间
-        long startTime = System.currentTimeMillis();
-
-        executor.execute(() -> {
-            long startTime2 = System.currentTimeMillis();
-            try {
-                ValidatorUtils.validateEntity(houseIndexTemplate);
-
-//                houseService.saveOrUpdate(houseIndexTemplate);
-
-                // 消息推送
-
-                simpMessagingTemplate.convertAndSend("/topic/realTime", headers);
-            } catch (SHException e) {
-                logger.warn("房源数据 : {} 校验不通过, 原因 : {}", houseIndexTemplate.getSourceUrl(), e.getMsg());
-            }
-            long times2 = System.currentTimeMillis() - startTime2;
-            logger.debug("子线程任务执行总时长 = {}", times2);
-        });
-
-        //任务执行总时长
-        long times = System.currentTimeMillis() - startTime;
-
-        logger.debug("主线程任务执行总时长 = {}", times);
-    }
 
     /**
      * 列表/添加 页面的跳转
@@ -85,12 +56,61 @@ public class HouseController {
     /**
      * 所有房源数据列表
      *
-     * @param params 请求参数
+     * @param pageForm 请求参数
      */
     @GetMapping("/list")
     @ResponseBody
-    public ApiResponse list(@RequestParam Map<String, String> params) {
-        PageUtils pageBean = houseService.findPage(params);
+    public ApiResponse list(PageForm pageForm) {
+        PageUtils pageBean = houseService.findPage(pageForm);
         return ApiResponse.ofSuccess().put("pageBean", pageBean);
+    }
+
+    /**
+     * 房源信息
+     */
+    @GetMapping("/info/{sourceUrlId}")
+    public String info(@PathVariable String sourceUrlId, Model model){
+        model.addAttribute("house", houseService.findById(sourceUrlId));
+
+        return "admin/data/house/houseInfo";
+    }
+
+    /**
+     * 修改房源信息
+     */
+    @SysLog("修改房源")
+    @PutMapping("/update")
+    @ResponseBody
+    public ApiResponse update(@ModelAttribute("house") HouseIndexTemplate houseIndexTemplate){
+        // @ModelAttribute 拿不到值可能该条记录已经被删除, 请求无效
+        if (houseIndexTemplate == null) {
+            return ApiResponse.ofStatus(ApiResponse.ResponseStatus.NOT_FOUND);
+        }
+
+        ValidatorUtils.validateEntity(houseIndexTemplate);
+
+        houseService.update(houseIndexTemplate);
+
+        return ApiResponse.ofSuccess();
+    }
+
+    /**
+     * 删除房源信息
+     */
+    @SysLog("删除房源")
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public ApiResponse delete(@RequestParam("selectIds") String[] sourceUrlIds) {
+        houseService.delete(sourceUrlIds);
+
+        return ApiResponse.ofSuccess();
+    }
+
+    @ModelAttribute
+    private void customModelAttribute(@RequestParam(value = "sourceUrlId", required = false) String sourceUrlId,
+                                      Model model) {
+        if (StringUtils.isNotBlank(sourceUrlId)) {
+            model.addAttribute("house", houseService.findById(sourceUrlId));
+        }
     }
 }

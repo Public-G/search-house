@@ -34,6 +34,8 @@ public class CaptchaBeanConfig {
     @Bean
     @ConditionalOnMissingBean(SmsCaptchaSender.class)
     public SmsCaptchaSender smsCaptchaSender(){
-        return new DefaultSmsCaptchaSender();
+        DefaultSmsCaptchaSender defaultSmsCaptchaSender = new DefaultSmsCaptchaSender();
+        defaultSmsCaptchaSender.setSecurityProperties(securityProperties);
+        return defaultSmsCaptchaSender;
     }
 }

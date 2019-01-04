@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote quoteBox">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input searchVal" placeholder="请输入用户名"/>
+        </div>
+        <a class="search_btn layui-btn" data-type="reload" id="keywordRefresh">搜索</a>
+    </div>
+</blockquote>
+<table id="logList" lay-filter="logList"></table>
+<div th:replace="~{admin/common/common :: script}"></div>
+</body>
+</html>
+<script type="text/javascript">
+    var cols = [ //二维数组的符号不要连在一起，因为[\[…\]]之间的表达式在thymeleaf被认为是内联表达式,会渲染错误
+        [
+            {field: 'logId', checkbox: true, fixed: 'left', width: 50}
+            , {field: 'username', title: '用户名', align: 'center'}
+            , {field: 'operation', title: '用户操作', align: 'center'}
+            , {field: 'method', title: '请求方法', align: 'center'}
+            , {field: 'params', title: '请求参数', align: 'center', templet: '#status'}
+            , {field: 'time', title: '执行时长（毫秒）', align: 'center'}
+            , {field: 'ip', title: 'IP地址', align: 'center'}
+            , {field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
+                    return moment(d.createTime).format("YYYY-MM-DD HH:mm:ss");
+                 }
+              }
+        ]
+    ];
+
+    layui.renderTable('#logList', 'logListTable', '/sys/log/list', cols);
+
+    keywordSearch('logListTable');
+
+</script>

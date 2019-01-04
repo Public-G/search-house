@@ -16,6 +16,8 @@ public class SysUserDTO implements Serializable {
 
     private Integer status;
 
+    private String createUserName;
+
     private Date createTime;
 
     private Date lastLoginTime;
@@ -71,6 +73,14 @@ public class SysUserDTO implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
     }
 
     public Date getCreateTime() {

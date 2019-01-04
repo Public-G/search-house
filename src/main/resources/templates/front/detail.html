@@ -23,7 +23,7 @@
 
         <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/swiper.min.css}">
         <script type="text/javascript" th:src="@{/lib/js/plugin/jquery.jscrollpane.min.js}"></script>
-        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=FsL0TGj6V2tmG6juhiU6ugdz"></script>
+        <!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=FsL0TGj6V2tmG6juhiU6ugdz"></script>-->
 
              <style>
                  .community, .rent_p {
@@ -210,10 +210,10 @@
                 </div>
                 <div class="houseDetail">
                     <table class="houseDetail1">
-                        <tr>
-                            <td>编号：</td>
-                            <td>2018101697227</td>
-                        </tr>
+                        <!--<tr>-->
+                            <!--<td>编号：</td>-->
+                            <!--<td>2018101697227</td>-->
+                        <!--</tr>-->
                         <tr>
                             <td>发布核查时间：</td>
                             <td>[[*{releaseTime}]]</td>
@@ -227,7 +227,8 @@
                     <div class="allImage">
                         <img class="example-image"
                              th:src="*{imgHref}"
-                             alt="朝阳潘家园松榆西里租房" >
+                             th:alt="*{address}"
+                             onerror="this.src='/lib/images/front/icon/house-search/no-img.png';this.onerror=null">
                     </div>
 
                 </div>
@@ -295,25 +296,25 @@
                             <!--<p>-->
                         <!--</div>-->
                     </div>
-                    <div class="rent">
-                        <span>松榆西里租金走势</span>
-                        <div class="clearfix">
-                            <div id="rent_chart" class="fl">
+                    <!--<div class="rent">-->
+                        <!--<span>松榆西里租金走势</span>-->
+                        <!--<div class="clearfix">-->
+                            <!--<div id="rent_chart" class="fl">-->
 
-                            </div>
-                            <div class="rent_list fr clearfix">
-                                <p class="rent_p">分租（次卧）：</p>
-                                <p><span class="span_">2018/6</span><span style="visibility:hidden;"
-                                                                          class="span">0000</span>元/月</p>
-                                <p><span class="span_">2018/7</span><span style="visibility:hidden;"
-                                                                          class="span">0000</span>元/月</p>
-                                <p><span class="span_">2018/8</span><span style="visibility:hidden;"
-                                                                          class="span">0000</span>元/月</p>
-                                <p><span class="span_">2018/9</span><span class="span">2500</span>元/月</p>
-                                <p><span class="span_">2018/10</span><span class="span">2500</span>元/月</p>
-                            </div>
-                        </div>
-                    </div>
+                            <!--</div>-->
+                            <!--<div class="rent_list fr clearfix">-->
+                                <!--<p class="rent_p">分租（次卧）：</p>-->
+                                <!--<p><span class="span_">2018/6</span><span style="visibility:hidden;"-->
+                                                                          <!--class="span">0000</span>元/月</p>-->
+                                <!--<p><span class="span_">2018/7</span><span style="visibility:hidden;"-->
+                                                                          <!--class="span">0000</span>元/月</p>-->
+                                <!--<p><span class="span_">2018/8</span><span style="visibility:hidden;"-->
+                                                                          <!--class="span">0000</span>元/月</p>-->
+                                <!--<p><span class="span_">2018/9</span><span class="span">2500</span>元/月</p>-->
+                                <!--<p><span class="span_">2018/10</span><span class="span">2500</span>元/月</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
             </div>
             <div class="rightContact">
@@ -398,8 +399,7 @@
        });
 
         collect.on('click', function () {
-            console.log("addsign.data('bind') ====="+addsign.data('bind'));
-           if (addsign.data('bind') == 0) {
+           if (addsign.data('bind') == 0) { // 已收藏
                $.ajax({
                    url: '/rent/collect/delete',
                    type: "POST",
@@ -419,9 +419,10 @@
                        }
                    }
                });
+               return;
            }
 
-            if (addsign.data('bind') == 1) {
+            if (addsign.data('bind') == 1) { // 未收藏
                 $.post('/rent/collect/save', {
                     houseId: sourceUrlId
                 }, function (data) {
@@ -455,9 +456,14 @@
 
         // 设置标语
         biaoyu.append('<span>&nbsp></span>&nbsp<a href="/rent/search?city='+city+'">' + city + '找房</a>');
+
         // 区域标语
         biaoyu.append('<span>&nbsp></span>&nbsp<a href="javascript:void(0)">'+ region +'</a>');
-        biaoyu.append('<span>&nbsp></span>&nbsp<a href="javascript:void(0)">'+ address +'租房</a>');
+
+        if (address) {
+            biaoyu.append('<span>&nbsp></span>&nbsp<a href="javascript:void(0)">'+ address +'租房</a>');
+        }
+
     }
 
 </script>

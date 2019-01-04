@@ -1,6 +1,9 @@
 package com.github.modules.sys.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,13 +19,16 @@ public class SysMenuEntity implements Serializable {
     private static final long serialVersionUID = 4216534534L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id")
     private Long menuId;
 
     @Column(name = "parent_id")
+    @NotNull(message = "父菜单不能为空")
     private Long parentId;
 
     @Column(name = "menu_name")
+    @NotBlank(message = "菜单名不能为空")
     private String menuName;
 
     @Column(name = "request_url")
@@ -36,7 +42,8 @@ public class SysMenuEntity implements Serializable {
     /**
      * 类型   0：顶级目录  1：目录  2：菜单  3：按钮
      */
-    private int type;
+    @NotNull(message = "类型不能为空")
+    private Integer type;
 
     private String icon;
 
@@ -46,7 +53,7 @@ public class SysMenuEntity implements Serializable {
     public SysMenuEntity() {
     }
 
-    public SysMenuEntity(Long menuId, Long parentId, String menuName, String requestUrl, String perms, int type, String icon, Integer orderNum) {
+    public SysMenuEntity(Long menuId, Long parentId, String menuName, String requestUrl, String perms, Integer type, String icon, Integer orderNum) {
         this.menuId = menuId;
         this.parentId = parentId;
         this.menuName = menuName;
@@ -97,11 +104,11 @@ public class SysMenuEntity implements Serializable {
         this.perms = perms;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

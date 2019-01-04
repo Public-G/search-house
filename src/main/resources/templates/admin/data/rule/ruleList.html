@@ -22,13 +22,11 @@
 <div th:replace="~{admin/common/common :: script}"></div>
 
 <!-- 类型 -->
-<script type="text/html" id="attribute">
-    {{#  if(d.attribute == 0){ }}
-    <span>个人</span>
-    {{#  } else if(d.attribute == 1){ }}
-    <span>中介</span>
-    {{#  } else if(d.attribute == 2){ }}
-    <span>使用分类器</span>
+<script type="text/html" id="isDynamic">
+    {{#  if(d.isDynamic == 0){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-xs">是</span>
+    {{#  } else if(d.isDynamic == 1){ }}
+    <span class="layui-btn layui-btn-radius layui-btn-danger layui-btn-xs">否</span>
     {{#  }}}
 </script>
 
@@ -45,7 +43,8 @@
             {field: 'ruleId', checkbox: true, fixed: 'left', width: 50}
             , {field: 'ruleName', title: '规则名称', align: 'center', width: 140}
             , {field: 'websiteName', title: '来源网站', align: 'center', width: 120}
-            , {field: 'attribute', title: '类型', align: 'center', width: 120, templet: '#attribute'}
+            , {field: 'crawlName', title: '爬虫类类名', align: 'center', width: 160}
+            , {field: 'isDynamic', title: '动态的数据', align: 'center', width: 120, templet: '#isDynamic'}
             , {field: 'allowedDomains', title: '爬取的域名', align: 'center', width: 160}
             , {field: 'loopStart', title: '详情页循环入口', align: 'center', width: 160}
             , {field: 'nextUrl', title: '下一页', align: 'center', width: 160}

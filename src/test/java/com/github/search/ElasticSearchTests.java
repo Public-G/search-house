@@ -14,6 +14,7 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -66,7 +67,7 @@ public class ElasticSearchTests extends SearchHouseApplicationTests{
                 + "\"content\":\"它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口\"" + "}";
 
         IndexResponse indexResponse = esClient.prepareIndex("es_index", "es_type", "1")
-                .setSource(json)
+                .setSource(json, XContentType.JSON)
                 .execute()
                 .actionGet();
 

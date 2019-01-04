@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;">
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">菜单名</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="menuName" lay-verify="required" placeholder="请输入菜单名">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">上级菜单</label>
+        <div class="layui-input-block">
+            <select name="parentId">
+                <option value="0">不选默认顶级目录</option>
+                <option th:if="${menus!=null}" th:each="menuItem:${menus}" th:value="${menuItem.menuId}">[[${menuItem.menuName}]]</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">菜单路由</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" name="requestUrl" placeholder="请输入请求路径"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">授权标识</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="perms" placeholder="请输入授权标识，多个用逗号分隔，如:user:list,user:save">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs8">
+        <label class="layui-form-label">图标</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="icon" onblur="showIcon()" placeholder="请输入图标代码">
+            <div class="layui-form-mid layui-word-aux" >图标代码参考
+                <a href="http://www.fontawesome.com.cn/faicons/" target="_blank">font awesome</a>
+                &nbsp;&nbsp;<i id="icon-show"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-md8">
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block">
+                <select name="type" lay-verify="required">
+                    <option value="">请选择</option>
+                    <option value="0">顶级目录</option>
+                    <option value="1">目录</option>
+                    <option value="2">菜单</option>
+                    <option value="2">按钮</option>
+                </select>
+            </div>
+        </div>
+        <div class="magb15 layui-col-md6">
+            <label class="layui-form-label">排序号</label>
+            <div class="layui-input-block">
+                <input type="number" min="0" class="layui-input" name="orderNum" placeholder="请输入排序号">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="menu_submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<div th:replace="~{admin/common/common :: script}"></div>
+<script th:inline="javascript">
+
+    form.render('select'); //刷新select选择框渲染
+
+    layui.formSubmit('menu_submit', '/sys/menu/save');
+
+    function showIcon(){
+        var icon = $("input[name='icon']").val();
+        $("#icon-show").removeAttr("class").addClass("fa").addClass("fa-"+icon);
+    }
+
+</script>
+</body>
+</html>

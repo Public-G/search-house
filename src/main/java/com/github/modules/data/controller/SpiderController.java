@@ -1,6 +1,7 @@
 package com.github.modules.data.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.common.annotation.SysLog;
 import com.github.common.constant.SysConstant;
 import com.github.common.exception.SHException;
 import com.github.common.utils.ApiResponse;
@@ -13,12 +14,10 @@ import com.github.modules.data.constant.CommunicateConstant;
 import com.github.modules.data.entity.RuleEntity;
 import com.github.modules.data.entity.SettingEntity;
 import com.github.modules.data.entity.SpiderEntity;
-import com.github.modules.data.entity.SupportAreaEntity;
 import com.github.modules.data.pojo.SpiderCluster;
 import com.github.modules.data.service.RuleService;
 import com.github.modules.data.service.SettingService;
 import com.github.modules.data.service.SpiderService;
-import com.github.modules.data.service.SupportAreaService;
 import com.google.common.collect.Lists;
 import com.sun.javafx.collections.MappingChange;
 import org.apache.commons.lang.StringUtils;
@@ -99,6 +98,7 @@ public class SpiderController {
     /**
      * 保存爬虫项目
      */
+    @SysLog("保存爬虫项目")
     @PostMapping("/save")
     @ResponseBody
     public ApiResponse save(SpiderEntity spiderEntity) {
@@ -126,7 +126,7 @@ public class SpiderController {
     /**
      * 爬虫项目信息
      */
-    @GetMapping("/info/{spiderId:[1-9]+}")
+    @GetMapping("/info/{spiderId:[0-9]+}")
     public String info(@PathVariable Long spiderId, Model model) {
         SpiderEntity spider = spiderService.findById(spiderId);
         model.addAttribute("spider", spider);
@@ -139,6 +139,7 @@ public class SpiderController {
     /**
      * 修改爬虫项目
      */
+    @SysLog("修改爬虫项目")
     @PutMapping("/update")
     @ResponseBody
     public ApiResponse update(@ModelAttribute("spider") SpiderEntity spiderEntity) {
@@ -157,6 +158,7 @@ public class SpiderController {
     /**
      * 删除爬虫项目
      */
+    @SysLog("删除爬虫项目")
     @DeleteMapping("/delete")
     @ResponseBody
     public ApiResponse delete(@RequestParam("selectIds") Long[] spiderIds) {
@@ -187,7 +189,7 @@ public class SpiderController {
     /**
      * 跳转部署页面
      */
-    @GetMapping("/upload/{spiderId:[1-9]+}")
+    @GetMapping("/upload/{spiderId:[0-9]+}")
     public String upload(@PathVariable Long spiderId, Model model) {
         model.addAttribute("spiderId", spiderId);
         return "admin/data/spider/spiderUpload";
@@ -221,28 +223,12 @@ public class SpiderController {
         PageUtils pageBean = new PageUtils(Lists.newArrayList(spiderCluster));
 
         return ApiResponse.ofSuccess().put("pageBean", pageBean);
-
-
-//        if (clusterResponse != null) {
-//            int code = (Integer) clusterResponse.get("code");
-//
-//            if (SysConstant.SUCCESS_CODE == code) {
-//                clusterResponse.put("status", CommunicateConstant.ClusterStatus.ofMessage(code));
-//
-//                request.setAttribute("cluster", clusterResponse);
-//                String list = getHtmlOutput(request, response);
-//
-//                return ApiResponse.ofSuccess().put("data",
-//                        list.substring(list.indexOf("<table>") + 7, list.indexOf("</table>")));
-//            }
-//        }
-//
-//        return ApiResponse.ofFail("未知错误，请检查集群");
     }
 
     /**
      * 部署项目(开始爬虫)
      */
+    @SysLog("部署爬虫项目")
     @PostMapping("/deploy")
     @ResponseBody
     public ApiResponse deploy(@RequestParam Long spiderId) {
@@ -276,6 +262,7 @@ public class SpiderController {
     /**
      * 暂停爬虫
      */
+    @SysLog("暂停爬虫")
     @PostMapping("/paused")
     @ResponseBody
     public ApiResponse paused() {
@@ -292,6 +279,7 @@ public class SpiderController {
     /**
      * 恢复爬虫
      */
+    @SysLog("恢复爬虫")
     @PostMapping("/resumed")
     @ResponseBody
     public ApiResponse resumed() {
@@ -369,6 +357,4 @@ public class SpiderController {
             model.addAttribute("spider", spiderService.findById(spiderId));
         }
     }
-
-
 }

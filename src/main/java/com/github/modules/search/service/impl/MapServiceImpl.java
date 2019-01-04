@@ -1,5 +1,6 @@
 package com.github.modules.search.service.impl;
 
+import com.github.modules.search.constant.BucketConstant;
 import com.github.modules.search.constant.HouseIndexConstant;
 import com.github.modules.search.dto.HouseBucketDTO;
 import com.github.modules.search.service.MapService;
@@ -35,7 +36,7 @@ public class MapServiceImpl implements MapService {
 
         boolQueryBuilder.filter(QueryBuilders.termQuery(HouseIndexConstant.CITY, city));
 
-        TermsAggregationBuilder aggregationBuilder = AggregationBuilders.terms(HouseIndexConstant.AGG_REGION)
+        TermsAggregationBuilder aggregationBuilder = AggregationBuilders.terms(BucketConstant.AGG_REGION)
                 .field(HouseIndexConstant.REGION);
 
         SearchRequestBuilder searchRequestBuilder = esClient.prepareSearch(HouseIndexConstant.INDEX_NAME)
@@ -49,11 +50,11 @@ public class MapServiceImpl implements MapService {
         SearchResponse      response = searchRequestBuilder.get();
         List<HouseBucketDTO> buckets  = new ArrayList<>();
         if (response.status() != RestStatus.OK) {
-            logger.warn("Aggregate status is not ok for " + searchRequestBuilder);
+            logger.warn("Aggregate status is not ok for " + searchRequestBuilder.toString());
             return buckets;
         }
 
-        Terms terms = response.getAggregations().get(HouseIndexConstant.AGG_REGION);
+        Terms terms = response.getAggregations().get(BucketConstant.AGG_REGION);
         for (Terms.Bucket bucket : terms.getBuckets()) {
             buckets.add(new HouseBucketDTO(bucket.getKeyAsString(), bucket.getDocCount()));
         }

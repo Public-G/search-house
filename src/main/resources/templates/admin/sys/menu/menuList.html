@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{admin/common/common :: head}"></div>
+<body>
+<link rel="stylesheet" th:href="@{/lib/js/plugin/ztree/zTreeStyle.css}" media="all"/>
+<form class="layui-form layui-form-pane" >
+    <div class="layui-form-item">
+        <ul id="menuTree" class="ztree"></ul>
+    </div>
+</form>
+
+<div th:replace="~{admin/common/common :: script}"></div>
+<script th:src="@{/lib/js/plugin/ztree/jquery.ztree.all-3.5.min.js}"></script>
+</body>
+</html>
+<script>
+
+    var treeNodeMsg;
+    initPermissionTree();
+
+    //初始化菜单树
+    function initPermissionTree() {
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "menuId",
+                    pIdKey: "parentId"
+                },
+                key: {
+                    url: "hhh",
+                    name: "menuName"
+                }
+            },
+            view: {
+                addDiyDom: showIcon, //自定义显示的效果
+                addHoverDom: showBtn, //鼠标移动到节点上时，显示用户自定义控件
+                removeHoverDom: hideBtn //鼠标移出节点时，隐藏用户自定义控件
+            }
+        };
+
+        //查询菜单
+        $.getJSON("/sys/menu/list", function (data) {
+            var nodes = data.data;
+            //给每一个节点修改或者添加一些属性
+            $.each(nodes, function () {
+                if (this.parentId === 0) {
+                    this.open = true; //父节点展开
+                }
+            });
+
+            $.fn.zTree.init($("#menuTree"), setting, nodes);
+        });
+    }
+
+    //自定义图标
+    function showIcon(treeId, treeNode) {
+        $("#" + treeNode.tId + "_ico").removeClass().addClass("fa fa-" + treeNode.icon);
+    }
+
+    //鼠标移动到节点上时，显示用户自定义控件
+    function showBtn(treeId, treeNode) {
+        treeNodeMsg = treeNode; //treeNode作为全局变量供传值
+        var aObj =  $("#" + treeNode.tId + "_a");
+        aObj.nextAll("span").remove();
+
+        var addBtn  = '<button class="layui-btn layui-btn-primary layui-btn-xs menu-add"> <i class="layui-icon">&#xe608;</i></button>';
+        var editBtn = '<button class="layui-btn layui-btn-primary layui-btn-xs menu-edit"> <i class="layui-icon">&#xe642;</i></button>';
+        var delBtn  = '<button class="layui-btn layui-btn-primary layui-btn-xs menu-del"> <i class="layui-icon">&#xe640;</i></button>';
+
+        if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length > 0) return;
+
+        var btn = '<span id="addBtn_'+ treeNode.tId + '">';
+        if ( treeNode.type !== 3 ) {
+            btn += addBtn;
+            btn += editBtn;
+            btn += delBtn;
+        }else{
+            btn += editBtn;
+            btn += delBtn;
+        }
+        btn += '</span>';
+        //在a标签之后添加按钮
+        aObj.after(btn);
+    }
+
+    //鼠标移出节点时，隐藏用户自定义控件
+    function hideBtn(treeId, treeNode) {
+        $("#" + treeNode.tId + "_a").nextAll("span").remove();
+    }
+
+    //添加
+    $("form").on("click",".menu-add", function(){
+        alertByFull("添加", "/sys/menu/forward/Add");
+        return false;
+    });
+
+    //更新
+    $("form").on("click",".menu-edit", treeNodeMsg, function(){
+        var menuId = treeNodeMsg.menuId;
+        alertByFull("修改", "/sys/menu/info/" + menuId);
+        return false;
+    });
+
+    //删除
+    $("form").on("click",".menu-del", treeNodeMsg, function(){
+        layer.confirm('确认删除规则?', {icon: 3, title: '提示'}, function (index) {
+            var selectIds = [];
+            selectIds.push(treeNodeMsg.menuId);
+            doBatch(selectIds, "/sys/menu/delete", "DELETE");
+            layer.close(index);
+            setTimeout(function () {
+                window.location.reload();
+            }, loadingTime);
+        });
+        return false;
+    });
+
+</script>

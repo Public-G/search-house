@@ -1,8 +1,10 @@
 package com.github.modules.data.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.common.utils.HttpClientUtils;
+import com.github.modules.data.constant.BaiduServiceConstant;
 import com.github.modules.data.pojo.BaiduMapLocation;
 import com.github.modules.data.service.BaiduMapService;
 import org.apache.commons.lang.StringUtils;
@@ -23,36 +25,28 @@ public class BaiduMapServiceImpl implements BaiduMapService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private static final String BAIDU_MAP_GEOCONV_API = "http://api.map.baidu.com/geocoder/v2/?";
-
-    private static final String mapAk = "4qYIXrZ4iWdi4kGU655FYNGoWEdL2mzf";
+    @Value("${baidu.map.service.ak}")
+    private String mapAk;
 
     @Value("${baidu.map.lbs.table}")
-    private String geotable_id;
+    private String geoTableId;
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    /**
-     * POI数据管理接口
-     */
-    private static final String LBS_QUERY_API = "http://api.map.baidu.com/geodata/v3/poi/list?";
-
-    private static final String LBS_CREATE_API = "http://api.map.baidu.com/geodata/v3/poi/create";
-
-    private static final String LBS_UPDATE_API = "http://api.map.baidu.com/geodata/v3/poi/update";
-
-    private static final String LBS_DELETE_API = "http://api.map.baidu.com/geodata/v3/poi/delete";
-
 
     @Override
     public BaiduMapLocation getBaiduMapLocation(String city, String region, String address, String community) {
-        String encodeAddress = city + region + address;
+        String encodeAddress = city + region;
+        if (StringUtils.isNotBlank(address)) {
+            encodeAddress += address;
+        }
+
         if (StringUtils.isNotBlank(community)) {
             encodeAddress += community;
         }
-        String encodeCity;
 
+        String encodeCity;
         try {
             encodeCity = URLEncoder.encode(city, "utf-8");
             encodeAddress = URLEncoder.encode(encodeAddress, "utf-8");
@@ -62,7 +56,7 @@ public class BaiduMapServiceImpl implements BaiduMapService {
             return null;
         }
 
-        String url = BAIDU_MAP_GEOCONV_API + "address=" + encodeAddress +
+        String url = BaiduServiceConstant.BAIDU_MAP_GEOCONV_API + "address=" + encodeAddress +
                 "&city=" + encodeCity +
                 "&output=json" +
                 "&ak=" + mapAk;
@@ -100,7 +94,7 @@ public class BaiduMapServiceImpl implements BaiduMapService {
         params.put("latitude", location.getLatitude());
         params.put("longitude", location.getLongitude());
         params.put("coord_type", "3"); // 百度加密经纬度坐标
-        params.put("geotable_id", geotable_id);
+        params.put("geotable_id", geoTableId);
         params.put("ak", mapAk);
         params.put("sourceUrlId", sourceUrlId);
         params.put("square", square);
@@ -108,9 +102,9 @@ public class BaiduMapServiceImpl implements BaiduMapService {
 
         String result;
         if (isLbsDataExists(sourceUrlId)) {
-            result = HttpClientUtils.httpPost(LBS_UPDATE_API, params);
+            result = HttpClientUtils.httpPost(BaiduServiceConstant.LBS_UPDATE_API, params);
         } else {
-            result = HttpClientUtils.httpPost(LBS_CREATE_API, params);
+            result = HttpClientUtils.httpPost(BaiduServiceConstant.LBS_CREATE_API, params);
         }
 
         try {
@@ -129,11 +123,12 @@ public class BaiduMapServiceImpl implements BaiduMapService {
     @Override
     public void removeLBS(String sourceUrlId) {
         Map<String, Object> params = new HashMap<>();
+//        params.put("ids", sourceUrlId); // 批量删除，最多1000个id
         params.put("sourceUrlId", sourceUrlId);
-        params.put("geotable_id", geotable_id);
+        params.put("geotable_id", geoTableId);
         params.put("ak", mapAk);
 
-        String result = HttpClientUtils.httpPost(LBS_DELETE_API, params);
+        String result = HttpClientUtils.httpPost(BaiduServiceConstant.LBS_DELETE_API, params);
         try {
             JsonNode jsonNode = objectMapper.readTree(result);
             int      status   = jsonNode.get("status").asInt();
@@ -144,12 +139,43 @@ public class BaiduMapServiceImpl implements BaiduMapService {
         } catch (IOException e) {
             logger.error("删除LBS数据出现异常", e);
         }
+    }
 
+    @Override
+    public JsonNode getLBSList(int page_index, int page_size) {
+        String url = BaiduServiceConstant.LBS_QUERY_API + "coord_type=" + 3 +
+                "&page_index=" + page_index +
+                "&page_size=" + page_size + // 默认为10，上限为200
+                "&geotable_id=" + geoTableId +
+                "&ak=" + mapAk;
+
+        String result = HttpClientUtils.httpGet(url);
+
+        if (result == null) {
+            return null;
+        }
+
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(result);
+            int status = jsonNode.get("status").asInt();
+
+            if (status != 0) {
+                logger.error("获取poi数据列表失败，状态码 : {}", status);
+                return null;
+
+            } else {
+                return jsonNode;
+            }
+        } catch (IOException e) {
+            logger.error("解析poi数据列表出现异常", e);
+            return null;
+        }
     }
 
     private boolean isLbsDataExists(String sourceUrlId) {
-        String url = LBS_QUERY_API + "geotable_id=" + geotable_id
-                + "&ak=" + mapAk + "&sourceUrlId=" + sourceUrlId + "$";
+        String url = BaiduServiceConstant.LBS_QUERY_API + "geotable_id=" + geoTableId
+                + "&ak=" + mapAk + "&sourceUrlId=" + sourceUrlId + "$"; // 精确匹配在字段值末尾加$
 
         String result = HttpClientUtils.httpGet(url);
 

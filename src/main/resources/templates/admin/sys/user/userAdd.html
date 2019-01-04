@@ -6,9 +6,8 @@
     <div class="layui-form-item layui-row layui-col-xs8">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-            <input id="username" type="text" class="layui-input" name="username" lay-verify="required" placeholder="请输入用户名">
+            <input id="username" type="text" class="layui-input" name="username" lay-verify="required|username" placeholder="请输入用户名">
         </div>
-        <div class="layui-form-mid layui-word-aux" id="tip"></div>
     </div>
     <div class="layui-row">
         <div class="magb15 layui-col-md4 layui-col-xs4">
@@ -43,31 +42,26 @@
 </body>
 </html>
 <script type="text/javascript">
-    layui.use(['form', 'layer'], function () {
-        var form = layui.form
-            , layer = layui.layer;
-
-        form.on('submit(user_submit)', function (data) {
-            var submitBtn = $(this);
-            if (!submitBtn.hasClass("layui-btn-disabled")) {
-                submitBtn.addClass("layui-btn-disabled");
-                var index = parent.layer.getFrameIndex(window.name);
-                $.post("/sys/user/save", data.field, function (data) {
-                    if (data.code === code_success) {
-                        layer.msg(data.msg);
-                        setTimeout(function() {
-                            parent.layer.close(index); //关闭
-                            parent.location.reload(); //刷新父页面
-                        }, loadingTime);
-                    } else {
-                        layer.msg(data.msg, function () {
-                            //关闭后的操作
-                            submitBtn.removeClass("layui-btn-disabled");
-                        });
+    form.verify({
+        username: function (value) {
+            var msg = '';
+            $.ajax({
+                url: "/sys/user/verify",
+                type: "GET",
+                async: false,
+                data: {
+                    username: value
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.code === code_fail) {
+                        msg = data.msg;
                     }
-                }, "json");
-            }
-            return false;
-        });
+                }
+            });
+            return msg;
+        }
     });
+
+    layui.formSubmit('user_submit', '/sys/user/save');
 </script>

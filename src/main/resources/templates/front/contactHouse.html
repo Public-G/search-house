@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{front/common/common :: head}"></div>
+<body>
+    <div th:replace="~{front/common/common :: bodyStyle}"></div>
+    <div th:replace="~{front/common/common :: adminNav}"></div>
+    <div th:replace="~{front/common/common :: navwrap}"></div>
+    <div th:replace="~{front/common/common :: navScript}"></div>
+    <div th:replace="~{front/common/common :: signLogin}"></div>
+    <div th:replace="~{front/common/common :: header}"></div>
+
+    <div id="contentContainer">
+        <div th:replace="~{front/common/common :: contentContainerCommon}"></div>
+        <div id="content" class="fixedWithContainer">
+            <link rel="stylesheet" type="text/css" th:href="@{/lib/css/front/contractHouse-0.6.23.css}">
+            <div id="main">
+                <div class="searchHouse">
+                    <ul class="chooseType">
+                        <a class="allResults" href="javascript:void(0)"><span class="leftIcon"></span><span>全部结果</span></a>
+                        <a class="willSign" href="javascript:void(0)"><span class="rightIcon"></span><span>已收藏</span>
+                            <span class="signNum" style="opacity: 1;">[[${collectCount}]]</span>
+                        </a>
+                    </ul>
+                </div>
+
+                <div class="bodyHouseMap">
+                    <div class="allHouseSearch">
+                        <div class="sortHouse">
+                            <li class="pageDetail">以下为收藏的房源信息，可查看详情并取消收藏</li>
+                        </div>
+                        <div class="houseResult">
+                            <th:block th:each="item:${collect}">
+                            <div class="oneHouse setStyle" style="z-index: 0;">
+                                <a th:href="'/rent/search/'+${item.sourceUrlId}" target="_blank">
+                                    <ul class="leftTop">
+                                        <div class="blackOpacity"></div>
+                                        <li class="overflowimg">
+                                            <img class="backgroundImg lazy"
+                                                 th:src="@{/lib/images/front/icon/house-search/defaultFrog.png}"
+                                                 th:data-original="${item.imgHref}"
+                                                 th:alt="${item.community}">
+                                        </li>
+                                        <li class="price">¥<span>[[${item.price}]]</span></li>
+                                    </ul>
+                                </a>
+                                <ul class="leftMiddle">
+                                    <a th:href="'/rent/search/'+${item.sourceUrlId}" target="_blank">
+                                        <p>
+                                            <span>[[${item.region}]]</span>
+                                            <span>[[${item.houseType}]]</span>
+                                        </p>
+                                        <p class="locationname">[[${item.community}]]</p>
+                                        <p class="houseDescibtion">[[${item.title}]]</p>
+                                    </a>
+                                </ul>
+                            </div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{front/common/common :: footer}"></div>
+    <script th:src="@{/lib/js/plugin/jquery.lazyload.min.js}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $("img.lazy").lazyload({effect: "fadeIn", threshold : 200});  //lazyload初始化函数
+
+            var city = [[${param.city}]];
+            if (city != null) {
+                // 设置当前城市
+                $("div.city").append('<a target="_blank" href="/?city='+city+'">'+ city +'租房</a>');
+
+                // 设置标语
+                $("li.biaoyu").append('<span>&nbsp></span>&nbsp<a href="/rent/collectList?city='+city+'">已收藏</a>');
+            }
+        });
+
+    </script>
+</body>
+</html>

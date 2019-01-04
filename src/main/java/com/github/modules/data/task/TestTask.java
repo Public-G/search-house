@@ -25,17 +25,6 @@ public class TestTask {
 
     public void test(String params){
         logger.info("我是带参数的test方法，正在被执行，参数为：" + params);
-
-        try {
-            Thread.sleep(1000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        SysUserEntity user = sysUserService.findByUserId(1L);
-
-        logger.info(ToStringBuilder.reflectionToString(user));
-
     }
 
 

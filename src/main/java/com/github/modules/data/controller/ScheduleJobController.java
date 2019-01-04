@@ -1,5 +1,6 @@
 package com.github.modules.data.controller;
 
+import com.github.common.annotation.SysLog;
 import com.github.common.utils.ApiResponse;
 import com.github.common.utils.PageUtils;
 import com.github.common.validator.ValidatorUtils;
@@ -51,6 +52,7 @@ public class ScheduleJobController {
     /**
      * 保存定时任务
      */
+    @SysLog("保存定时任务")
     @PostMapping("/save")
     @ResponseBody
     public ApiResponse save(ScheduleJobEntity scheduleJobEntity){
@@ -64,7 +66,7 @@ public class ScheduleJobController {
     /**
      * 定时任务信息
      */
-    @GetMapping("/info/{jobId:[1-9]+}")
+    @GetMapping("/info/{jobId:[0-9]+}")
     public String info(@PathVariable Long jobId, Model model){
         model.addAttribute("schedule", scheduleJobService.findByJobId(jobId));
 
@@ -74,6 +76,7 @@ public class ScheduleJobController {
     /**
      * 修改定时任务
      */
+    @SysLog("修改定时任务")
     @PutMapping("/update")
     @ResponseBody
     public ApiResponse update(@ModelAttribute("schedule") ScheduleJobEntity scheduleJobEntity){
@@ -92,6 +95,7 @@ public class ScheduleJobController {
     /**
      * 删除定时任务
      */
+    @SysLog("删除定时任务")
     @DeleteMapping("/delete")
     @ResponseBody
     public ApiResponse delete(@RequestParam("selectIds") Long[] jobIds) {
@@ -103,6 +107,7 @@ public class ScheduleJobController {
     /**
      * 立即执行任务
      */
+    @SysLog("立即执行任务")
     @PutMapping("/run")
     @ResponseBody
     public ApiResponse run(@RequestParam("selectIds") Long[] jobIds){
@@ -114,6 +119,7 @@ public class ScheduleJobController {
     /**
      * 暂停定时任务
      */
+    @SysLog("暂停定时任务")
     @PutMapping("/pause")
     @ResponseBody
     public ApiResponse pause(@RequestParam("selectIds") Long[] jobIds){
@@ -125,6 +131,7 @@ public class ScheduleJobController {
     /**
      * 恢复定时任务
      */
+    @SysLog("恢复定时任务")
     @PutMapping("/resume")
     @ResponseBody
     public ApiResponse resume(@RequestParam("selectIds") Long[] jobIds){
@@ -132,7 +139,6 @@ public class ScheduleJobController {
 
         return ApiResponse.ofSuccess();
     }
-
 
     @ModelAttribute
     private void customModelAttribute(@RequestParam(value = "jobId", required = false) Long jobId, Model model) {
