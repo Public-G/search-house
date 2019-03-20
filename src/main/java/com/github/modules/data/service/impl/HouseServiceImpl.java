@@ -70,7 +70,7 @@ public class HouseServiceImpl implements HouseService {
     @Autowired
     private BaiduMapService baiduMapService;
 
-    private JsonNode jsonNode;
+    private volatile JsonNode jsonNode;
 
     @Override
     public void saveOrUpdate(HouseIndexTemplate houseIndexTemplate) {
